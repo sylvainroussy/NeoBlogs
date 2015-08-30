@@ -78,10 +78,13 @@ This is a __moving relationship__ !
 
 Yes, it's a weird title and a strange use case. I think it's interesting to have another way to think about relationships. Previously we were talking about relationship as a pointer, now we must discuss about cross states. And the best sample to talk about that is the electrical Three-way Switch.
 
-In the hall of your house, you need to light the hall or light-off the hall according his prev state and your position in the hall. You must able to light on the hall from the entry and off it from the other end. But you must able to close or open the light from elsewhere (it's not possible to think we need to ligth on the hall just at the position where we cut-off the last time).
+In the hall of your house, you need to light the hall or light-off the hall according his prev state and your position in the hall. You must be able to light on the hall from the entry and off it from the other end. But you must able to close or open the light from elsewhere (it's not possible to think we need to ligth on the hall just at the position where we cut-off the last time).
 
-From electricity it's called a Three-way swith, and his implementation is the followed :
+From electricity it's called a Three-way switch, and his implementation is the followed :
 
 ![Fig4. three-way switch](./blog-threeway.png "Fig4. Three-way switch")
 
 source : https://en.wikipedia.org/wiki/Multiway_switching
+
+Ok, but what is the link to graphs ?
+Electrical needs circuit to have the light on, in graph theory it's called a cycle, then this schema must be stored in the graph.
