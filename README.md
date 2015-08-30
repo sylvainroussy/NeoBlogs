@@ -9,6 +9,7 @@ It seems many use cases where Relationships move between nodes in subsequent que
 ## Relationship as a pointer
 
 Our first sample to observe this behaviour is the famous Linked List. A linked list is a list where each member is ordered according to a relative position compared to the others elements.
+First we need to create a `:LIST` node with three `:ELEMENT`linked to it.
 
     MERGE (elem1:ELEMENT{name:"elem1"})-[:IS_MEMBER_OF]->(list:LIST)
     MERGE (elem2:ELEMENT{name:"elem2"})-[:IS_MEMBER_OF]->(list)
