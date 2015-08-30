@@ -82,6 +82,6 @@ In the hall of your house, you need to light the hall or light-off the hall acco
 
 From electricity it's called a Three-way swith, and his implementation is the followed :
 
-![Fig4. three-way switch](./blog3.png "Fig4. Three-way switch")
+![Fig4. three-way switch](./blog-threeway.png "Fig4. Three-way switch")
 
 source : https://en.wikipedia.org/wiki/Multiway_switching
