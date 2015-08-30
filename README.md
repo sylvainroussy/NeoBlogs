@@ -87,4 +87,6 @@ From electricity it's called a Three-way switch, and his implementation is the f
 source : https://en.wikipedia.org/wiki/Multiway_switching
 
 Ok, but what is the link to graphs ?
-Electrical needs circuit to have the light on, in graph theory it's called a cycle, then this schema must be stored in the graph.
+Electrical needs circuit to have the light on, in graph theory it's called a cycle, then this schema must be stored in the graph. If we detect a cycle through theses elements then we can deduct the lamp enlight, no for else case.
+
+First we need to give a representation a this schema to neo4j, we considder the initial position where the lamp is off. 
