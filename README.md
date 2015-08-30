@@ -108,3 +108,5 @@ First we need to give a representation of this schema to Neo4j, we consider the 
     generator<-[:TO]-s1,
     e11-[:POINTER]->s1,
     e11<-[:TO]-e21
+
+![Fig5. First adaptation](./blog-threeway2.png "Fig5. First adaptation")
