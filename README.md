@@ -27,4 +27,6 @@ Then we need to rely theses elements in an relative ordered way (the initial pos
     FOREACH (next IN [elems[n+1]] |
     MERGE prec-[:NEXT]->next)))
 
+![Fig2. Linked elements](./blog2.png "Fig2. Linked elements")
 
+Here we're using a iterator (the first `FOREACH` clause) to browse the collection of elements and create a relationship between the prev node and the next node. If you want more explanation about this query, you can find a very interesting post by Mark Needham here: [Neo4j: Cypher – Creating relationships between a collection of nodes](http://www.markhneedham.com/blog/2014/04/19/neo4j-cypher-creating-relationships-between-a-collection-of-nodes-invalid-input/ "Neo4j: Cypher – Creating relationships between a collection of nodes")
