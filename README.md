@@ -81,3 +81,7 @@ Yes, it's a weird title and a strange use case. I think it's interesting to have
 In the hall of your house, you need to light the hall or light-off the hall according his prev state and your position in the hall. You must able to light on the hall from the entry and off it from the other end. But you must able to close or open the light from elsewhere (it's not possible to think we need to ligth on the hall just at the position where we cut-off the last time).
 
 From electricity it's called a Three-way swith, and his implementation is the followed :
+
+![Fig4. three-way switch](./blog3.png "Fig4. Three-way switch")
+
+source : https://en.wikipedia.org/wiki/Multiway_switching
