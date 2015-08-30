@@ -87,6 +87,24 @@ From electricity it's called a Three-way switch, and his implementation is the f
 source : https://en.wikipedia.org/wiki/Multiway_switching
 
 Ok, but what is the link to graphs ?
-Electrical needs circuit to have the light on, in graph theory it's called a cycle, then this schema must be stored in the graph. If we detect a cycle through theses elements then we can deduct the lamp enlight, no for else case.
 
-First we need to give a representation a this schema to neo4j, we considder the initial position where the lamp is off. 
+Electrical needs circuit to have the light on, in graph theory it's called a cycle, then this schema could be stored in a graph. If we detect a cycle through theses elements then we can deduct the lamp enlight, no for else case.
+
+First we need to give a representation of this schema to Neo4j, we consider the initial position where the lamp is off:
+
+    CREATE 
+    (generator:GENERATOR {name:"generator"}),
+    (lamp:LAMP {name:"lamp"}),
+    (s1:SWICTH {name:"front-swicth"}),
+    (e11:ENDPOINT {name:"front-endpoint-1"}),
+    (e12:ENDPOINT {name:"front-endpoint-2"}),
+    (s2:SWICTH {name:"rear-swicth"}),
+    (e21:ENDPOINT {name:"rear-endpoint-1"}),
+    (e22:ENDPOINT {name:"rear-endpoint-2"}),
+    generator-[:TO]->lamp,
+    lamp-[:TO]->s2,
+    s2-[:POINTER]->e22,
+    e22-[:TO]->e12,
+    generator<-[:TO]-s1,
+    e11-[:POINTER]->s1,
+    e11<-[:TO]-e21
