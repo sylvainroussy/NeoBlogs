@@ -38,7 +38,7 @@ The next step consist to place a pointer at the initial position means on the he
     MATCH (elem:ELEMENT) WHERE NOT elem<-[:NEXT]-()
     MERGE list-[:POINTER]->elem 
 
-![Fig2. Initial position of the pointer](./blog3.png "Initial position of the pointer")
+![Fig3. Initial position of the pointer](./blog3.png "Fig3. Initial position of the pointer")
 
 And now, we need to write a typical query wich returns the current pointed element and emulates the pointer movment.
 Returning current element is simple :
@@ -52,3 +52,11 @@ But emulates the pointer movment requires three cypher operations :
 2. Delete the current pointer relationship
 3. Create new pointer relationship on the next node
 
+Then final query is:
+
+    MATCH (list:LIST)-[p:POINTER]->(current:ELEMENT) 
+    OPTIONAL MATCH current-[:NEXT]->(next:ELEMENT) 
+    DELETE p MERGE list-[pnew:POINTER]->next
+    RETURN list,current,next,pnew
+    
+![Fig4. First move of the pointer](./blog4.png "Fig4. First move of the pointer")
