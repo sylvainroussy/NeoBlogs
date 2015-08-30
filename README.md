@@ -73,3 +73,7 @@ Take five minutes to look the relationships, we've:
 As we can see, the nature of each relationship type is different. The two first ones have a long lifecycle (while the list exists) and the last one has another function : his lifetime could become short because this is just a volatile state at a moment.
 
 This is a __moving relationship__ !
+
+## Relationships as a three-way switch
+
+Yes, it's a weird title and a strange use case. I think it's interesting to have another way to think about relationships. Previously we were talking about relationship as a pointer, now we must discuss about cross states.
