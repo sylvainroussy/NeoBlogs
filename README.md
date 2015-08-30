@@ -56,7 +56,28 @@ Then final query is:
 
     MATCH (list:LIST)-[p:POINTER]->(current:ELEMENT) 
     OPTIONAL MATCH current-[:NEXT]->(next:ELEMENT) 
-    DELETE p MERGE list-[pnew:POINTER]->next
+    DELETE p 
+    MERGE list-[pnew:POINTER]->next
     RETURN list,current,next,pnew
     
 ![Fig4. First move of the pointer](./blog4.png "Fig4. First move of the pointer")
+
+The pointer has moved !
+
+Take five minutes to look the relationships, we've:
+
+* `:IS_MEMBER_OF` to say what are the elements of this list
+* `:NEXT` to say what is the next element to the current one
+* `:POINTER` to say what is the current element
+
+As we can see, the nature of each relationship type is different. The two first ones have a long lifecycle (while the list exists) and the last one has another function : his lifetime could become short because this is just a volatile state at a moment.
+
+This is a __moving relationship__ !
+
+## Relationships as a three-way switch
+
+Yes, it's a weird title and a strange use case. I think it's interesting to have another way to think about relationships. Previously we were talking about relationship as a pointer, now we must discuss about cross states. And the best sample to talk about that is the electrical Three-way Switch.
+
+In the hall of your house, you need to light the hall or light-off the hall according his prev state and your position in the hall. You must able to light on the hall from the entry and off it from the other end. But you must able to close or open the light from elsewhere (it's not possible to think we need to ligth on the hall just at the position where we cut-off the last time).
+
+From electricity it's called a Three-way swith, and his implementation is the followed :
