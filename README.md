@@ -56,7 +56,20 @@ Then final query is:
 
     MATCH (list:LIST)-[p:POINTER]->(current:ELEMENT) 
     OPTIONAL MATCH current-[:NEXT]->(next:ELEMENT) 
-    DELETE p MERGE list-[pnew:POINTER]->next
+    DELETE p 
+    MERGE list-[pnew:POINTER]->next
     RETURN list,current,next,pnew
     
 ![Fig4. First move of the pointer](./blog4.png "Fig4. First move of the pointer")
+
+The pointer has moved !
+
+Take five minutes to look the relationships, we've:
+
+* `:IS_MEMBER_OF` to say what are the elements of this list
+* `:NEXT` to say what is the next element to the current one
+* `:POINTER` to say what is the current element
+
+As we can see, the nature of each relationship type is different. The two first ones have a long lifecycle (while the list exists) and the last one has another function : his lifetime could become short because this is just a volatile state at a moment.
+
+This is a __moving relationship__ !
