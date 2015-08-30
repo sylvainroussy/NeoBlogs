@@ -8,7 +8,8 @@ It seems many use cases where Relationships move between nodes in subsequent que
 
 ## Relationship as a pointer
 
-Our first sample to observe this behaviour is the famous Linked List. A linked list is a list where each member is ordered according to a relative position compared to the others elements.
+Our first sample consist to observe this behaviour is the famous Linked List. A linked list is a list where each member is ordered according to a relative position compared to the others elements. On each call, the current pointed element is returned the the pointer moves to the **next** element.
+
 First we need to create a `:LIST` node with three `:ELEMENT`linked to it.
 
     MERGE (elem1:ELEMENT{name:"elem1"})-[:IS_MEMBER_OF]->(list:LIST)
@@ -31,4 +32,23 @@ Then we need to rely theses elements in an relative ordered way (the initial pos
 
 Here we're using a iterator (the first `FOREACH` clause) to browse the collection of elements and create a relationship between the prev node and the next node. If you want more explanation about this query, you can find a very interesting post by Mark Needham here: [Neo4j: Cypher – Creating relationships between a collection of nodes](http://www.markhneedham.com/blog/2014/04/19/neo4j-cypher-creating-relationships-between-a-collection-of-nodes-invalid-input/ "Neo4j: Cypher – Creating relationships between a collection of nodes")
 
-The next step consist to place a pointer on the head element of this list.
+The next step consist to place a pointer at the initial position means on the header element of this list (the element without `:NEXT` incoming relationship) :
+
+    MATCH (list:LIST)
+    MATCH (elem:ELEMENT) WHERE NOT elem<-[:NEXT]-()
+    MERGE list-[:POINTER]->elem 
+
+![Fig2. Initial position of the pointer](./blog3.png "Initial position of the pointer")
+
+And now, we need to write a typical query wich returns the current pointed element and emulates the pointer movment.
+Returning current element is simple :
+
+    MATCH (list:LIST)-[:POINTER]->(current:ELEMENT) 
+    RETURN current
+    
+But emulates the pointer movment requires three cypher operations :
+
+1. Find the next node
+2. Delete the current pointer relationship
+3. Create new pointer relationship on the next node
+
