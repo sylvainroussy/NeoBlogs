@@ -110,3 +110,35 @@ First we need to give a representation of this schema to Neo4j, we consider the 
     e11<-[:TO]-e21
 
 ![Fig5. First adaptation](./blog-threeway2.png "Fig5. First adaptation")
+
+But this graph is not sufficient, because we cannot retrieve next pointed endpoint for a switch. We need to build a circular linked list around the endpoints for each switch.
+
+Here the query for the rear switch :
+
+    MATCH (s2:SWITCH {name:"rear-switch"})
+    MATCH (endpoint:ENDPOINT) WHERE endpoint.name=~"rear.*"
+    MERGE endpoint-[:IS_A_PART_OF]->s2
+    WITH endpoint ORDER BY endpoint.name ASC
+    WITH COLLECT(endpoint) AS elems
+    FOREACH (n IN RANGE(0, LENGTH(elems)-2) |
+    FOREACH (prec IN [elems[n]] |
+    FOREACH (next IN [elems[n+1]] |
+    MERGE prec-[:NEXT]->next)))
+    WITH elems[0] as beginning, elems[LENGTH(elems)-1] as ending
+    MERGE beginning<-[:NEXT]-ending
+
+And here the query for the front switch :
+
+    MATCH (s1:SWITCH {name:"front-switch"})
+    MATCH (endpoint:ENDPOINT) WHERE endpoint.name=~"front.*"
+    MERGE endpoint-[:IS_A_PART_OF]->s2
+    WITH endpoint ORDER BY endpoint.name ASC
+    WITH COLLECT(endpoint) AS elems
+    FOREACH (n IN RANGE(0, LENGTH(elems)-2) |
+    FOREACH (prec IN [elems[n]] |
+    FOREACH (next IN [elems[n+1]] |
+    MERGE prec-[:NEXT]->next)))
+    WITH elems[0] as beginning, elems[LENGTH(elems)-1] as ending
+    MERGE beginning<-[:NEXT]-ending
+
+Note the last query line `MERGE beginning<-[:NEXT]-ending` is useful to link the last element to the first and thus to obtain a circular reference.
