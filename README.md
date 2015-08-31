@@ -131,7 +131,7 @@ And here the query for the front switch :
 
     MATCH (s1:SWITCH {name:"front-switch"})
     MATCH (endpoint:ENDPOINT) WHERE endpoint.name=~"front.*"
-    MERGE endpoint-[:IS_A_PART_OF]->s2
+    MERGE endpoint-[:IS_A_PART_OF]->s1
     WITH endpoint ORDER BY endpoint.name ASC
     WITH COLLECT(endpoint) AS elems
     FOREACH (n IN RANGE(0, LENGTH(elems)-2) |
