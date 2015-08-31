@@ -95,10 +95,10 @@ First we need to give a representation of this schema to Neo4j, we consider the 
     CREATE 
     (generator:GENERATOR {name:"generator"}),
     (lamp:LAMP {name:"lamp"}),
-    (s1:SWICTH {name:"front-swicth"}),
+    (s1:SWITCH {name:"front-switch"}),
     (e11:ENDPOINT {name:"front-endpoint-1"}),
     (e12:ENDPOINT {name:"front-endpoint-2"}),
-    (s2:SWICTH {name:"rear-swicth"}),
+    (s2:SWITCH {name:"rear-switch"}),
     (e21:ENDPOINT {name:"rear-endpoint-1"}),
     (e22:ENDPOINT {name:"rear-endpoint-2"}),
     generator-[:TO]->lamp,
