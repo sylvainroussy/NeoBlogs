@@ -142,3 +142,10 @@ And here the query for the front switch :
     MERGE beginning<-[:NEXT]-ending
 
 Note the last query line `MERGE beginning<-[:NEXT]-ending` is useful to link the last element to the first and thus to obtain a circular reference.
+
+Touching trear switch
+MATCH (s2:SWITCH{name:'rear-switch'})-[p:POINTER]->(current:ENDPOINT) 
+MATCH current-[:NEXT]->(next:ENDPOINT) 
+DELETE p 
+MERGE s2-[pnew:POINTER]->next
+RETURN s2,current,next,pnew
