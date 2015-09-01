@@ -143,14 +143,29 @@ And here the query for the front switch :
 
 Note the last query line `MERGE beginning<-[:NEXT]-ending` is useful to link the last element to the first and thus to obtain a circular reference.
 
-Touching trear switch
-MATCH (s2:SWITCH{name:'rear-switch'})-[p:POINTER]->(current:ENDPOINT) 
-MATCH current-[:NEXT]->(next:ENDPOINT) 
-DELETE p 
-MERGE s2-[pnew:POINTER]->next
-RETURN s2,current,next,pnew
-
-Switch query (not no true or false) :
+Lamp enlightment query:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]->(g:Generator) RETURN lamp
+    
+No result, now an user click on the rear switch: 
+
+Touching rear switch: 
+
+    MATCH (s2:SWITCH{name:'rear-switch'})-[p:POINTER]->(current:ENDPOINT) 
+    MATCH current-[:NEXT]->(next:ENDPOINT) 
+    DELETE p 
+    MERGE s2-[pnew:POINTER]->next
+    RETURN s2,current,next,pnew
+
+And then with the pev query :
+
+    MATCH (lamp:LAMP)-[r:TO|POINTER*]->(g:Generator) RETURN lamp
+    
+__The lamp is enlighted !__
+
+The results are same for the front switch, we have emulate a three-way switch.
+It must be a good starting for domotic, no ? Imagine a graph wich stores all positions of lamps, doors, gates or shutters of your house...
+
+Note, our representation is voluntary simplified, a switch could be shown with three endpoints, like that :
+
     
