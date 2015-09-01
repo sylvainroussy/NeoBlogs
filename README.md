@@ -149,3 +149,8 @@ MATCH current-[:NEXT]->(next:ENDPOINT)
 DELETE p 
 MERGE s2-[pnew:POINTER]->next
 RETURN s2,current,next,pnew
+
+Switch query (not no true or false) :
+
+    MATCH (lamp:LAMP)-[r:TO|POINTER*]->(g:Generator) RETURN lamp
+    
