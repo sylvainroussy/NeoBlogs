@@ -147,11 +147,13 @@ Note the last query line `MERGE beginning<-[:NEXT]-ending` is useful to link the
 
 __Lamp enlightment query__:
 
-    MATCH (lamp:LAMP)-[r:TO|POINTER*]->(g:Generator) RETURN lamp
+    MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
-No result, now an user click on the rear switch: 
+No result here, the cycle is broken for `TO` or `POINTER` relationship types.
 
-Touching rear switch: 
+Now, an user click on the rear switch.
+
+Touch rear switch query: 
 
     MATCH (s2:SWITCH{name:'rear-switch'})-[p:POINTER]->(current:ENDPOINT) 
     MATCH current-[:NEXT]->(next:ENDPOINT) 
@@ -159,9 +161,9 @@ Touching rear switch:
     MERGE s2-[pnew:POINTER]->next
     RETURN s2,current,next,pnew
 
-And then with the pev query :
+And then with the lamp enlightment query :
 
-    MATCH (lamp:LAMP)-[r:TO|POINTER*]->(g:Generator) RETURN lamp
+    MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
 __The lamp is enlighted !__
 
