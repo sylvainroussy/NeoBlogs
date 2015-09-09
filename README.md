@@ -161,6 +161,8 @@ Touch rear switch query:
     MERGE s2-[pnew:POINTER]->next
     RETURN s2,current,next,pnew
 
+![Fig6. Touching the rear switch](./blog-threeway4.png "Fig7. Touching the rear switch")
+
 And then with the lamp enlightment query :
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
