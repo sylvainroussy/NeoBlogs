@@ -143,7 +143,9 @@ And here the query for the front switch :
 
 Note the last query line `MERGE beginning<-[:NEXT]-ending` is useful to link the last element to the first and thus to obtain a circular reference.
 
-Lamp enlightment query:
+![Fig6. Second adaptation](./blog-threeway3.png "Fig6. Second adaptation")
+
+__Lamp enlightment query__:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]->(g:Generator) RETURN lamp
     
