@@ -163,6 +163,8 @@ Touch rear switch query:
 
 ![Fig6. Touching the rear switch](./blog-threeway4.png "Fig7. Touching the rear switch")
 
+The rear swicth pointer moves to its position to the second one and thus close the path between the lamp and the generator.
+
 And then with the lamp enlightment query :
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
@@ -170,8 +172,10 @@ And then with the lamp enlightment query :
 __The lamp is enlighted !__
 
 The results are same for the front switch, we have emulate a three-way switch.
-It must be a good starting for domotic, no ? Imagine a graph wich stores all positions of lamps, doors, gates or shutters of your house...
+It must be a good starting for domotic, no ? Imagine a graph wich stores all positions of lamps, doors, gates or shutters of your house... And threfore, imagine the graph for doing facility management in a building!
 
-Note, our representation is voluntary simplified, a switch could be shown with three endpoints, like that :
+Note, our representation is voluntary simplified, a switch could be shown with three endpoints (one input and two outputs) and if we think to that then we could think a graph modelized by component combinations instead of unitary nodes combinations. But it's another subject.
 
-    
+## Conclusion
+
+There's different natures of relationships: any of them have a permanent life (like the electrical wires in our previous example), any of them have a lifecycle (like pointers) and are supposed to mark a state. These are the moving relationships.
