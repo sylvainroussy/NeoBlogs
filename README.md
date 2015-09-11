@@ -179,3 +179,5 @@ Note, our representation is voluntary simplified, a switch could be shown with t
 ## Conclusion
 
 There's different natures of relationships: any of them have a permanent life (like the electrical wires in our previous example), any of them have a lifecycle (like pointers) and are supposed to mark a state. These are the moving relationships.
+
+test change user with PO
