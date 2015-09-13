@@ -4,7 +4,7 @@
 
 A graph database is not only a simple way to store connected data, it is also a powerful tool to manage dynamic relationships between data. 
 Since relationships are natively implemented in Neo4j, we can use them as a simple way to identify a group of connected nodes. But it is not the only usage we make of them.
-It seems there is many use cases where Relationships move between nodes in subsequent queries. Theses relationships are specialized to store a particular state for a sub graph like a pointer for exemple. Let'go to study them.  
+It seems there is many use cases where Relationships move between nodes in consecutive queries. Theses relationships are specialized to store a particular state for a sub graph like a pointer for exemple. Let'go to study them.  
 
 ## Relationship as a pointer
 
@@ -78,7 +78,7 @@ This is a __moving relationship__ !
 
 Yes, it is a weird title and a strange use case. I think that is interesting to introduce another way of thinking about relationships. Previously we were talking about a relationship as a pointer, now we have  to consider about __cross states__. And the best sample to talk about that is the electrical Three-way Switch.
 
-In the hall of your house, you need to light the hall or light-off the hall according his prev state and your position in the hall. You must be able to light on the hall from the entry and off it from the other end. But you must able to close or open the light from elsewhere (it's not possible to think we need to ligth on the hall just at the position where we cut-off the last time).
+In the hall of your house, you need to light the hall or light-off the hall according its previous state and your position in the hall. You must be able to light on the hall from the entry and off it from the other end. But you must be able to close or open the light from elsewhere (it's not possible to think we need to light on the hall just at the position where we cut-off it the last time).
 
 From electricity it's called a Three-way switch, and his implementation is the followed :
 
@@ -151,7 +151,7 @@ __Lamp enlightment query__:
     
 No result here, the cycle is broken for `TO` or `POINTER` relationship types.
 
-Now, an user click on the rear switch.
+Now, an user click on the rear switch to enlight the hal, that's trigger the query below.
 
 Touch rear switch query: 
 
@@ -163,7 +163,7 @@ Touch rear switch query:
 
 ![Fig6. Touching the rear switch](./blog-threeway4.png "Fig7. Touching the rear switch")
 
-The rear swicth pointer moves to its position to the second one and thus close the path between the lamp and the generator.
+The rear swicth pointer moves from its position to the second one and thus close the path between the lamp and the generator.
 
 And then with the lamp enlightment query :
 
@@ -172,9 +172,9 @@ And then with the lamp enlightment query :
 __The lamp is enlighted !__
 
 The results are same for the front switch, we have emulate a three-way switch.
-It must be a good starting for domotic, no ? Imagine a graph wich stores all positions of lamps, doors, gates or shutters of your house... And threfore, imagine the graph for doing facility management in a building!
+It must be a good starting for domotic, no ? Imagine a graph wich stores all positions of lamps, doors, gates or shutters of your house... And therefore, imagine more complex graph for doing facility management in a building!
 
-Note, our representation is voluntary simplified, a switch could be shown with three endpoints (one input and two outputs) and if we think to that then we could think a graph modelized by component combinations instead of unitary nodes combinations. But it's another subject.
+Note, our representation is voluntary simplified, a switch could be shown with three endpoints (one input and two outputs) and then we could think a graph modelized by component combinations with internal states instead of unitary nodes combinations. But it's another subject.
 
 ## Conclusion
 
