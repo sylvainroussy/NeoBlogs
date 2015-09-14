@@ -1,6 +1,6 @@
 # Moving relationships
 
-## introduction
+## Introduction
 
 A graph database is not only a simple way to store connected data, it is also a powerful tool to manage dynamic relationships between data. 
 Since relationships are natively implemented in Neo4j, we can use them as a simple way to identify a group of connected nodes. But it is not the only usage we make of them.
