@@ -150,7 +150,9 @@ __Lamp enlightenment query__:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
-No result here, the cycle is broken for `TO` or `POINTER` relationship types.
+No result here, the cycle is broken for `TO` or `POINTER` relationship types :
+
+![Fig7. Broken path](./blog-threeway3_2_modifie.png "Fig7. Broken path")
 
 Then, a user clicks on the back switch to switch the light on, what triggers the query below.
 
