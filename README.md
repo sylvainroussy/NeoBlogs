@@ -150,7 +150,7 @@ __Lamp enlightenment query__:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
-No result here, the cycle is broken for `TO` or `POINTER` relationship types :
+No result here, the cycle is broken for `TO` or `POINTER` relationship types:
 
 ![Fig7. Broken path](./blog-threeway3_2_modifie.png "Fig7. Broken path")
 
@@ -164,7 +164,7 @@ Touch back switch query:
     MERGE s2-[pnew:POINTER]->next
     RETURN s2,current,next,pnew
 
-![Fig6. Touching the rear switch](./blog-threeway4.png "Fig7. Touching the rear switch")
+![Fig8. Touching the rear switch](./blog-threeway4.png "Fig8. Touching the rear switch")
 
 The back swicth pointer moves from its position to the second one and thus close the path between the lamp and the generator.
 
@@ -172,7 +172,9 @@ And then with the lamp enlightenment query:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
-__The lamp is enlightened !__
+__The lamp is enlightened !__:
+
+![Fig9. Broken path](./blog-threeway4_2_modifie.png "Fig9. Broken path")
 
 The result is the same for the front switch, we emulated a three-way switch.
 It is a good starting point for home automation applications, isn't it ? Imagine a graph which stores all positions of lamps, doors, gates or shutters of your house... And then, more complex graphs to manage an entire building!
