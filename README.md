@@ -16,7 +16,7 @@ First we need to create a `:LIST` node with three `:ELEMENT`linked to it.
     MERGE (elem2:ELEMENT{name:"elem2"})-[:IS_MEMBER_OF]->(list)
     MERGE (elem3:ELEMENT{name:"elem3"})-[:IS_MEMBER_OF]->(list)
     
-![Fig1. The list with elements](./blog1.png "Fig1. The list with elements")
+![Fig1. The list with elements](./blog1_2.png "Fig1. The list with elements")
 
 Then we need to link theses elements in an relative ordered way (the initial position is not necessarily important, we chose here to match elements ordered by their name property) :
 
