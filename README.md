@@ -54,11 +54,12 @@ But emulating the pointer movement requires three cypher operations :
 
 The final query is:
 
-    MATCH (list:LIST)-[p:POINTER]->(current:ELEMENT) 
-    OPTIONAL MATCH current-[:NEXT]->(next:ELEMENT) 
+    MATCH (list:LIST)<-[:IS_MEMBER_OF]-(elems:ELEMENT)
+    MATCH (list)-[p:POINTER]->(current:ELEMENT) 
+    MATCH current-[:NEXT]->(next:ELEMENT) 
     DELETE p 
     MERGE list-[pnew:POINTER]->next
-    RETURN list,current,next,pnew
+    RETURN DISTINCT list,current,next,pnew,elems
     
 ![Fig4. First move of the pointer](./blog4_3.png "Fig4. First move of the pointer")
 
