@@ -12,11 +12,11 @@ Our first example consist in observing this behavior is the famous Linked List. 
 
 First we need to create a `:LIST` node with three `:ELEMENT`linked to it.
 
-    MERGE (elem1:ELEMENT{name:"elem1"})-[:IS_MEMBER_OF]->(list:LIST)
+    MERGE (elem1:ELEMENT{name:"elem1"})-[:IS_MEMBER_OF]->(list:LIST{name:"List"})
     MERGE (elem2:ELEMENT{name:"elem2"})-[:IS_MEMBER_OF]->(list)
     MERGE (elem3:ELEMENT{name:"elem3"})-[:IS_MEMBER_OF]->(list)
     
-![Fig1. The list with elements](./blog1.png "Fig1. The list with elements")
+![Fig1. The list with elements](./blog1_2.png "Fig1. The list with elements")
 
 Then we need to link theses elements in an relative ordered way (the initial position is not necessarily important, we chose here to match elements ordered by their name property) :
 
@@ -28,7 +28,7 @@ Then we need to link theses elements in an relative ordered way (the initial pos
     FOREACH (next IN [elems[n+1]] |
     MERGE prec-[:NEXT]->next)))
 
-![Fig2. Linked elements](./blog2.png "Fig2. Linked elements")
+![Fig2. Linked elements](./blog2_2.png "Fig2. Linked elements")
 
 Here we use an iterator (the first `FOREACH` clause) to browse the collection of elements and to create a relationship between the previous node and the next node. If you need more explanation about this query, you can find a very interesting post from Mark Needham here: [Neo4j: Cypher – Creating relationships between a collection of nodes](http://www.markhneedham.com/blog/2014/04/19/neo4j-cypher-creating-relationships-between-a-collection-of-nodes-invalid-input/ "Neo4j: Cypher – Creating relationships between a collection of nodes")
 
@@ -38,7 +38,7 @@ The next step consists in placing a pointer at the initial position meaning on t
     MATCH (elem:ELEMENT) WHERE NOT elem<-[:NEXT]-()
     MERGE list-[:POINTER]->elem 
 
-![Fig3. Initial position of the pointer](./blog3.png "Fig3. Initial position of the pointer")
+![Fig3. Initial position of the pointer](./blog3_2.png "Fig3. Initial position of the pointer")
 
 And now, we have to write a typical query which returns the current pointed element and emulates the pointer movement.
 Returning current element is simple :
@@ -60,7 +60,7 @@ The final query is:
     MERGE list-[pnew:POINTER]->next
     RETURN list,current,next,pnew
     
-![Fig4. First move of the pointer](./blog4.png "Fig4. First move of the pointer")
+![Fig4. First move of the pointer](./blog4_2.png "Fig4. First move of the pointer")
 
 __The pointer moved!__
 
