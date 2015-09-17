@@ -60,7 +60,7 @@ The final query is:
     MERGE list-[pnew:POINTER]->next
     RETURN list,current,next,pnew
     
-![Fig4. First move of the pointer](./blog4_2.png "Fig4. First move of the pointer")
+![Fig4. First move of the pointer](./blog4_3.png "Fig4. First move of the pointer")
 
 __The pointer moved!__
 
