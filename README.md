@@ -114,7 +114,7 @@ First we need to give a representation of this schema to Neo4j, and we consider 
 
 But this graph is not sufficient, because we cannot retrieve next pointed endpoint for a switch. We need to build a circular linked list around the endpoints for each switch.
 
-Here the query for the back switch :
+Here the query for the back switch:
 
     MATCH (s2:SWITCH {name:"rear-switch"})
     MATCH (endpoint:ENDPOINT) WHERE endpoint.name=~"rear.*"
@@ -168,7 +168,7 @@ Touch back switch query:
 
 The back swicth pointer moves from its position to the second one and thus close the path between the lamp and the generator.
 
-And then with the lamp enlightenment query :
+And then with the lamp enlightenment query:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
