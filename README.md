@@ -12,7 +12,7 @@ Our first example consist in observing this behavior is the famous Linked List. 
 
 First we need to create a `:LIST` node with three `:ELEMENT`linked to it.
 
-    MERGE (elem1:ELEMENT{name:"elem1"})-[:IS_MEMBER_OF]->(list:LIST)
+    MERGE (elem1:ELEMENT{name:"elem1"})-[:IS_MEMBER_OF]->(list:LIST{name:"List"})
     MERGE (elem2:ELEMENT{name:"elem2"})-[:IS_MEMBER_OF]->(list)
     MERGE (elem3:ELEMENT{name:"elem3"})-[:IS_MEMBER_OF]->(list)
     
