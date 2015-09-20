@@ -4,11 +4,11 @@
 
 A graph database is not only a simple way to store connected data, it is also a powerful tool to manage dynamic relationships between data. 
 Since relationships are natively implemented in Neo4j, we can use them as a simple way to identify a group of connected nodes. But it is not the only usage we can make of them.
-It seems that there are many use cases where relationships move between nodes in consecutive queries. Theses relationships are intended to store a particular state for a sub graph like a pointer for example. Let us have a closer look at them.  
+It seems that there are many use cases where consecutive queries can move the relationships between nodes. Theses relationships are intended to store a particular state for a sub graph like a pointer for example. Let us have a closer look at them.  
 
 ## Relationship as a pointer
 
-Our first example to observe this behavior is the famous Linked List. A linked list is a list where each item is ordered according to its relative position compared to the others items. On each call, the current pointed element is returned and then the pointer moves to the **next** element.
+To observe this behavior, our first example is the famous Linked List. A linked list is a list where each item is ordered according to its relative position compared to the others items. On each call, the currently pointed element is returned and then the pointer moves to the **next** element (like in Java with the Iterator object _iterator ().next ()_ ).
 
 First we need to create a `:LIST` node with three `:ELEMENT`linked to it.
 
@@ -18,7 +18,7 @@ First we need to create a `:LIST` node with three `:ELEMENT`linked to it.
     
 ![Fig1. The list with elements](./blog1_2.png "Fig1. The list with elements")
 
-Then we need to link theses elements in an relative ordered way (the initial position is not necessarily important, we chose here to match elements ordered by their name property) :
+Then we need to link theses elements in an relative ordered way (the initial position is not necessarily important, we chose here to match elements alphabetically ordered by their _name_ property) :
 
     MERGE (elem:ELEMENT)-[r:IS_MEMBER_OF]->(list:LIST)
     WITH elem ORDER BY elem.name ASC
@@ -30,7 +30,7 @@ Then we need to link theses elements in an relative ordered way (the initial pos
 
 ![Fig2. Linked elements](./blog2_2.png "Fig2. Linked elements")
 
-Here we use an iterator (the first `FOREACH` clause) to browse the collection of elements and to create a relationship between the previous node and the next node. If you need more explanation about this query, you can find a very interesting post from Mark Needham here: [Neo4j: Cypher – Creating relationships between a collection of nodes](http://www.markhneedham.com/blog/2014/04/19/neo4j-cypher-creating-relationships-between-a-collection-of-nodes-invalid-input/ "Neo4j: Cypher – Creating relationships between a collection of nodes")
+Here we use a loop (the first `FOREACH` clause) to browse the collection of elements and to create a relationship between the previous node and the next node. If you need more explanations about this query, you can find a very interesting post from _Mark Needham_ here: [Neo4j: Cypher – Creating relationships between a collection of nodes](http://www.markhneedham.com/blog/2014/04/19/neo4j-cypher-creating-relationships-between-a-collection-of-nodes-invalid-input/ "Neo4j: Cypher – Creating relationships between a collection of nodes")
 
 The next step consists in placing a pointer at the initial position meaning on the header element of this list (the element without `:NEXT` incoming relationship):
 
@@ -46,7 +46,7 @@ Returning current element is simple :
     MATCH (list:LIST)-[:POINTER]->(current:ELEMENT) 
     RETURN current
     
-But emulating the pointer movement requires three cypher operations :
+But emulating the pointer movement requires three Cypher operations :
 
 1. Finding the next node
 2. Deleting the current pointer relationship
@@ -71,17 +71,17 @@ If we take five minutes to have a closer look at the type of the relationships, 
 * `:NEXT` to determine what the next element to the current one is
 * `:POINTER` to determine what the current element is
 
-As we can see, the nature of each relationship type is different. The first two ones have a long lifecycle (as long as the list exists) and the last one has another function: its lifetime may become short because it is only  a volatile state at a given  moment.
+As we can see, the nature of each relationship type is different. The first two ones have a long lifecycle (as long as the list exists) and the last one has another function: its lifetime may be short because it is only  a volatile state at a given moment.
 
 This is a __moving relationship__!
 
 ## Relationships as a three-way switch
 
-Yes, it is a weird title and a strange use case. I think that is interesting to introduce another way of thinking about relationships. Previously we were talking about a relationship as a pointer, now we have  to consider __cross states__. And the best example to introduce this notion is the electrical Three-way Switch.
+Yes, it is a weird title and a strange use case. I think that is interesting to introduce another way of thinking about relationships. Previously we were talking about a relationship as a pointer, now we have to consider __combined states__. And the best example to introduce this notion is the electrical three-way switch.
 
-In the hall of your house, you need to switch the light on or off taking into account its previous state and your position in the hall. You have to be able to switch the light on from the entrance (front switch) and to switch it off from the other end (back switch). But you have to be able to switch the light on or off from both positions, as it would not make sense to consider that you can put the light on only from the posistion where you were the last time you put it off.
+In the hallway of your house, you need to switch the light on or off from more than one location. You have to be able to switch the light on from the entrance (front switch) and to switch it off from the other end (rear switch), as it would not make sense to consider that you can put the light on only from the posistion where you were the last time you put it off.
 
-In the domaine of electricity such a switch is called a Three-way switch, and its implementation is as follows :
+In the domain of electricity such a switch is called a three-way switch, and its implementation is as follows :
 
 ![Fig4. three-way switch](./blog-threeway.png "Fig4. Three-way switch")
 
@@ -89,7 +89,7 @@ source : https://en.wikipedia.org/wiki/Multiway_switching
 
 Very well, but what is the link with graphs ?
 
-Electrical needs circuit to have the light on, in graph theory it's called a cycle, then this schema could be stored in a graph. If we detect a cycle through theses elements then we can deduct that the lamp turns on, whereas if we cannot find a complete cycle, the light remains off.
+In the domain of electricity, switching the light on requires a closed circuit to have the light on. In graph theory such a closed circuit is called a _cycle_, meaning that it should be possible to easily convert it in a graph. If we detect a cycle through these elements we can deduct that the lamp is on, whereas if we cannot find a closed cycle, the light remains off.
 
 First we need to give a representation of this schema to Neo4j, and we consider that the initial position is when the light is off:
 
@@ -112,9 +112,9 @@ First we need to give a representation of this schema to Neo4j, and we consider 
 
 ![Fig5. First adaptation](./blog-threeway2.png "Fig5. First adaptation")
 
-But this graph is not sufficient, because we cannot retrieve the next pointed endpoint for a switch. We need to build a circular linked list around the endpoints for each switch.
+But this graph is not sufficient, because we cannot find a next Endpoint from the currently pointed position. We need to build a circular linked list around the endpoints for each switch.
 
-Here is the query for the back switch:
+Here is the query for the rear switch:
 
     MATCH (s2:SWITCH {name:"rear-switch"})
     MATCH (endpoint:ENDPOINT) WHERE endpoint.name=~"rear.*"
@@ -146,17 +146,17 @@ Note that the last query line `MERGE beginning<-[:NEXT]-ending` is useful to lin
 
 ![Fig6. Second adaptation](./blog-threeway3.png "Fig6. Second adaptation")
 
-__Lamp enlightenment query__:
+__Lamp test query__:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
-No result here, the cycle is broken since a `TO` or `POINTER` relationship is missing:
+No result here (the lamp is off), the path is broken since a `TO` or `POINTER` relationship is missing:
 
 ![Fig7. Broken path](./blog-threeway3_2_modifie.png "Fig7. Broken path")
 
-Then, a user clicks on the back switch to switch the light on, what triggers the query below.
+Then, a user toggles the rear switch to put the light on, what triggers the query below.
 
-Touching the back switch query: 
+Toggling the rear switch query: 
 
     MATCH (s2:SWITCH{name:'rear-switch'})-[p:POINTER]->(current:ENDPOINT) 
     MATCH current-[:NEXT]->(next:ENDPOINT) 
@@ -166,9 +166,9 @@ Touching the back switch query:
 
 ![Fig8. Touching the rear switch](./blog-threeway4.png "Fig8. Touching the rear switch")
 
-The back switch pointer moves from its initial position to the second one and thus closes the path between the lamp and the generator.
+The rear switch pointer moves from its initial position to the second one and thus closes the path between the lamp and the generator.
 
-Now let us switch the light on with this query:
+Now let us test the lamp with this query:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
@@ -177,12 +177,12 @@ __The light is on!__:
 ![Fig9. Broken path](./blog-threeway4_2_modifie.png "Fig9. Broken path")
 
 The result would be the same with the front switch, as we emulated a three-way switch.
-It is a good starting point for home automation applications, isn't it? Imagine a graph which stores all positions of lamps, doors, gates or shutters of your house... And then, more complex graphs to manage an entire building!
+It is a good starting point for home automation applications, isn't it? Imagine a graph which stores all positions of lamps, doors, gates or shutters of your house... And then, more complex graphs to manage an entire building (Facility Management)!
 
-Note  that our representation is on purpose simplified, a switch could be shown with three endpoints (one input and two outputs) and in this case we could consider using a graph modelized by component combinations with internal states instead of unitary nodes combinations. But it is another story.
+Note that our representation is on purpose simplified, a switch could be modelized using a pre-defined component with three endpoints (one input and two outputs). If so, we could modelize a graph composed of combinations of components (with internal states) rather than composed of combinations of unitary nodes. But it is another story.
 
 ## Conclusion
 
-There are different natures of relationships: some of them have a permanent life, like the electrical wires in our previous example, some of them, like pointers, have a lifecycle and are supposed to mark/store? a state. These are the moving relationships.
+As we can see, there are different natures of relationships: some of them have a permanent life, like the electrical wires in our previous example, some of them, like pointers, have a lifecycle and are supposed to store a state. The latest are the ones I call _moving relationships_.
 
 
