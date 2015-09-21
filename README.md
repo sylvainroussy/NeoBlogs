@@ -110,7 +110,7 @@ First we need to give a representation of this schema to Neo4j, and we consider 
     e11-[:POINTER]->s1,
     e11<-[:TO]-e21
 
-![Fig5. First adaptation](./blog-threeway2.png "Fig5. First adaptation")
+![Fig5. First adaptation](./blog-threeway2_2_modifie.png "Fig5. First adaptation")
 
 But this graph is not sufficient, because we cannot find a next Endpoint from the currently pointed position. We need to build a circular linked list around the endpoints for each switch.
 
@@ -152,7 +152,7 @@ __Lamp test query__:
     
 No result here (the lamp is off), the path is broken since a `TO` or `POINTER` relationship is missing:
 
-![Fig7. Broken path](./blog-threeway3_2_modifie.png "Fig7. Broken path")
+![Fig7. Broken path](./blog-threeway3_2_modifie_2.png "Fig7. Broken path")
 
 Then, a user toggles the rear switch to put the light on, what triggers the query below.
 
@@ -174,7 +174,7 @@ Now let us test the lamp with this query:
     
 __The light is on!__:
 
-![Fig9. Broken path](./blog-threeway4_2_modifie.png "Fig9. Broken path")
+![Fig9. Broken path](./blog-threeway4_2_modifie_2.png "Fig9. Broken path")
 
 The result would be the same with the front switch, as we emulated a three-way switch.
 It is a good starting point for home automation applications, isn't it? Imagine a graph which stores all positions of lamps, doors, gates or shutters of your house... And then, more complex graphs to manage an entire building (Facility Management)!
