@@ -112,8 +112,8 @@ First we need to give a representation of this schema to Neo4j, and we consider 
 
 ![Fig5. First adaptation](./blog-threeway2_2_modifie.png "Fig5. First adaptation")
 
-The `TO` relationships represent electrical wires.
-The `POINTER` relationships represent current states of switchs.
+The `TO` relationships represent the electrical wires.
+The `POINTER` relationships represent the current states of the switches.
 
 But this graph is not sufficient, because we cannot find a next Endpoint from the currently pointed position. We need to build a circular linked list around the endpoints for each switch.
 
@@ -175,14 +175,14 @@ Now let us test the lamp with this query:
 
     MATCH (lamp:LAMP)-[r:TO|POINTER*]-(g:GENERATOR) RETURN DISTINCT lamp
     
-__The light is on!__:
+__The light is on!__
 
 ![Fig9. Broken path](./blog-threeway4_2_modifie_2.png "Fig9. Broken path")
 
 The result would be the same with the front switch, as we emulated a three-way switch.
 It is a good starting point for home automation applications, isn't it? Imagine a graph which stores all positions of lamps, doors, gates or shutters of your house... And then, more complex graphs to manage an entire building (Facility Management)!
 
-You can also trying to do that in SQL but I suspect that is a challenge. Why using inadequat tool ?
+You can also try to obtain the same results in SQL but I expect this to be challenging.
 
 Note that our representation is on purpose simplified, a switch could be modelized using a pre-defined component with three endpoints (one input and two outputs). If so, we could modelize a graph composed of combinations of components (with internal states) rather than composed of combinations of unitary nodes. But it is another story.
 
@@ -191,6 +191,6 @@ Note that our representation is on purpose simplified, a switch could be modeliz
 As we can see, there are different natures of relationships: some of them have a permanent life, like the electrical wires in our previous example, some of them, like pointers, have a lifecycle and are supposed to store a state. The latest are the ones I call _moving relationships_.
 
 
-_Special thanks to Patricia Odet for reviewing_
+_Special thanks to Patricia Odet for reviewing_.
 
 
