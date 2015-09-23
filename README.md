@@ -191,6 +191,6 @@ Note that our representation is on purpose simplified, a switch could be modeliz
 As we can see, there are different natures of relationships: some of them have a permanent life, like the electrical wires in our previous example, some of them, like pointers, have a lifecycle and are supposed to store a state. The latest are the ones I call _moving relationships_.
 
 
-_Special thanks to Patricia Odet for reviewing_.
+_Special thanks to Patricia for reviewing_.
 
 
