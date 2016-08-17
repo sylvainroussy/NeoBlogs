@@ -30,6 +30,7 @@ The Fetch-Server is a Web Spider with the following features:
 * The selection policy is divided in two parts: a URLs selection policy (download the page or not) and a Content selection policy (to send the extracted data to Ixxo Indexer or not)
 * The politness policy is ruled by a think time and the robots.txt file management
 * The re-visit policy is enabled or disabled by the user and based on the page checksum 
+* CSS Selector policy for text extraction
 * Many other parameters...
 
 Technically, the Fetch-Server is drivable by Restful api:
@@ -55,6 +56,14 @@ Technically, the Fetch-Server is drivable by Restful api:
   } ]
 }
 ```
+## Fetch-Server in development: the issue
+
+Somebody says "The real coder doesn't test. Only the ones who fear are testing". So, I was frightened then. 
+During the development of the Fetch-Server, when almost parameters were managed and basic commands implemented, I ask myself about how to be sure the .
+
+Is the selection policy works fine and 
+
+## Fetch-Server in development: the response!
 
 
 
