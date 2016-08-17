@@ -29,7 +29,32 @@ Usually, any Crawler implements some common features:
 The Fetch-Server is a Web Spider with the following features:
 * The selection policy is divided in two parts: a URLs selection policy (download the page or not) and a Content selection policy (to send the extracted data to Ixxo Indexer or not)
 * The politness policy is ruled by a think time and the robots.txt file management
-* The re-visit policy is enabled or disabled by the user and based on a checksum of the page
+* The re-visit policy is enabled or disabled by the user and based on the page checksum 
+* Many other parameters...
+
+Technically, the Fetch-Server is drivable by Restful api:
+```
+{
+  "message" : "Oxway Fetch Server",
+  "version" : "Version ${version}",
+  "links" : [ {
+    "rel" : "self",
+    "href" : "http://localhost:8080"
+  }, {
+    "rel" : "fetchs.command.test",
+    "href" : "http://localhost:8080/fetchs/fetch"
+  }, {
+    "rel" : "fetchs.command.start",
+    "href" : "http://localhost:8080/fetchs/fetch"
+  }, {
+    "rel" : "fetchs.command.delete",
+    "href" : "http://localhost:8080/fetchs/delete/{id}"
+  }, {
+    "rel" : "fetchs.command.stop",
+    "href" : "http://localhost:8080/fetchs/stop/{id}"
+  } ]
+}
+```
 
 
 
