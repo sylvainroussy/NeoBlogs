@@ -62,12 +62,19 @@ Somebody says "The real coder doesn't test. Only the ones who fear are testing".
 
 During the development of the Fetch-Server, when almost parameters were managed and basic commands implemented, I ask myself about how to be sure of the crawler behaviour.
 
-How to be sure that my parameters are rightly interpreted by my crawler? Unit testing? Sure, but Web pages are volatiles and it's difficult to obtain a predictable result oon the long term. Futhermore, I want to inspect the traversals done by the crawler.
+How to be sure that my parameters are rightly interpreted by my crawler? Unit testing? Sure, but Web pages are volatiles and it's difficult to obtain a predictable result on the long term. Futhermore, I want to inspect the traversals done by the crawler before connecting the server with the Ixxo Indexer for avoid data pollution.
 
 
 ## Admirable Ackbar: it's a graph!
 
 Yes it is. I talked about traversals, Web links... No doubt, the right tool here is Neo4j. 
+I need to store extracted URLs and Web pages, and, at this point of the development, I have to go fast because this is an extra workload. 
+Neo4j proves me that was an efficient database in the past, simple to up, a good console, CYPHER for querying relationships and paths, and a great community, nice! 
+
+Well, I write a Neo4j's URL extractor to store, from a page, all URLs as nodes.
+Also, I write a Neo4j's Listener for sending crawl events to Neo4j and mark with labels the crawl status on page nodes.
+
+
 
 
 
