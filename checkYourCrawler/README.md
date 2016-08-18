@@ -56,14 +56,19 @@ Technically, the Fetch-Server is drivable by Restful api:
   } ]
 }
 ```
-## Fetch-Server in development: the issue
+## Fetch-Server in development: the questions
 
 Somebody says "The real coder doesn't test. Only the ones who fear are testing". So, I was frightened then. 
-During the development of the Fetch-Server, when almost parameters were managed and basic commands implemented, I ask myself about how to be sure the .
 
-Is the selection policy works fine and 
+During the development of the Fetch-Server, when almost parameters were managed and basic commands implemented, I ask myself about how to be sure of the crawler behaviour.
 
-## Fetch-Server in development: the response!
+How to be sure that my parameters are rightly interpreted by my crawler? Unit testing? Sure, but Web pages are volatiles and it's difficult to obtain a predictable result oon the long term. Futhermore, I want to inspect the traversals done by the crawler.
+
+
+## Admirable Ackbar: it's a graph!
+
+Yes it is. I talked about traversals, Web links... No doubt, the right tool here is Neo4j. 
+
 
 
 
