@@ -74,6 +74,8 @@ Neo4j proves me that was an efficient database in the past, simple to up, a good
 Well, I write a Neo4j's URL extractor to store, from a page, all URLs as nodes.
 Also, I write a Neo4j's Listener for sending crawl events to Neo4j and mark with labels the crawl status on page nodes.
 
+![Fig2. Crawler process](./crawler_process.svg "Fig2. Crawler process")
+
 
 
 
