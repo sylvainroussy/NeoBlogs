@@ -67,7 +67,7 @@ How to be sure that my parameters are rightly interpreted by my crawler? Unit te
 
 ## Admirable Ackbar: it's a graph!
 
-Yes it is. I talked about traversals, Web links... No doubt, the right tool here is Neo4j. 
+Yes it is. I talked about traversals, Web links... No doubt, it's a graph and the right tool here is Neo4j. 
 I need to store extracted URLs and Web pages, and, at this point of the development, I have to go fast because this is an extra workload. 
 Neo4j proves me that was an efficient database in the past, simple to up, a good console, CYPHER for querying relationships and paths, and a great community, nice! 
 
@@ -76,11 +76,22 @@ Also, I write a Neo4j's Listener for sending crawl events to Neo4j and mark node
 
 * URL_ACCEPTED : this Url is accepted, the page will be downloaded and Urls extracted from this page at the next cycle
 * CONTENT_ACCEPTED : this page is in the white list, then the selected content is extracted (the node with CONTENT_ACCEPTED is obviously an URL_ACCEPTED) 
-All other status are considered as REJECTED
+
+
+All other status are considered as REJECTED.
 
 ![Fig2. Crawler process](./crawler_process.png "Fig2. Crawler process")
 
+## Crawling the Web
 
+Well, now it's time to run my first Crawl. I Chose the Neo4j's blog and I provide the following parameters to the Fetch-Server:
+
+Parameter | value
+------------ | -------------
+Start URL | https://neo4j.com/blog/
+withe list for Urls | * https://neo4j.com/blog/ * https://neo4j.com/blog/page/*
+
+## Cross Crawls
 
 
 
