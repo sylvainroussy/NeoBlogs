@@ -89,7 +89,15 @@ Well, now it's time to run my first Crawl. I Chose the Neo4j's blog and I provid
 Parameter | value
 ------------ | -------------
 Start URL | https://neo4j.com/blog/
-withe list for Urls | * https://neo4j.com/blog/ * https://neo4j.com/blog/page/*
+Withe list for Urls | https://neo4j.com/blog/  https://neo4j.com/blog/page/*
+Withe list for content | https://neo4j.com/blog/+
+Black list for content | https://neo4j.com/blog/page/* https://neo4j.com/blog/ https://neo4j.com/blog/contributor/*
+Max depth | 4
+
+Running and obtaining:
+
+
+
 
 ## Cross Crawls
 
