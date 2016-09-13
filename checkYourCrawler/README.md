@@ -94,9 +94,9 @@ Withe list for content | https://neo4j.com/blog/+
 Black list for content | https://neo4j.com/blog/page/* https://neo4j.com/blog/ https://neo4j.com/blog/contributor/*
 Max depth | 4
 
-Running and obtaining:
+Running and obtaining the following sample (limited to 25 results):
 
-
+![Fig3. Crawling results](./crawling_results1.png "Fig2. Crawling results")
 
 
 ## Cross Crawls
