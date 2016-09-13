@@ -98,6 +98,9 @@ Running and obtaining the following sample (limited to 25 results):
 
 ![Fig3. Crawling results](./crawling_results1.png "Fig2. Crawling results")
 
+* In magenta color, the pages with URL_ACCEPTED only tag
+* In green, the pages with URL_ACCEPTED and CONTENT_ACCEPTED tags
+* In blue the rejected pages.
 
 ## Cross Crawls
 
