@@ -107,6 +107,7 @@ First thing, general statistics :
 ```$MATCh (n) WITH labels(n) as tags UNWIND tags as s return distinct s,count(s)```
 
 returns:
+
 Label | Value | Comment
 ------------ | ------------- | ------------- 
 Page | 2852 | Total of URLs detected
