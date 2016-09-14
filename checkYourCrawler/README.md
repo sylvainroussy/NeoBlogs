@@ -9,7 +9,7 @@ to extract data and push it into the Ixxo Indexer like showed in the schema belo
 
 After downloading the interesting part of a Web page, the Fetch Server sends the data to the Ixxo Indexer, able to extract entities from data (like Organizations, Countries, etc.).
 
-Neo4j helped us to rule our Crawler by checking page traversal of it. 
+Neo4j helped us to rule our Crawler by checking page traversals. 
  
 
 ## How a Web Spider works?
@@ -86,7 +86,7 @@ All other status are considered as REJECTED.
 
 Well, now it's time to run my first Crawl. I Chose the Neo4j's blog and I provide the following parameters to the Fetch-Server:
 
-Parameter | value
+Parameter | Value
 ------------ | -------------
 Start URL | https://neo4j.com/blog/
 Withe list for Urls | https://neo4j.com/blog/  https://neo4j.com/blog/page/*
@@ -96,11 +96,24 @@ Max depth | 4
 
 Running and obtaining the following sample (limited to 25 results):
 
-![Fig3. Crawling results](./crawling_results1.png "Fig2. Crawling results")
+![Fig3. Crawling results](./crawling_results1.png "Fig3. Crawling results")
 
-* In magenta color, the pages with URL_ACCEPTED only tag
+* In magenta, the pages with URL_ACCEPTED only tag
 * In green, the pages with URL_ACCEPTED and CONTENT_ACCEPTED tags
 * In blue the rejected pages.
+
+First thing, general statistics :
+
+```$MATCh (n) WITH labels(n) as tags UNWIND tags as s return distinct s,count(s)```
+
+returns:
+Label | Value | Comment
+------------ | ------------- | ------------- 
+Page | 2852 | Total of URLs detected
+URL_ACCEPTED | 118 | Total of URLs accepted
+CONTENT_ACCEPTED | 105 | Total of content accepted (also Url accepted)
+
+
 
 ## Cross Crawls
 
