@@ -104,15 +104,20 @@ Running and obtaining the following sample (limited to 25 results):
 
 First thing, general statistics :
 
-```$MATCh (n) WITH labels(n) as tags UNWIND tags as s return distinct s,count(s)```
+```MATCH (n) WITH labels(n) as tags UNWIND tags as s RETURN distinct s as Value,count(s) as Number UNION MATCH () -[r]->() RETURN "Relationships" as Value ,count(r) as Number```
 
 returns:
 
-Label | Value | Comment
+Value | Number | Comment
 ------------ | ------------- | ------------- 
-Page | 2852 | Total of URLs detected
-URL_ACCEPTED | 118 | Total of URLs accepted
-CONTENT_ACCEPTED | 105 | Total of content accepted (also Url accepted)
+Page | 3686 | Total of URLs detected
+URL_ACCEPTED | 164 | Total of URLs accepted
+CONTENT_ACCEPTED | 150 | Total of content accepted (also Url accepted)
+LINKED_TO | 18574 | Total of relaionships
+
+Then, I have to check the rules:
+
+1. No URL_ACCEPTED came from a rejected Url
 
 
 
