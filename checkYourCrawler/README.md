@@ -104,12 +104,14 @@ Running and obtaining the following sample (limited to 25 results):
 
 First thing, general statistics :
 
-```MATCH (n) WITH labels(n) as tags 
+```
+MATCH (n) WITH labels(n) as tags 
   UNWIND tags as s 
   RETURN distinct s as Value,count(s) as Number 
 UNION 
 MATCH () -[r]->() 
-  RETURN "Relationships" as Value ,count(r) as Number```
+  RETURN "Relationships" as Value ,count(r) as Number
+```
 
 returns:
 
@@ -124,14 +126,16 @@ Then, I have to check the rules:
 
 1. No URL_ACCEPTED came from a rejected Url
 
-```MATCH (n)-->() WHERE labels(n) = ['Page'] 
-RETURN (count(n)=0) as 'No Outgoing Links for URLs rejected' ```
+```
+MATCH (n)-->() WHERE labels(n) = ['Page'] 
+RETURN (count(n)=0) as 'No Outgoing Links for URLs rejected' 
+```
 
 returns:
 
-Value 
------------- 
-true
+Value |
+------------ |
+true |
 
 
 ## Cross Crawls
