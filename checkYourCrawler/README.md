@@ -94,7 +94,7 @@ Withe list for content | https://neo4j.com/blog/+
 Black list for content | https://neo4j.com/blog/page/* https://neo4j.com/blog/ https://neo4j.com/blog/contributor/*
 Max depth | 4
 
-Running and obtaining the following sample (limited to 25 results):
+Running and obtaining the following sample (limited to few results):
 
 ![Fig3. Crawling results](./crawling_results1.png "Fig3. Crawling results")
 
@@ -120,7 +120,7 @@ Value | Number | Comment
 Page | 3686 | Total of URLs detected
 URL_ACCEPTED | 164 | Total of URLs accepted
 CONTENT_ACCEPTED | 150 | Total of content accepted (also Url accepted)
-LINKED_TO | 18574 | Total of relaionships
+LINKED_TO | 18574 | Total of relationships
 
 Then, I have to check the rules:
 
@@ -131,14 +131,18 @@ MATCH (n)-->() WHERE labels(n) = ['Page']
 RETURN (count(n)=0) as 'No Outgoing Links for URLs rejected' 
 ```
 
-returns:
+returns: **true**
 
-Value |
------------- |
-true |
+2. Checking Max Depth property
 
 
-## Cross Crawls
+## Cross Crawling (Crawl chain)
+
+Previously, my graph was a typical crawl graph. But, except for checking crawler  or Web links analysis around a site, the interest of this kind of graph is poor.
+Now, I will to talk about how to build a graph dataset with data coming from the Web. Because, more interesting than pages links in the data, there are the true relationships between data.
+
+
+
 
 
 
