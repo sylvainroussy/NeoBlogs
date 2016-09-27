@@ -124,7 +124,7 @@ LINKED_TO | 18574 | Total of relationships
 
 Then, I have to check the rules:
 
-1. No URL_ACCEPTED came from a rejected Url
+1. No rejected page (marked with only label :Page) has outgoing links :
 
 ```
 MATCH (n)-->() WHERE labels(n) = ['Page'] 
@@ -135,17 +135,17 @@ returns: **true**
 
 2. Checking Max Depth property
 
+```
+CALL apoc.path.expandConfig(n,{minLevel: 1,
+ maxLevel: 10,
+ relationshipFilter: 'LINKED_TO>',
+ uniqueness: "RELATIONSHIP_GLOBAL",
+ bfs: true}) YIELD path
+RETURN distinct length(path)as lp , count(path) as cp ORDER BY lp asc
+```
+
 
 ## Cross Crawling (Crawl chain)
 
 Previously, my graph was a typical crawl graph. But, except for checking crawler  or Web links analysis around a site, the interest of this kind of graph is poor.
-Now, I will to talk about how to build a graph dataset with data coming from the Web. Because, more interesting than pages links in the data, there are the true relationships between data.
-
-
-
-
-
-
-
-
-
+Now, I will to talk about how to build a graph dataset with data coming from the Web. Because, more interesting than pages links between pages, there are the true relationships between data.
