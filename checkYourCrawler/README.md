@@ -128,7 +128,7 @@ Then, I have to check the rules:
 
 ```
 MATCH (n)-->() WHERE labels(n) = ['Page'] 
-RETURN (count(n)=0) as 'No Outgoing Links for URLs rejected' 
+RETURN (count(n)=0) as `No Outgoing Links for URLs rejected`
 ```
 
 returns: **true**
@@ -179,6 +179,36 @@ maxDepth | pathCount
 5 | 148
 
 Hum... I have configured my Fetch to have a max depth of 4 and I found 5 as max depth in my graph.
+Ok, I'm going to identify the type of the last nodes on the five length paths.
+
+```
+MATCH (startNode:Page{ref:"https://neo4j.com/blog/"})
+CALL apoc.path.expandConfig(startNode,{
+ minLevel: 1,
+ maxLevel: 10,
+ relationshipFilter: 'LINKED_TO>', 
+ uniqueness: "NODE_GLOBAL",
+ bfs: true 
+}) YIELD path
+WITH path, last(nodes(path)) as lastNode
+WHERE length(path)=5
+RETURN distinct length(path) as maxDepth,count(path) as pathCount, labels(lastNode), lastNode.ref ORDER BY maxDepth asc
+```
+
+Then keeping only the URL_ACCEPTED sattus (also the CONTENT_ACCEPTED):
+
+```
+MATCH (startNode:Page{ref:"https://neo4j.com/blog/"})
+CALL apoc.path.expandConfig(startNode,{
+ minLevel: 1,
+ maxLevel: 10,
+ relationshipFilter: 'LINKED_TO>', 
+ labelFilter:'+URL_ACCEPTED',
+ uniqueness: "NODE_GLOBAL",
+ bfs: true 
+}) YIELD path
+RETURN distinct length(path) as maxDepth, count(path) as pathCount ORDER BY maxDepth asc
+```
 
 ## Cross Crawling (Crawl chain)
 
