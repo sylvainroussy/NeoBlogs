@@ -60,7 +60,7 @@ Technically, the Fetch-Server is drivable by Restful api:
 
 Somebody says "The real coder doesn't test. Only the ones who fear are testing". So, I was frightened then. 
 
-During the development of the Fetch-Server, when almost parameters were managed and basic commands implemented, I ask myself about how to be sure of the crawler behaviour.
+During the development of the Fetch-Server, when almost parameters were managed and basic commands implemented, I ask myself about how to be sure of the crawler behavior.
 
 How to be sure that my parameters are rightly interpreted by my crawler? Unit testing? Sure, but Web pages are volatiles and it's difficult to obtain a predictable result on the long term. Futhermore, I want to inspect the traversals done by the crawler before connecting the server with the Ixxo Indexer for avoid data pollution.
 
@@ -135,15 +135,50 @@ returns: **true**
 
 2. Checking Max Depth property
 
+This is a difficult thing to try to reach a depth on an undefined path with cycles inside.
+A node (A) can be linked to a node (B) and this node (B) can be linked to the (A).
+This kind of pattern causes infinite loop.
+
+Fortunatly, the **traversal Api** save us from this issue. With it, we're able to define a uniqueness traversal behavior, based on nodes or relationships.
+The **apoc procedures** give us now the ability to use traversal Api from Cypher with the **apoc.path.expandConfig(startNode, config)** procedure.
+
+Following this traversal description:
+
 ```
-CALL apoc.path.expandConfig(n,{minLevel: 1,
- maxLevel: 10,
- relationshipFilter: 'LINKED_TO>',
- uniqueness: "RELATIONSHIP_GLOBAL",
- bfs: true}) YIELD path
-RETURN distinct length(path)as lp , count(path) as cp ORDER BY lp asc
+{
+ minLevel: 1, // From start node
+ maxLevel: 10, // To an arbitraty max depth of ten links (our Fetch has a max depth of four)
+ relationshipFilter: 'LINKED_TO>', // following LINKED_TO outgoing links
+ uniqueness: "NODE_GLOBAL", // Do not pass twice by the same node
+ bfs: true // bread first
+}
 ```
 
+I'm able to build this query:
+
+```
+MATCH (startNode:Page{ref:"https://neo4j.com/blog/"})
+CALL apoc.path.expandConfig(startNode,{
+ minLevel: 1,
+ maxLevel: 10,
+ relationshipFilter: 'LINKED_TO>', 
+ uniqueness: "NODE_GLOBAL",
+ bfs: true 
+}) YIELD path
+RETURN distinct length(path) as maxDepth, count(path) as pathCount ORDER BY maxDepth asc
+```
+
+returns:
+
+maxDepth | pathCount
+------------ | ------------
+1 | 147
+2 | 267
+3 | 264
+4 | 188
+5 | 148
+
+Hum... I have configured my Fetch to have a max depth of 4 and I found 5 as max depth in my graph.
 
 ## Cross Crawling (Crawl chain)
 
