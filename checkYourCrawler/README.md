@@ -1,8 +1,9 @@
-# Check your Crawler with Neo4j!
+# Check your Crawler with Neo4j! 
+# (Crawling the web - part 1)
 
 ## Introduction
 
-Ixxo Web Mining has developped a product called Fetch-Server. This is a configurable Web Spider (aka Web Crawler) who can fetch the Web 
+Ixxo Web Mining has developped a product called Oxway Fetch-Server. This is a configurable Web Spider (aka Web Crawler) which can fetch the Web 
 to extract data and push it into the Ixxo Indexer like showed in the schema below:
 
 ![Fig1. General process](./general_process.png "Fig1. General process")
@@ -195,7 +196,7 @@ WHERE length(path)=5
 RETURN distinct length(path) as maxDepth,count(path) as pathCount, labels(lastNode), lastNode.ref ORDER BY maxDepth asc
 ```
 
-Then keeping only the URL_ACCEPTED sattus (also the CONTENT_ACCEPTED):
+Then keeping only the URL_ACCEPTED satus (also the CONTENT_ACCEPTED):
 
 ```
 MATCH (startNode:Page{ref:"https://neo4j.com/blog/"})
@@ -210,7 +211,17 @@ CALL apoc.path.expandConfig(startNode,{
 RETURN distinct length(path) as maxDepth, count(path) as pathCount ORDER BY maxDepth asc
 ```
 
-## Cross Crawling (Crawl chain)
+3. Checking links with Regular expressions
 
-Previously, my graph was a typical crawl graph. But, except for checking crawler  or Web links analysis around a site, the interest of this kind of graph is poor.
-Now, I will to talk about how to build a graph dataset with data coming from the Web. Because, more interesting than pages links between pages, there are the true relationships between data.
+
+## Conclusion
+
+How to check a crawler ?
+
+One way is for unit testing: we need to build a stable website launched when tests are starting. This work is not harmless.
+But even with it, this is not enough, because the results are stored in a flat DB and it's difficult to find a path on this kind of structure.
+The results couldn't give a strong guarantee on the crawler execution.
+
+The other way, to add capabilities to the tests, is to use Neo4j and to query it like I done in some simplified examples above.
+
+Once again, the graphs demonstrates their powerful and Cypher show us its wealth.
