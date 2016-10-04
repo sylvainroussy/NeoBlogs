@@ -125,7 +125,7 @@ LINKED_TO | 18574 | Total of relationships
 
 Then, I have to check the rules:
 
-1. No rejected page (marked with only label :Page) has outgoing links :
+### 1. No rejected page (marked with only label :Page) has outgoing links :
 
 ```
 MATCH (n)-->() WHERE labels(n) = ['Page'] 
@@ -134,7 +134,7 @@ RETURN (count(n)=0) as `No Outgoing Links for URLs rejected`
 
 returns: **true**
 
-2. Checking Max Depth property
+### 2. Checking Max Depth property
 
 This is a difficult thing to try to reach a depth on an undefined path with cycles inside.
 A node (A) can be linked to a node (B) and this node (B) can be linked to the (A).
@@ -211,7 +211,7 @@ CALL apoc.path.expandConfig(startNode,{
 RETURN distinct length(path) as maxDepth, count(path) as pathCount ORDER BY maxDepth asc
 ```
 
-3. Checking links with Regular expressions
+### 3. Checking links with Regular expressions
 
 
 ## Conclusion
