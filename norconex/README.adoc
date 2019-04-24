@@ -1,6 +1,8 @@
 = Importing data from the web with Norconex & Neo4j
 
 
+image::committer-neo4j.png[]
+
 == Introduction
 
 Neo4j provides many tools for importing data, they're known as LOAD CSV from Cypher queries, but also the neo4j-admin import tool. It is also possible to import data from many other systems like Elastic Search, SQL databases, MongoDB, CouchBase using APOC procedures plugin. Finally, ETL tools like Kettle provides features aimed to reduce the data transformation effort. In short hand, the data manipulation ecosystem around Neo4j is very complete. 
