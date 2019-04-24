@@ -12,6 +12,7 @@ And to achieve this ecosystem, now comes the time to import in Neo4J data direct
 It's a program, a robot, specialized in browsing the Web, deeper and deeper. Its operation is pretty simple.
 
 Consider the following cycle of work:
+
 * download a Web page
 * extract the links from this page to other pages
 * extract content and mata-data of this page and store them somewhere
