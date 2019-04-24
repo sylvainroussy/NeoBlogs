@@ -33,7 +33,7 @@ If you don't do that, you will incur the risk to be blacklisted or to fall down 
 
 == Norconex Web Crawler
 
-Norconex is a small IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler kown as _HTTP Collector_.
+Norconex is a small IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler kown as _HTTP Collector_. But, Norconex crawler is, before that, a generic pluggable crawl engine and we can see its structure on the image below.  
 
 image::crawler_norconex.png[crawler,600,200]
 
