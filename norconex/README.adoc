@@ -28,8 +28,11 @@ The basic principle of crawling looks like simple thing to do and it's true. How
 
 If you don't do that, you will incur the risk to be blacklisted or to fall down the remote server, and if we need their data, it's clearly not something we want to do.
 
-== Norconex Web-Crawler
+== Norconex Web Crawler
 
+Norconex is a small IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler
+
+image::crawler_norconex.png[crawler,600,200]
 
 
 
