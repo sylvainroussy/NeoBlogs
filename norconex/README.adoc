@@ -37,39 +37,11 @@ Norconex is a small IT company from Gatineau (Quebec) specialized in the enterpr
 
 image::crawler_norconex.png[crawler,600,200]
 
+Many collectors are provided by Norconex (Http, FileSystem, etc.) and many connectors where inject the data, called _committers_ (SQL, Elastic Search, Solr, etc.) are also proposed. 
 
+From a simple XML configuration, you can connect an input (a data collector) to an output (a committer), applying filters or doing some transformations between them.
 
-
-
-
-
-Because there’re many collectors provided by Norconex (Http, FileSystem,Sql, etc.) and many connectors where inject the data (SQL, Elastic Search, Solr, etc.). And because the solution is simple to understand (not only technical) and business oriented, really.
-
-Into a simple configuration, you can connect an input (a data collector) to an output (a committer) and doing some transformations between them.
-It acts like an ETL.
-Here, I want to expose the Neo4j Committer for Norconex.
-
-Crawling the web
-====================
-
-Crawling the web is basically simple. The mechanism consists on downloading a starting page, extract its content, and extract the links.
-Each link is pushed into a queue generally known under the name of "frontier". Then, the crawler take the next link from the frontier, download the page, extract its content, extract the links and so on...
-
-When we would to crawl the web, we have to consider some rules:
-- The politness 
-- The pages with interesting links
-- The pages with interestig content (or both) 
-
-The politness
-=============
-It is very important to understand that. We don't want "attack" a web site, we want just grabbing useful data.
-And we have to be "polite" with the site, to do that:
-- respect of ROBOTS.TXT
-- respect of no-follow rules
-- provide a think time (a pause time between two consecutive downloads) to let the web site "breath"
-
-You can omit these rules, but if you do that, you expose yourself to be blacklisted from this web site or domain.
-
+The last born of these committers is the _Neo4j committer_.
 
 Pages with interesting links
 ============================
