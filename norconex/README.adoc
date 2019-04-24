@@ -1,7 +1,7 @@
-# Importing data from the web with Norconex & Neo4j
+= Importing data from the web with Norconex & Neo4j
 
 
-## Introduction
+== Introduction
 
 
 A major problem when we need to enter data in a graph is the data injection. For test purpose or other goals, the issue is still the same, how to inject data quickly, with a minima ETL effort. There're many ways to import data into Neo4j, with import tool or Cypher LOAD CSV instruction for example.
