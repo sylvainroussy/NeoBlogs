@@ -14,11 +14,15 @@ It's a program, a robot, specialized in browsing the Web, deeper and deeper. Its
 Consider the following cycle of work:
 
 :===
+
 * download a Web page
 * extract the links from this page to other pages
 * extract content and mata-data of this page and store them somewhere
+
 :
+
 image::crawler_principle.png[crawler,300,200]
+
 :===
 
 
