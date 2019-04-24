@@ -23,16 +23,17 @@ image::crawler_principle.png[crawler,300,200]
 
 == Caution: politness rules
 
-The basic principle of crawling looks like simple thing to do and it's true. However, you have to pay attention to respect politness rules.
+The basic principle of crawling looks like simple thing to do and it's true. However, you have to pay attention to respect politness rules. It is very important to understand that. We don't want _attack_ a web site, we want just to grab useful data.
 
 * Give a _think time_, a time delay between two downloads, to let the target host breathing. Also avoid to download a site with more two threads
 * Respect site rules like ROBOTS.TXT files or No-follow directives
+* Be careful about personal data, avoid to donwload them
 
 If you don't do that, you will incur the risk to be blacklisted or to fall down the remote server, and if we need their data, it's clearly not something we want to do.
 
 == Norconex Web Crawler
 
-Norconex is a small IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler
+Norconex is a small IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler kown as _HTTP Collector_.
 
 image::crawler_norconex.png[crawler,600,200]
 
