@@ -160,8 +160,8 @@ This committer must be configured with the following information:
 
 * The Neo4j connection information
 * The node topology (SPLITTED, ONE_NODE, NO_CONTENT)
-* the primary label: used to mark all imported data from this crawl
-* the additionnal labels (optional): used to qualify the nodes more precisely
+* the primary label
+* the additional labels (optional): 
 * the relationships definitions (optional)
 
 Other configuration are mostly common for all the Norconex committers.
@@ -197,9 +197,20 @@ The node topology defines how a Web page must be stored in Neo4j.
 * NO_CONTENT: the page will be stored in one node wich contains only metadata
 * SPLITTED: the page will be stored in three nodes, one super node linked to another one wich contains metadata and linked to another one wich contains content
 
+In my case, I'm not very interested by the content, I want only know how entities are linked. I chose the `NO_CONTENT` topology.
+
+=== Starting Norconex and check the result
+
+
 ==== Primary label
 
 All nodes imported by this crawl will be stamped as label by this litteral value. Then it is easy to delete or search only on them.
+
+==== Additional labels
+
+They're used to qualify the nodes more precisely. Here we need to parameter a metadata field. The value of this key will be converted into label on the node.
+
+A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is this value I want to add to new nodes. 
 
 == Import regions, sub-regions and wineries
 
