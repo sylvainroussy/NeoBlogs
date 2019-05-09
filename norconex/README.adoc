@@ -43,11 +43,10 @@ From a simple XML configuration, you can connect an input (a data collector) to 
 
 The last born of these committers is the _Neo4j committer_.
 
-Pages with interesting links
-============================
+== Meet the California grapes
 
-Sometimes, we only want the links from a web page, because the text content is not really interesting.
-A Home page is usually a good example. For a clear graph, we should exclude these kind of pages.
+I live in Burgundy, France and I tasted many wines from this region (and others from other regions in France). Here, the main grapes are the Pinot Noir for red wines and Chardonnay for white wines. Many European grape varietals was imported from Europe to United States before the Phylloxéra damages on the old continent. Later, the french grapes was saved by greffons on american foot vines (XIX century).
+This is a very interesting story and a strong link between our respe
 
 Pages with interesting content
 ==============================
