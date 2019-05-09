@@ -151,7 +151,15 @@ Norconex provides a `ConstantTagger` to add a explicit value to a matadata field
 
 The `restrictTo` element allows to specify a regular expression to filter the documents tagged.
 
+=== Storing in Neo4j
 
+This is the goal: storing data in Neo4j.
+
+First of all, choose the right Norconex committer: `com.norconex.committer.neo4j.Neo4jCommitter`
+This committer must be configured with the following information:
+
+* The Neo4j connection information
+* The node topology (SPLITTED, ONE_NODE, NO_CONTENT)
 
 
 == Import regions, sub-regions and wineries
