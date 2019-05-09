@@ -43,18 +43,22 @@ From a simple XML configuration, you can connect an input (a data collector) to 
 
 The last born of these committers is the _Neo4j committer_.
 
-== Meet the California grapes
+= Meet the California grapes
 
 I live in Burgundy, France and I tasted many wines from this region (and others from other regions in France). Here, the main grapes are the Pinot Noir for red wines and Chardonnay for white wines. Many European grape varietals was imported from Europe to United States before the Phylloxéra damages on the old continent. Later, the french grapes was saved by greffons on american foot vines (XIX century).
-This is a very interesting story and a strong link between our respe
+This is a very interesting story and a strong wine history between our respective countries.
 
-Pages with interesting content
-==============================
+But, I don't know anything about american wines. After reading an article about them, it seems I should starting my initiation by California wines (around 90% of the american production).
 
-In counterpart, some pages have the wanted content. Then we can import this page (document) to treated by Norconex to finally push it into Neo4j.
+Ok, let's go to meet the californian grapes...
 
-Link the data
-=============
+== Finding sources
+
+After some searches on Internet, I found a very good start point: link:ex-url.adoc[https://discovercaliforniawines.com/]
+
+== Import grape varietals
+
+== Import regions, sub-regions and wineries
 
 This is probably the most difficult thing to do. Because we need to imagine a strategy to link these pages:
 - url and referrer url linking strategy: and you obtain a graph of crawl, useful to see how the crawler browse the web
