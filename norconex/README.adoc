@@ -161,7 +161,31 @@ This committer must be configured with the following information:
 * The Neo4j connection information
 * The node topology (SPLITTED, ONE_NODE, NO_CONTENT)
 * the primary label: used to mark all imported data from this crawl
-* the additionnal labels (optional): 
+* the additionnal labels (optional): used to qualify the nodes more precisely
+* the relationships definitions (optional)
+
+Other configuration are mostly common for all the Norconex committers.
+
+```
+      <committer class="com.norconex.committer.neo4j.Neo4jCommitter">
+  		<uri>bolt://localhost:7687</uri>
+  		<user>neo4j</user>
+  		<password>root</password>
+  		<authentType>BASIC</authentType>      
+  
+  		<nodeTopology>NO_CONTENT</nodeTopology>
+  		<primaryLabel>CALIFORNIA2</primaryLabel>
+     
+            <additionalLabels>
+              <sourceField keep="true">TYPE</sourceField>
+            </additionalLabels>   
+
+  		<sourceReferenceField keep="true">document.reference</sourceReferenceField>
+            <targetReferenceField>identity</targetReferenceField>
+      	
+            <queueSize>5</queueSize>
+	</committer>
+```
 
 
 == Import regions, sub-regions and wineries
