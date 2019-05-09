@@ -160,6 +160,8 @@ This committer must be configured with the following information:
 
 * The Neo4j connection information
 * The node topology (SPLITTED, ONE_NODE, NO_CONTENT)
+* the primary label: used to mark all imported data from this crawl
+* the additionnal labels (optional): 
 
 
 == Import regions, sub-regions and wineries
