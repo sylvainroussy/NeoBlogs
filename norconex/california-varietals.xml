@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<!-- 
+   Copyright 2010-2017 Norconex Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<!-- This configuration shows the minimum required and basic recommendations
+     to run a crawler.  
+     -->
+<httpcollector id="Neo4j Config HTTP Collector">
+
+  <!-- Decide where to store generated files. -->
+  <progressDir>./neo4j-output/minimum/progress</progressDir>
+  <logsDir>./neo4j-output/minimum/logs</logsDir>
+
+  <crawlers>
+    <crawler id="california-varietals">
+    <userAgent>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36</userAgent>
+  
+      <startURLs stayOnDomain="true" stayOnPort="true" stayOnProtocol="true">  
+      <url>https://discovercaliforniawines.com/wine-map-winery-directory/</url>    
+                     
+      </startURLs>
+
+      <!-- === Recommendations: ============================================ -->
+
+      <!-- Specify a crawler default directory where to generate files. -->
+      <workDir>./neo4j-output/minimum</workDir>
+
+      <!-- Put a maximum depth to avoid infinite crawling (e.g. calendars). -->
+      <maxDepth>2</maxDepth>
+
+      <!-- We know we don't want to crawl the entire site, so ignore sitemap. -->
+      <sitemapResolverFactory ignore="true" />
+
+      <recrawlableResolver 
+         class="com.norconex.collector.http.recrawl.impl.GenericRecrawlableResolver"
+         >
+     
+	     <minFrequency applyTo="reference" value="never">.*</minFrequency>
+	  </recrawlableResolver>
+
+	  <canonicalLinkDetector 
+          class="com.norconex.collector.http.url.impl.GenericCanonicalLinkDetector"
+          ignore="true">
+    
+  	</canonicalLinkDetector>
+
+    <robotsTxt ignore="true" />
+    <robotsMeta ignore="true" />
+    <canonicalLinkDetector ignore="true"  />
+	
+
+
+    <stopOnExceptions>
+        <exception>org.neo4j.driver.v1.exceptions.AuthenticationException</exception>
+        <exception>org.neo4j.driver.v1.exceptions.ClientException</exception>
+    </stopOnExceptions>
+      <!-- Be as nice as you can to sites you crawl. -->
+      <delay default="500" />
+
+      <linkExtractors>
+            <extractor class="com.norconex.collector.http.url.impl.GenericLinkExtractor">
+                  <extractSelector>#page-menu-bar</extractSelector>    
+                  <extractSelector>#posts_countable_list</extractSelector> 
+
+            </extractor>
+      </linkExtractors>
+
+      <referenceFilters>  
+        <filter onMatch="exclude" class="com.norconex.collector.core.filter.impl.ExtensionReferenceFilter"> js,jpg,gif,png,svg,ico,css </filter>
+
+      
+        <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
+          onMatch="include">
+      https://discovercaliforniawines.com/wine-map-winery-directory.*
+        </filter>
+       
+      
+      </referenceFilters>
+
+
+      <documentFilters>
+       
+         <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
+          onMatch="include">
+      https://discovercaliforniawines.com/wine-map-winery-directory.*
+        </filter>
+        
+      </documentFilters>
+
+      <!-- Document importing -->
+      <importer>
+        <preParseHandlers>
+          
+          <splitter class="com.norconex.importer.handler.splitter.impl.DOMSplitter"
+            selector="#varietal_select option"
+            parser="html"
+             >
+          </splitter>
+
+         
+
+         <tagger class="com.norconex.importer.handler.tagger.impl.DOMTagger">
+           
+            <restrictTo caseSensitive="false" field="document.embedded.reference">
+                #varietal_select.*
+            </restrictTo>
+                   <!--<option value="1541" class="text-dark">Sparkling</option>-->
+              <dom selector="option"  toField="varietal_id"   extract="attr(value)"/>
+              <dom selector="option"  toField="varietal"   extract="ownText"/>
+             
+          </tagger>
+
+
+          <tagger class="com.norconex.importer.handler.tagger.impl.CopyTagger">
+              <copy fromField="varietal"   toField="value" overwrite="false" />
+              <copy fromField="varietal_id"   toField="valueId" overwrite="true" />
+          </tagger>   
+
+          
+         
+          <tagger class="com.norconex.importer.handler.tagger.impl.ConstantTagger"
+              onConflict="replace" >      
+            <restrictTo caseSensitive="false" field="document.embedded.reference">
+               #varietal_select.*
+            </restrictTo>
+            <constant name="TYPE">VARIETAL</constant>
+          </tagger>
+        </preParseHandlers>
+        <postParseHandlers>
+
+         
+         
+          
+         
+          
+          <tagger class="com.norconex.importer.handler.tagger.impl.CharacterCaseTagger">       
+            <characterCase fieldName="valueId"
+                           type="lower" 
+                           applyTo="value" />          
+            
+          </tagger>
+          <tagger class="com.norconex.importer.handler.tagger.impl.ReplaceTagger">  
+              <replace fromField="valueId" 
+                       replaceAll="true">
+                  <fromValue>-en</fromValue>
+                  <toValue xml:space="preserve"> </toValue>
+              </replace>
+            </tagger>
+
+            <tagger class="com.norconex.importer.handler.tagger.impl.ReplaceTagger">  
+              <replace fromField="identity"
+                        toField="parent" 
+                       replaceAll="true">
+                  <fromValue>-en</fromValue>
+                  <toValue xml:space="preserve"> </toValue>
+              </replace>
+            </tagger>
+           
+          <tagger class="com.norconex.importer.handler.tagger.impl.ReplaceTagger">  
+            <replace fromField="valueId" 
+                     replaceAll="true">
+                <fromValue xml:space="preserve"> de </fromValue>
+                <toValue xml:space="preserve"> </toValue>
+            </replace>
+          </tagger>         
+        </postParseHandlers>
+      </importer> 
+
+     
+      <urlNormalizer class="com.norconex.collector.http.url.impl.GenericURLNormalizer">
+    <normalizations>
+        lowerCaseSchemeHost,
+        removeDefaultPort, removeDotSegments, removeDuplicateSlashes,
+        encodeNonURICharacters
+    </normalizations>
+    <!--<replacements>
+      <replace><match>[?].*</match></replace>      
+    </replacements>-->
+  </urlNormalizer>
+   
+      
+      
+      <!-- Decide what to do with your files by specifying a Committer. -->
+    <committer class="com.norconex.committer.neo4j.Neo4jCommitter">
+  		<uri>bolt://localhost:7687</uri>
+  		<user>neo4j</user>
+  		<password>root</password>
+  		<authentType>BASIC</authentType>
+
+       <!-- Use the following if password is encrypted. 
+      <passwordKey>key.txt</passwordKey>
+      <passwordKeySource>file</passwordKeySource>-->
+
+
+  		<multiValuesJoiner>|</multiValuesJoiner>
+
+      
+  <!-- Use the following if password is encrypted. 
+      <passwordKey>...</passwordKey>
+      <passwordKeySource>[key|file|environment|property]</passwordKeySource>-->
+  		
+  		<!-- SPLITTED | ONE_NODE | NO_CONTENT -->
+  		<nodeTopology>NO_CONTENT</nodeTopology>
+  		<primaryLabel>CALIFORNIA2</primaryLabel>
+
+      
+     
+      <additionalLabels>
+        <sourceField keep="true">TYPE</sourceField>
+      </additionalLabels>   
+
+  		<sourceReferenceField keep="true">document.reference</sourceReferenceField>
+      <targetReferenceField>identity</targetReferenceField>
+      	<!--<sourceContentField keep="trye">...</sourceContentField>-->
+      
+
+
+  		<queueSize>5</queueSize>
+	</committer>
+
+    </crawler>
+
+   
+  </crawlers>
+
+</httpcollector>
