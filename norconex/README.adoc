@@ -199,8 +199,6 @@ The node topology defines how a Web page must be stored in Neo4j.
 
 In my case, I'm not very interested by the content, I want only know how entities are linked. I chose the `NO_CONTENT` topology.
 
-=== Starting Norconex and check the result
-
 
 ==== Primary label
 
@@ -211,6 +209,9 @@ All nodes imported by this crawl will be stamped as label by this litteral value
 They're used to qualify the nodes more precisely. Here we need to parameter a metadata field. The value of this key will be converted into label on the node.
 
 A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is this value I want to add to new nodes. 
+
+=== Starting Norconex and check the result
+
 
 == Import regions, sub-regions and wineries
 
