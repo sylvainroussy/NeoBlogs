@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <!-- 
-   Copyright 2010-2017 Norconex Inc.
+   Copyright 2010-2019 Norconex Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -28,8 +28,10 @@
     <crawler id="california">
     <userAgent>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36</userAgent>
   
-      <startURLs stayOnDomain="true" stayOnPort="true" stayOnProtocol="true">     
-        <url>https://discovercaliforniawines.com/discover-california/</url>        
+      <startURLs stayOnDomain="true" stayOnPort="true" stayOnProtocol="true">  
+      <url>https://discovercaliforniawines.com/wine-map-winery-directory/</url>    
+        <url>https://discovercaliforniawines.com/discover-california/</url>
+               
       </startURLs>
 
       <!-- === Recommendations: ============================================ -->
@@ -59,21 +61,7 @@
     <robotsTxt ignore="true" />
     <robotsMeta ignore="true" />
     <canonicalLinkDetector ignore="true"  />
-	<!--<orphansStrategy>DELETE</orphansStrategy>-->
-	 <!-- <extractor class="com.norconex.collector.http.url.impl.HtmlLinkExtractor"
-          
-          ignoreNofollow="true" 
-          keepReferrerData="true">
-      
-  	</extractor>-->
-    <!--<documentFetcher class="com.norconex.collector.http.fetch.impl.PhantomJSDocumentFetcher">
-          <exePath>C:\z_servers\norconex-collector-http-2.8.2-SNAPSHOT\phantomjs-2.1.1-windows\phantomjs-2.1.1-windows\bin\phantomjs.exe</exePath>
-          <renderWaitTime>3000</renderWaitTime>
-          <referencePattern>https://discovercaliforniawines.com/wine-map-winery-directory/.+</referencePattern>           
-    </documentFetcher>-->
-
-
-    <stopOnExceptions>
+	 <stopOnExceptions>
         <exception>org.neo4j.driver.v1.exceptions.AuthenticationException</exception>
         <exception>org.neo4j.driver.v1.exceptions.ClientException</exception>
     </stopOnExceptions>
@@ -89,22 +77,7 @@
       </linkExtractors>
 
       <referenceFilters>  
-        <filter onMatch="exclude" class="com.norconex.collector.core.filter.impl.ExtensionReferenceFilter"> js,jpg,gif,png,svg,ico,css </filter>
-
       
-        <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
-          onMatch="exclude">
-     https://discovercaliforniawines.com/wp-content/.*
-        </filter> 
-        <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
-          onMatch="exclude">
-     https://discovercaliforniawines.com/events/.*
-        </filter> 
-        <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
-          onMatch="exclude">
-     https://discovercaliforniawines.com/?p=.*
-        </filter> 
-
        <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
           onMatch="include">
       https://discovercaliforniawines.com/discover-california/.*
@@ -121,10 +94,7 @@
           onMatch="include">
       https://discovercaliforniawines.com/wine-map-winery-directory/.+
         </filter>
-        <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
-          onMatch="include">
-      https://discovercaliforniawines.com/varietal/.*
-        </filter> 
+       
       
       </referenceFilters>
 
@@ -141,7 +111,7 @@
        
         <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
           onMatch="include">
-      https://discovercaliforniawines.com/wineries/.*
+      https://discovercaliforniawines.com/wineries/.+
         </filter>
          <filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter"
           onMatch="include">
@@ -154,32 +124,7 @@
       <importer>
         <preParseHandlers>
           
-        <splitter class="com.norconex.importer.handler.splitter.impl.DOMSplitter"
-          selector="#varietal_select option"
-          parser="html"
-           >
-
-          <!--<restrictTo caseSensitive="false"
-              field="document.reference">
-          <![CDATA[https://discovercaliforniawines.com/wine-map-winery-directory/#winery=558887&search=Hawk%20and%20Horse%20Vineyard]]>
-      </restrictTo>-->
-        </splitter>
-
-         
-
-         <tagger class="com.norconex.importer.handler.tagger.impl.DOMTagger">
-           
-            <restrictTo caseSensitive="false" field="document.embedded.reference">
-                #varietal_select.*
-            </restrictTo>
-                   <!--<option value="1541" class="text-dark">Sparkling</option>-->
-              <dom selector="option"  toField="varietal_id"   extract="attr(value)"/>
-              <dom selector="option"  toField="varietal"   extract="ownText"/>
-             
-          </tagger>
-
-
-          <tagger class="com.norconex.importer.handler.tagger.impl.CopyTagger">
+            <tagger class="com.norconex.importer.handler.tagger.impl.CopyTagger">
               <copy fromField="collector.referrer-link-text"   toField="value" overwrite="false" />
               <copy fromField="collector.referrer-link-text"   toField="valueId" overwrite="true" />
           </tagger>   
@@ -210,13 +155,7 @@
     
           ]]></script>
         </tagger>       
-          <tagger class="com.norconex.importer.handler.tagger.impl.ConstantTagger"
-              onConflict="replace" >      
-            <restrictTo caseSensitive="false" field="document.embedded.reference">
-               #varietal_select.*
-            </restrictTo>
-            <constant name="TYPE">VARIETAL</constant>
-          </tagger>
+         
         </preParseHandlers>
         <postParseHandlers>
 
@@ -248,7 +187,7 @@
           <tagger class="com.norconex.importer.handler.tagger.impl.ConstantTagger"
               onConflict="noop" >      
             <restrictTo caseSensitive="false" field="document.reference">
-                https://discovercaliforniawines.com/wine-map-winery-directory/(!#varietal_select.*).+
+                https://discovercaliforniawines.com/wine-map-winery-directory/.+
             </restrictTo>
             <constant name="TYPE">WINERY</constant>
           </tagger>
@@ -271,7 +210,7 @@
 
             <tagger class="com.norconex.importer.handler.tagger.impl.ReplaceTagger">  
               <replace fromField="identity"
-                        toFirled="parent" 
+                        toField="parent" 
                        replaceAll="true">
                   <fromValue>-en</fromValue>
                   <toValue xml:space="preserve"> </toValue>
@@ -328,7 +267,7 @@
       <relationships>
         <relationship type="REDIRECT_TO" direction="INCOMING" targetFindSyntax="MATCH">         
          <sourcePropertyKey >collector.redirect-trail</sourcePropertyKey>
-         <targetPropertyKey label="WINERY">identity</targetPropertyKey>
+         <targetPropertyKey >identity</targetPropertyKey>
         </relationship>
 
         <relationship type="HAS_WINERY" direction="OUTGOING" targetFindSyntax="MERGE" regexFilter="https://discovercaliforniawines.com/wineries/.+">
@@ -337,9 +276,9 @@
          <targetPropertyKey label="WINERY">identity</targetPropertyKey>
         </relationship>
 
-        <relationship type="FROM_WINERY" direction="OUTGOING" targetFindSyntax="MERGE">         
-         <sourcePropertyKey label="VARIETAL">winery-id</sourcePropertyKey>
-         <targetPropertyKey >winery-id</targetPropertyKey>
+        <relationship type="FROM_WINERY" direction="INCOMING" targetFindSyntax="MATCH">         
+         <sourcePropertyKey >varietals</sourcePropertyKey>
+         <targetPropertyKey >varietal_id</targetPropertyKey>
         </relationship>
         
 
@@ -348,16 +287,6 @@
          <sourcePropertyKey label="CALIFORNIA_REGION">collector.referenced-urls</sourcePropertyKey>
          <targetPropertyKey label="CALIFORNIA_SUB_REGION">identity</targetPropertyKey>
         </relationship>
-        
-        <!--<relationship type="HAS_WINERY" direction="OUTGOING" targetFindSyntax="MERGE">
-         
-         <sourcePropertyKey label="CALIFORNIA_SUB_REGION">collector.referenced-urls</sourcePropertyKey>
-         <targetPropertyKey label="WINERY">identity</targetPropertyKey>
-        </relationship>-->
-
-      
-        
-       
       </relationships>
      
       <additionalLabels>
@@ -366,11 +295,6 @@
 
   		<sourceReferenceField keep="true">document.reference</sourceReferenceField>
       <targetReferenceField>identity</targetReferenceField>
-      	<!--<sourceContentField keep="trye">...</sourceContentField>-->
-      <targetContentField>content</targetContentField>
-
-
-
   		<queueSize>5</queueSize>
 	</committer>
 
