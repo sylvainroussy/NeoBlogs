@@ -59,8 +59,8 @@ It contains some data about regions, sub-regions, wineries and grapes. I want to
 
 After site analysis, I decide to split my work in two crawls:
 
-* importing varietals first
-* importing regions, sub-regions and wineries then
+* importing varietals first (one XML configuration)
+* importing regions, sub-regions and wineries then (one other XML configuration)
 
 Later, I could _wash_ the data to eliminate _noise Nodes_ (unwanted nodes or relationships).
 
@@ -68,7 +68,17 @@ Later, I could _wash_ the data to eliminate _noise Nodes_ (unwanted nodes or rel
 
 After inspecting source code of this page: link:ex-url.adoc[https://discovercaliforniawines.com/wine-map-winery-directory/], I can see all grapes (with Ids and values) in the search selector.
 
-Norconex is able to split one page two many, based on CSS selector.
+I'm beginning the configuration like this:
+
+```
+...
+<startURLs stayOnDomain="true" stayOnPort="true" stayOnProtocol="true">  
+      <url>https://discovercaliforniawines.com/wine-map-winery-directory/</url>                         
+</startURLs>
+...
+```
+
+Norconex is able to split one page two many, based on CSS selector. Furthermore, I can split each option on this `<select/>` tag.
 
 == Import regions, sub-regions and wineries
 
