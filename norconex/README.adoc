@@ -52,6 +52,14 @@ But, I don't know anything about american wines. After reading an article about 
 
 Ok, let's go to meet the californian grapes...
 
+== Norconex considerations
+
+A crawl is based on an XML configuration. 
+Consider the following points:
+
+* Metadata are the information placed in the `<head/>` section of the HTML page + some information added by Norconex engine (as `collector.rerencedUrls` which store all the links available on this page).
+* Content is the main content placed in `<body/>` section of the HTML page
+
 == Finding sources
 
 After some searches on Internet, I found a very good start point: link:ex-url.adoc[https://discovercaliforniawines.com/]
@@ -78,7 +86,19 @@ I'm beginning the configuration like this:
 ...
 ```
 
-Norconex is able to split one page two many, based on CSS selector. Furthermore, I can split each option on this `<select/>` tag.
+Norconex is able to split one page two many, based on CSS selector. Furthermore, I can split each option on this `<select/>` tag:
+
+```
+...
+ <importer>
+        <preParseHandlers>          
+          <splitter class="com.norconex.importer.handler.splitter.impl.DOMSplitter"
+            selector="#varietal_select option"
+            parser="html"/>
+...
+```
+
+The _importer_ phase spends when the document (the Web page) pass filters. The document treatment process begins. Here, the `DOMSplitter` component makes one document (imported as new document) for each tag mathcing the CSS selector: `#varietal_select option`.
 
 == Import regions, sub-regions and wineries
 
