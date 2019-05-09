@@ -55,6 +55,9 @@ Ok, let's go to meet the californian grapes...
 == Finding sources
 
 After some searches on Internet, I found a very good start point: link:ex-url.adoc[https://discovercaliforniawines.com/]
+It contains some data about regions, sub-regions, wineries and grapes. I want to build a graph with them to know the repartition of each grape varietal per region or sub-region.
+
+My 
 
 == Import grape varietals
 
