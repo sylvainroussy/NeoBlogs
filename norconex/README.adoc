@@ -174,7 +174,7 @@ Other configuration are mostly common for all the Norconex committers.
   		<authentType>BASIC</authentType>      
   
   		<nodeTopology>NO_CONTENT</nodeTopology>
-  		<primaryLabel>CALIFORNIA2</primaryLabel>
+  		<primaryLabel>CALIFORNIA</primaryLabel>
      
             <additionalLabels>
               <sourceField keep="true">TYPE</sourceField>
