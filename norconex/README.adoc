@@ -80,7 +80,7 @@ Later, I could _wash_ the data to eliminate _noise Nodes_ (unwanted nodes or rel
 
 After inspecting source code of this page: link:ex-url.adoc[https://discovercaliforniawines.com/wine-map-winery-directory/], I can see all grapes (with Ids and values) in the search selector.
 
-I'm beginning the configuration like this:
+I'm beginning the configuration by specifying my starting Urls:
 
 ```
 ...
@@ -104,7 +104,7 @@ Norconex is able to split one page two many, based on CSS selector. Furthermore,
 ...
 ```
 
-The _importer_ phase is reached when the document (the Web page) pass filters, then document treatment process begins. Here, the `DOMSplitter` component makes one document (imported as new document) for each tag mathcing the CSS selector `#varietal_select option`.
+The _importer_ phase is reached when the document (the Web page) pass filters, then the document treatment process begins. Here, the `DOMSplitter` component makes one document (imported as new document) for each tag mathcing the CSS selector `#varietal_select option`.
 
 === Adding _value_ and _id_ 
 
@@ -167,26 +167,39 @@ This committer must be configured with the following information:
 Other configuration are mostly common for all the Norconex committers.
 
 ```
-      <committer class="com.norconex.committer.neo4j.Neo4jCommitter">
-  		<uri>bolt://localhost:7687</uri>
-  		<user>neo4j</user>
-  		<password>root</password>
-  		<authentType>BASIC</authentType>      
-  
-  		<nodeTopology>NO_CONTENT</nodeTopology>
-  		<primaryLabel>CALIFORNIA</primaryLabel>
-     
-            <additionalLabels>
-              <sourceField keep="true">TYPE</sourceField>
-            </additionalLabels>   
+...
+	<committer class="com.norconex.committer.neo4j.Neo4jCommitter">
+		<uri>bolt://localhost:7687</uri>
+		<user>neo4j</user>
+		<password>neo4j</password>
+		<authentType>BASIC</authentType>      
 
-  		<sourceReferenceField keep="true">document.reference</sourceReferenceField>
-            <targetReferenceField>identity</targetReferenceField>
-      	
-            <queueSize>5</queueSize>
+		<nodeTopology>NO_CONTENT</nodeTopology>
+		<primaryLabel>CALIFORNIA</primaryLabel>
+
+		<additionalLabels>
+			<sourceField keep="true">TYPE</sourceField>
+		</additionalLabels>   
+
+		<sourceReferenceField keep="true">document.reference</sourceReferenceField>
+		<targetReferenceField>identity</targetReferenceField>
+
+		<queueSize>5</queueSize>
 	</committer>
+...
 ```
 
+==== Node Topology
+
+The node topology defines how a Web page must be stored in Neo4j.
+
+* ONE_NODE: the page will be stored in one node wich contains metadata and content
+* NO_CONTENT: the page will be stored in one node wich contains only metadata
+* SPLITTED: the page will be stored in three nodes, one super node linked to another one wich contains metadata and linked to another one wich contains content
+
+==== Primary label
+
+All nodes imported by this crawl will be stamped as label by this litteral value. Then it is easy to delete or search only on them.
 
 == Import regions, sub-regions and wineries
 
