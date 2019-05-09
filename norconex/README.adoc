@@ -57,8 +57,10 @@ Ok, let's go to meet the californian grapes...
 A crawl is based on an XML configuration. 
 Consider the following points:
 
-* Metadata are the information placed in the `<head/>` section of the HTML page + some information added by Norconex engine (as `collector.rerencedUrls` which store all the links available on this page).
+* Metadata are the information placed in the `<head/>` section of the HTML page + some information added by Norconex engine (as `collector.rerenced-urls` where are stores all the links available on this page). Use them as key/value pairs.
 * Content is the main content placed in `<body/>` section of the HTML page
+
+You can see the flow of the HttpCollector here: link:ex-url.adoc[https://www.norconex.com/collectors/collector-http/flow]
 
 == Finding sources
 
@@ -74,6 +76,8 @@ Later, I could _wash_ the data to eliminate _noise Nodes_ (unwanted nodes or rel
 
 == Import grape varietals
 
+=== Starting with sources (start Urls)
+
 After inspecting source code of this page: link:ex-url.adoc[https://discovercaliforniawines.com/wine-map-winery-directory/], I can see all grapes (with Ids and values) in the search selector.
 
 I'm beginning the configuration like this:
@@ -85,6 +89,8 @@ I'm beginning the configuration like this:
 </startURLs>
 ...
 ```
+
+=== Making one document to many
 
 Norconex is able to split one page two many, based on CSS selector. Furthermore, I can split each option on this `<select/>` tag:
 
@@ -98,7 +104,55 @@ Norconex is able to split one page two many, based on CSS selector. Furthermore,
 ...
 ```
 
-The _importer_ phase spends when the document (the Web page) pass filters. The document treatment process begins. Here, the `DOMSplitter` component makes one document (imported as new document) for each tag mathcing the CSS selector: `#varietal_select option`.
+The _importer_ phase is reached when the document (the Web page) pass filters, then document treatment process begins. Here, the `DOMSplitter` component makes one document (imported as new document) for each tag mathcing the CSS selector `#varietal_select option`.
+
+=== Adding _value_ and _id_ 
+
+Each new document  content built by the `DOMSplitter` looks like:
+
+```
+<option class="text-dark" id="1554">Cabernet Sauvignon<option>
+```
+
+It will be very interesting to extract _value_ (text) and _id_ to put them in the metadata. As we will see later, the varietal could be linked to wineries with this identifier.
+
+Norconex provides a component to extract data from CSS Selector, the `DOMTagger`:
+
+```
+...
+        
+          <tagger class="com.norconex.importer.handler.tagger.impl.DOMTagger">
+              <dom selector="option"  toField="varietal_id"   extract="attr(value)"/>
+              <dom selector="option"  toField="varietal"   extract="ownText"/>             
+          </tagger>
+...
+```
+
+=== Stamping these pages with Varietal type
+
+To provides more qualified information  when the document will be stored to Neo4j (see later _additionnal labels_), we're going to add a constant on each page imported from the document splitter.
+
+Norconex provides a `ConstantTagger` to add a explicit value to a matadata fieldn here the field is _TYPE_:
+
+```
+...        
+          <tagger class="com.norconex.importer.handler.tagger.impl.ConstantTagger"
+              onConflict="replace" >      
+            <restrictTo caseSensitive="false" field="document.embedded.reference">
+               #varietal_select.*
+            </restrictTo>
+            <constant name="TYPE">VARIETAL</constant>
+          </tagger>
+           
+      <preParseHandlers>
+   <importer>
+...
+```
+
+The `restrictTo` element allows to specify a regular expression to filter the documents tagged.
+
+
+
 
 == Import regions, sub-regions and wineries
 
