@@ -216,101 +216,101 @@ qsdqsd
 
 [cols=2*]
 |===
-|All Varietals 
+|All Varietals
 │null
 
-|Barbera 
+|Barbera
 │1556
 
-│Cabernet Franc    
+│Cabernet Franc
 │1555
 
 │Cabernet Sauvignon
 │1554 
 
-│Chardonnay        
+│Chardonnay
 │1529
 
-│Chenin Blanc      
+│Chenin Blanc
 │1539        
 
-│Dessert wines     
+│Dessert wines
 │1540 
 
-│Gewürztraminer    
+│Gewürztraminer
 │1538 
 
-│Grenache Blanc    
+│Grenache Blanc
 │1537
 
-│Grenache          
+│Grenache
 │1553 
 
-│Malbec            
+│Malbec
 │1552 
 
-│Marsanne         
+│Marsanne
 │1528
 
-│Merlot            
+│Merlot
 │1551         
 
-│Mourvèdre         
+│Mourvèdre
 │1550
 
-│Muscat/Moscato    
+│Muscat/Moscato
 │1536 
 
-│Petite Sirah      
+│Petite Sirah
 │1549
 
-│Pinot Blanc       
+│Pinot Blanc
 │1535 
 
-│Pinot Gris        
+│Pinot Gris
 │1527
 
-│Pinot Noir        
+│Pinot Noir
 │1548
 
-│Red Blends        
+│Red Blends
 │1547
 
-│Riesling          
+│Riesling
 │1534
 
-│Rosé              
+│Rosé
 │1542
 
-│Roussanne         
+│Roussanne
 │1533
 
-│Sangiovese        
+│Sangiovese
 │1545
 
-│Sauvignon Blanc   
+│Sauvignon Blanc
 │1532
 
-│Semillon          
+│Semillon
 │1526
 
-│Sparkling         
+│Sparkling
 │1541
 
-│Syrah             
+│Syrah
 │1544
 
-│Tempranillo       
+│Tempranillo
 │1546 
 
-│Viognier          
+│Viognier
 │1531
 
-│White Blends      
+│White Blends
 │1530
 
-│Zinfandel         
-│1543 
+│Zinfandel
+│1543
 |===
 
 
