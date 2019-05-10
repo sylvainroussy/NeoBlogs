@@ -216,13 +216,12 @@ qsdqsd
 
 
 |===
-|n.varietal |n.varietal_id |n.varietal |n.varietal_id
+|n.varietal |n.varietal_id |n.varietal |n.varietal_id |n.varietal |n.varietal_id |n.varietal |n.varietal_id
 
 |All Varietals
 |null
 |Barbera
 |1556
-
 |Cabernet Franc
 |1555
 |Cabernet Sauvignon
@@ -231,8 +230,7 @@ qsdqsd
 |Chardonnay
 |1529
 |Chenin Blanc
-|1539        
-
+|1539
 |Dessert wines
 |1540
 |Gewürztraminer
@@ -241,8 +239,7 @@ qsdqsd
 |Grenache Blanc
 |1537
 |Grenache
-|1553 
-
+|1553
 |Malbec
 |1552
 |Marsanne
@@ -252,7 +249,6 @@ qsdqsd
 |1551
 |Mourvèdre
 |1550
-
 |Muscat/Moscato
 |1536 
 |Petite Sirah
@@ -262,7 +258,6 @@ qsdqsd
 |1535 
 |Pinot Gris
 |1527
-
 |Pinot Noir
 |1548
 |Red Blends
@@ -272,7 +267,6 @@ qsdqsd
 |1534
 |Rosé
 |1542
-
 |Roussanne
 |1533
 |Sangiovese
@@ -282,7 +276,6 @@ qsdqsd
 |1532
 |Semillon
 |1526
-
 |Sparkling
 |1541
 |Syrah
@@ -292,7 +285,6 @@ qsdqsd
 |1546 
 |Viognier
 |1531
-
 |White Blends
 |1530
 |Zinfandel
