@@ -214,8 +214,11 @@ A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is t
 
 qsdqsd
 
-[cols=2]
+
 |===
+|n.varietal
+│n.varietal_id
+
 |All Varietals
 │null
 
@@ -313,11 +316,6 @@ qsdqsd
 │1543
 |===
 
-
-n.varietal │n.varietal_id
------------- | ------------
-|===
-|===
 
 == Import regions, sub-regions and wineries
 
