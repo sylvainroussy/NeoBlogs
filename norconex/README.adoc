@@ -214,16 +214,12 @@ A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is t
 
 qsdqsd
 
-[cols="2", options="header"]
-|===
-│n.varietal        
-│n.varietal_id
 
-│All Varietals     
-│null
+n.varietal │n.varietal_id
 
-│Barbera           
-│1556
+│All Varietals │null
+
+│Barbera │1556
 
 │Cabernet Franc    
 │1555
