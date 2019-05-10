@@ -216,21 +216,11 @@ qsdqsd
 
 [cols=2*]
 |===
-|Firefox
-|Web Browser
+|All Varietals 
+│null
 
-|Ruby
-|Programming Language
-
-|TorqueBox
-|Application Server
-|===
-
-
-n.varietal │n.varietal_id
------------- | ------------
-All Varietals │ null
-Barbera │ 1556
+|Barbera 
+│1556
 
 │Cabernet Franc    
 │1555
@@ -321,6 +311,11 @@ Barbera │ 1556
 
 │Zinfandel         
 │1543 
+|===
+
+
+n.varietal │n.varietal_id
+------------ | ------------
 |===
 
 
