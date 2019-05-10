@@ -312,7 +312,6 @@ A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is t
 
 │"Zinfandel"         
 │"1543" 
-
 |===
 
 == Import regions, sub-regions and wineries
