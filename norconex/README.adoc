@@ -214,7 +214,7 @@ A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is t
 
 qsdqsd
 
-[cols=2*]
+[cols=1,1]
 |===
 |All Varietals
 │null
