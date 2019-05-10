@@ -214,7 +214,7 @@ A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is t
 
 qsdqsd
 
-[%header,cols=2*]
+
 |===
 │n.varietal        
 │n.varietal_id
