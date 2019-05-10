@@ -214,105 +214,106 @@ A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is t
 
 [%header,cols=2*]
 |===
-│"n.varietal"        
-│"n.varietal_id"
+│n.varietal        
+│n.varietal_id
 
-│"All Varietals"     
+│All Varietals     
 │null
 
-│"Barbera"           
-│"1556"
+│Barbera           
+│1556
 
-│"Cabernet Franc"    
-│"1555"
+│Cabernet Franc    
+│1555
 
-│"Cabernet Sauvignon"
-│"1554" 
+│Cabernet Sauvignon
+│1554 
 
-│"Chardonnay"        
-│"1529"
+│Chardonnay        
+│1529
 
-│"Chenin Blanc"      
-│"1539"        
+│Chenin Blanc      
+│1539        
 
-│"Dessert wines"     
-│"1540" 
+│Dessert wines     
+│1540 
 
-│"Gewürztraminer"    
-│"1538" 
+│Gewürztraminer    
+│1538 
 
-│"Grenache Blanc"    
-│"1537"
+│Grenache Blanc    
+│1537
 
-│"Grenache"          
-│"1553" 
+│Grenache          
+│1553 
 
-│"Malbec"            
-│"1552" 
+│Malbec            
+│1552 
 
-│"Marsanne"         
-│"1528"
+│Marsanne         
+│1528
 
-│"Merlot"            
-│"1551"         
+│Merlot            
+│1551         
 
-│"Mourvèdre"         
-│"1550"
+│Mourvèdre         
+│1550
 
-│"Muscat/Moscato"    
-│"1536" 
+│Muscat/Moscato    
+│1536 
 
-│"Petite Sirah"      
-│"1549"
+│Petite Sirah      
+│1549
 
-│"Pinot Blanc"       
-│"1535" 
+│Pinot Blanc       
+│1535 
 
-│"Pinot Gris"        
-│"1527"
+│Pinot Gris        
+│1527
 
-│"Pinot Noir"        
-│"1548"
+│Pinot Noir        
+│1548
 
-│"Red Blends"        
-│"1547"
+│Red Blends        
+│1547
 
-│"Riesling"          
-│"1534"
+│Riesling          
+│1534
 
-│"Rosé"              
-│"1542"
+│Rosé              
+│1542
 
-│"Roussanne"         
-│"1533"
+│Roussanne         
+│1533
 
-│"Sangiovese"        
-│"1545"
+│Sangiovese        
+│1545
 
-│"Sauvignon Blanc"   
-│"1532"
+│Sauvignon Blanc   
+│1532
 
-│"Semillon"          
-│"1526"
+│Semillon          
+│1526
 
-│"Sparkling"         
-│"1541"
+│Sparkling         
+│1541
 
-│"Syrah"             
-│"1544"
+│Syrah             
+│1544
 
-│"Tempranillo"       
-│"1546" 
+│Tempranillo       
+│1546 
 
-│"Viognier"          
-│"1531"
+│Viognier          
+│1531
 
-│"White Blends"      
-│"1530"
+│White Blends      
+│1530
 
-│"Zinfandel"         
-│"1543" 
+│Zinfandel         
+│1543 
 |===
+
 
 == Import regions, sub-regions and wineries
 
