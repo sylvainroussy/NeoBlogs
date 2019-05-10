@@ -216,7 +216,7 @@ qsdqsd
 
 
 |===
-|n.varietal │n.varietal_id
+|n.varietal |n.varietal_id
 
 |All Varietals
 │null
