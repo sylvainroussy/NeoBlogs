@@ -317,7 +317,7 @@ qsdqsd
 n.varietal │n.varietal_id
 ------------ | ------------
 |===
-
+|===
 
 == Import regions, sub-regions and wineries
 
