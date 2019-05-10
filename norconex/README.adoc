@@ -214,6 +214,18 @@ A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is t
 
 qsdqsd
 
+[cols=2*]
+|===
+|Firefox
+|Web Browser
+
+|Ruby
+|Programming Language
+
+|TorqueBox
+|Application Server
+|===
+
 
 n.varietal │n.varietal_id
 ------------ | ------------
