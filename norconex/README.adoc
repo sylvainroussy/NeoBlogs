@@ -212,8 +212,20 @@ A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is t
 
 === Starting Norconex and check the result
 
-qsdqsd
+Now my configuration is completed, I can launch the Web crawler:
 
+```
+$> sh collector-http -a start -c confs/california-varietals.xml
+```
+
+* _-a_: the action, start or stop
+* _-c_: the config file path
+
+When it finished, then I can check the imported data:
+
+`MATCH (v:VARIETAL) RETURN v.varietal, v.varietal_id`
+
+And the query produces the following result:
 
 |===
 |n.varietal |n.varietal_id |n.varietal |n.varietal_id |n.varietal |n.varietal_id |n.varietal |n.varietal_id
@@ -290,6 +302,11 @@ qsdqsd
 |Zinfandel
 |1543
 |===
+
+As we can see, there's unwanted data: _All Varietals_ due to first value in the varietal selector from the web page.
+More generally, we can clean these data and delete all nodes where `varietal_id` is null:
+
+`MATCH (v:VARIETAL) WHERE v.varietal_id IS NULL DELETE v`
 
 
 == Import regions, sub-regions and wineries
