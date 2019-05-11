@@ -316,7 +316,11 @@ More generally, we can clean these data and delete all nodes where `varietal_id`
 image::regions.png[regions]
 
 
+=== Start Url and link extractor
 
+Now I want to import California regions and their sub-regions. In the main page of this Web site, the top menu _Discover California_  opens a panel with links to all the regions. And on each page of these regions, there are the links to sub-regions. Nice.
+
+My start Url will be `https://discovercaliforniawines.com/discover-california/` but on this page, I don't want to extract all 
 
 
 
