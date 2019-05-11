@@ -311,7 +311,9 @@ More generally, we can clean these data and delete all nodes where `varietal_id`
 `MATCH (v:VARIETAL) WHERE v.varietal_id IS NULL DELETE v`
 
 
-== Import regions, sub-regions and wineries
+== Import regions and sub-regions
+
+image::regions.png[regions]
 
 
 
