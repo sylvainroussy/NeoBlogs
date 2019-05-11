@@ -76,6 +76,8 @@ Later, I could _wash_ the data to eliminate _noise Nodes_ (unwanted nodes or rel
 
 == Import grape varietals
 
+image::varietals.png[varietals]
+
 === Starting with sources (start Urls)
 
 After inspecting source code of this page: link:ex-url.adoc[https://discovercaliforniawines.com/wine-map-winery-directory/], I can see all grapes (with Ids and values) in the search selector.
