@@ -357,9 +357,61 @@ Our filters are using the Norconex `RegexReferenceFilter`, a filter based on the
 
 === Constant TYPE for additional labels
 
+As previously, we need to qualify our new nodes more precisely:
+
+```
+...
+	<tagger class="com.norconex.importer.handler.tagger.impl.ConstantTagger"
+              onConflict="noop" >      
+            <restrictTo caseSensitive="false" field="document.reference">
+                https://discovercaliforniawines.com/discover-california/[\w-?]*/?{0,0}
+            </restrictTo>
+            <constant name="TYPE">CALIFORNIA_REGION</constant>
+        </tagger>
+        <tagger class="com.norconex.importer.handler.tagger.impl.ConstantTagger"
+              onConflict="noop" >      
+            <restrictTo caseSensitive="false" field="document.reference">
+                https://discovercaliforniawines.com/discover-california/[\w-?]*/.*
+            </restrictTo>
+            <constant name="TYPE">CALIFORNIA_SUB_REGION</constant>
+        </tagger>
+...
+```
 
 === Neo4j committer: creating the relationships
 
 It is probably the most difficult part of a configuration, also the most interesting, because the relationships bring a strong sense to the graph.
 
-First of all, we want to link regions to their sub regions.
+First of all, we want to link regions to their sub regions. A region _HAS_ a sub region. Each time we parse a _CALIFORNIA__REGION_ tagged document, we want to create a relationship to a _CALIFORNIA__SUB__REGION_ with the type _HAS__SUB__REGION_
+
+Take a look at the following configuration:
+
+```
+	<relationships>
+		<relationship type="HAS_SUB_REGION" direction="OUTGOING" targetFindSyntax="MERGE" regexFilter="https://discovercaliforniawines.com/discover-california/[\\w-?]+/.+">
+
+			<sourcePropertyKey label="CALIFORNIA_REGION">collector.referenced-urls</sourcePropertyKey>
+		 	<targetPropertyKey label="CALIFORNIA_SUB_REGION">identity</targetPropertyKey>
+		</relationship>
+	</relationships>
+```
+
+* the _type_ attribute gives the name of the Neo4j's relationship.
+* the _direction_ attribute its sense.
+* the _targetFindSyntax_ gives the way of how the CYPHER query behind these parameters must be created. With `MATCH`, if the targetted node doesn't exist, then the relationship is not created; with `MERGE`, if the targetted node doesn't exist, it will be.
+* the _regexFilter_ attribute allows to apply the relationship only on the pages where the source property value (see below) matches the regex. It will avoid bad nodes to be linked. 
+
+The following elements are :
+
+* _sourcePropertyKey_: to define constraints for  building relationship from the current committed page
+* _targetPropertyKey_: to define the concerned nodes should be linked
+
+_label_ attribute is an  optional constraint, with these ones each node source or target (or both) must have the requisite label.
+
+And finally, the value inside the element will be evaluated from a meta-data property (for source) and node property (for target).
+If the source value is multi-valued (like `collector.referenced-urls`) then one relationship could be created for each value.
+
+To summaries, each url in the source meta-data property `collector.referenced-urls` wich matches with the regex filter is going to create a relationship with a target wich have a property `identity` (default _id_ if no other specified, containing the `document.reference`, the page url) where the matching occurs. If not, the target node is created (`targetFindSyntax="MERGE"`) with the provided identity and the label specified as constraint in the target node. This targetted node will be completed later when the crawler will reach the concerned pages. 
+
+
+== Linking sub-regions with grape varietals through wineries
