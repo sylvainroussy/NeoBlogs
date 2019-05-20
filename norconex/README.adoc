@@ -320,22 +320,46 @@ image::regions.png[regions]
 
 === Start Url and link extractor
 
-Now I want to import California regions and their sub-regions. In the `https://discovercaliforniawines.com/discover-california/` page of this Web site, thre's a sub-banner with links to all the regions. And on each page of these regions, there are the links to sub-regions. Nice.
+Now I want to import California regions and their sub-regions. In the `https://discovercaliforniawines.com/discover-california/` page of this Web site, there's a sub-banner with links to all the regions. And on each page of these regions, there are the links to sub-regions. Nice.
 
 My start Url will be `https://discovercaliforniawines.com/discover-california/` but on this page, I don't want to extract all links from this page, because there is many thing useless in my use case (events, media, etc.).
 
-So, it is necessary to only extract the links from the sub-banner, doing that will reduce the treatment time .
+So, it is necessary to only extract the links from the sub-banner (css selection `#page-menu-bar`), by doing that will also reduce the treatment time.
+
+Norconex allows us to modify the default behavious of its link extractor like this: 
 
 ```
 ...
 	<linkExtractors>
 		<extractor class="com.norconex.collector.http.url.impl.GenericLinkExtractor">
-			<extractSelector>#page-menu-bar</extractSelector>    
-			<extractSelector>#posts_countable_list</extractSelector>
+			<extractSelector>#page-menu-bar</extractSelector>   
+			
 		</extractor>
 	</linkExtractors>
 ...
 ```
+Note: There are many other parameters for the `GenericLinkExtractor` and other usages too.
 
 
+=== Reference and document filters
 
+Some words about filters, the _reference filters_ are based on the extracted links, wether or not we put them to the frontier. _document filters_ are triggered when the document is downloaded, filtering based on its meta-data or content.
+
+Our filters are using the Norconex `RegexReferenceFilter`, a filter based on the reference of the document or its link: 
+
+```
+...
+	<filter class="com.norconex.collector.core.filter.impl.RegexReferenceFilter" onMatch="include">
+      		https://discovercaliforniawines.com/discover-california/.*
+        </filter>
+...
+```
+
+=== Constant TYPE for additional labels
+
+
+=== Neo4j committer: creating the relationships
+
+It is probably the most difficult part of a configuration, also the most interesting, because the relationships bring a strong sense to the graph.
+
+First of all, we want to link regions to their sub regions.
