@@ -488,13 +488,14 @@ With a script, I have to extract these varietals Ids and put it in winery meta-d
                 
                 // transform text content to Html DOM
                 var jsoup = org.jsoup.Jsoup.parse(content);
+		// retrieve element relative to current winery
                 var elems = jsoup.getElementsByAttributeValue("data-id", wineId);
                 var elem = elems.first();
                 if (elem != null){
+		  // extract data-varietals and transform array [] to | value separator
                   var varietals = elem.parent().attr("data-varietals");
                   varietals= varietals.replace("[","");
-                  varietals= varietals.replace("]","");
-                  //varietals= varietals.replace(/,/g,"|");
+                  varietals= varietals.replace("]","");                 
                   var parts = varietals.split (","); 
                   for (i = 0 ; i < parts.length ; i++){
                     metadata.addString('varietals', parts[i]);
