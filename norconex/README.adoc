@@ -420,6 +420,9 @@ There is no way to link sub-regions to varietals directly. On this web site, var
 
 === Importing wineries
 
+image::wineries.png[regions]
+
+
 Importing wineries is not so easy, because there are redirections between sub-region pages to wineries pages, for example the link
 `https://discovercaliforniawines.com/wineries/acorn-wineryalegria-vineyards-2/` from the sub-region page is redirected to `https://discovercaliforniawines.com/wine-map-winery-directory/#winery=1393050&search=ACORN%20Winery%2FAlegr%C3%ADa%20Vineyards`.
 To handle that and having a continuous linkage between these pages, I need to link them. 
