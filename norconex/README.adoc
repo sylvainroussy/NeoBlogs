@@ -468,3 +468,50 @@ Now, it's pretty simple. But because there's no way to link the *CALIFORNIA_SUB_
 ```
 === Linking varietals
 
+Handling varietals links brings a bit of complexity. To link a winery to matched varietals, I have to extract varietals Ids from data present in the page `https://discovercaliforniawines.com/wine-map-winery-directory/`.
+The winery selector holds many data like _varietals-id_. 
+With a script, I have to extract these varietals Ids and put it in winery meta-data, with a new field called _varietals_:
+```
+<tagger class="com.norconex.importer.handler.tagger.impl.ScriptTagger">
+             <restrictTo caseSensitive="false" field="document.reference">
+             https://discovercaliforniawines.com/wine-map-winery-directory/.+
+            </restrictTo>
+            <script><![CDATA[
+	        // extract winery id from Url
+                var wineId =  reference.substring(
+                    reference.indexOf("=") + 1, 
+                    reference.lastIndexOf("&")
+                );
+                metadata.addString('winery-id', wineId);
+                
+                // transform text content to Html DOM
+                var jsoup = org.jsoup.Jsoup.parse(content);
+                var elems = jsoup.getElementsByAttributeValue("data-id", wineId);
+                var elem = elems.first();
+                if (elem != null){
+                  var varietals = elem.parent().attr("data-varietals");
+                  varietals= varietals.replace("[","");
+                  varietals= varietals.replace("]","");
+                  //varietals= varietals.replace(/,/g,"|");
+                  var parts = varietals.split (","); 
+                  for (i = 0 ; i < parts.length ; i++){
+                    metadata.addString('varietals', parts[i]);
+                  }                  
+                }
+                else metadata.addString('varietals', 'none'); 
+      
+            ]]></script>
+</tagger>       
+```
+Now, I'm able to create the relationships from a winery to related varietals:
+```
+<relationship type="FROM_WINERY" direction="INCOMING" targetFindSyntax="MATCH">         
+   <sourcePropertyKey label="WINERY">varietals</sourcePropertyKey>
+   <targetPropertyKey label="VARIETAL">varietal_id</targetPropertyKey>
+</relationship>
+```
+Et voilà !
+
+Note: labels filters on _sourcePropertyKey_ and _targetPropertyKey_ elements are not mandatory (because implicit in the graph). But, it's an easy way here to doucment the relationship.
+
+== Cleaning the graph
