@@ -422,12 +422,32 @@ There is no way to link sub-regions to varietals directly. On this web site, var
 
 Importing wineries is not so easy, because there are redirections between sub-region pages to wineries pages, for example the link
 `https://discovercaliforniawines.com/wineries/acorn-wineryalegria-vineyards-2/` from the sub-region page is redirected to `https://discovercaliforniawines.com/wine-map-winery-directory/#winery=1393050&search=ACORN%20Winery%2FAlegr%C3%ADa%20Vineyards`.
-To handle that and having a continuous linkage between these pages, I need to link them. The property `redirect-trail` on the targetted page meta-data (injected by Norconex) allows to do that:
+To handle that and having a continuous linkage between these pages, I need to link them. 
 
+First, tagging nodes for TYPE:
+```
+<tagger class="com.norconex.importer.handler.tagger.impl.ConstantTagger"
+            onConflict="noop" >      
+   <restrictTo caseSensitive="false" field="document.reference">
+      https://discovercaliforniawines.com/wineries/.*
+   </restrictTo>
+   <constant name="TYPE">WINERY_REDIRECTION</constant>
+</tagger>
+          
+<tagger class="com.norconex.importer.handler.tagger.impl.ConstantTagger"
+            onConflict="noop" >      
+    <restrictTo caseSensitive="false" field="document.reference">
+       https://discovercaliforniawines.com/wine-map-winery-directory/.+
+    </restrictTo>
+    <constant name="TYPE">WINERY</constant>
+ </tagger>
+```
+
+Then, I'm going these kind of nodes via the property `redirect-trail` on the targetted page meta-data (injected by Norconex) wich allows to do that:
 ```
 <relationship type="REDIRECT_TO" direction="INCOMING" targetFindSyntax="MATCH">         
-   <sourcePropertyKey >collector.redirect-trail</sourcePropertyKey>
-   <targetPropertyKey >identity</targetPropertyKey>
+   <sourcePropertyKey label="WINERY">collector.redirect-trail</sourcePropertyKey>
+   <targetPropertyKey label="WINERY_REDIRECTION">identity</targetPropertyKey>
 </relationship> 
 ```
 
@@ -435,11 +455,13 @@ This configuration leads to create link between these nodes like: `(wineryUrlFro
 
 === Linking sub-regions
 
-Now, it's pretty simple
+Now, it's pretty simple. But because there's no way to link the *CALIFORNIA_SUB_REGION* nodes to *WINERY* nodes, I have to link the *CALIFORNIA_SUB_REGION* to *WINERY_REDIRECTION* nodes.
 
 ```
-<relationship type="REDIRECT_TO" direction="INCOMING" targetFindSyntax="MATCH">         
-   <sourcePropertyKey >collector.redirect-trail</sourcePropertyKey>
-   <targetPropertyKey >identity</targetPropertyKey>
-</relationship> 
+<relationship type="HAS_WINERY" direction="OUTGOING" targetFindSyntax="MERGE" regexFilter="https://discovercaliforniawines.com/wineries/.+">         
+   <sourcePropertyKey label="CALIFORNIA_SUB_REGION">collector.referenced-urls</sourcePropertyKey>
+   <targetPropertyKey label="WINERY_REDIRECTION">identity</targetPropertyKey>
+</relationship>
 ```
+=== Linking varietals
+
