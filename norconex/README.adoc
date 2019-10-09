@@ -468,6 +468,8 @@ Now, it's pretty simple. But because there's no way to link the *CALIFORNIA_SUB_
 ```
 === Linking varietals
 
+image::wineries_varietals.png[regions]
+
 Handling varietals links brings a bit of complexity. To link a winery to matched varietals, I have to extract varietals Ids from data present in the page `https://discovercaliforniawines.com/wine-map-winery-directory/`.
 The winery selector holds many data like _varietals-id_. 
 With a script, I have to extract these varietals Ids and put it in winery meta-data, with a new field called _varietals_:
