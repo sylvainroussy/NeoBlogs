@@ -517,3 +517,11 @@ Et voilà !
 Note: labels filters on _sourcePropertyKey_ and _targetPropertyKey_ elements are not mandatory (because implicit in the graph). But, it's an easy way here to doucment the relationship.
 
 == Cleaning the graph
+
+Nice, I have a graph but this graph seems like a crawl graph, not a business graph. I want to say, we have many nodes created as the Norconex web crawler download pages.
+In fact, I don't need the *WINERY_REDIRECTION* nodes. Well, I'm going to clean my graph by removing them like this:
+```
+MATCH (n)-[:HAS_WINERY]->(wr:WINERY_REDIRECTION)-[:REDIRECT_TO]->(w:WINERY) 
+DETACH DELETE wr 
+MERGE (n)-[:HAS_WINERY]->(w)
+```
