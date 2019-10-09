@@ -564,7 +564,7 @@ RETURN r.value AS Region, COLLECT(sr.value) AS Subregions
 
 |"Sierra Foothills" 
 |["Amador County", "Placer County", "Yuba County", "Nevada County", "Calaveras County", "El Dorado County"]
-
+|===
 
 Now, I would to know what regions has the high number of wineries: 
 
@@ -599,6 +599,6 @@ ORDER BY WineriesCount DESC
 
 |...
 |...
-
+|===
 And finally, I would to know what kind of grapes are cultivated on regions: 
 
