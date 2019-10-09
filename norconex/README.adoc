@@ -541,7 +541,7 @@ Well, I can now query the graph. First, I would to know how are related regions 
 ```
 MATCH (r:CALIFORNIA_REGION)
 OPTIONAL MATCH (r)-[:HAS_SUB_REGION]->(sr:CALIFORNIA_SUB_REGION) 
-RETURN r.value AS Region, collect(sr.value) AS Subregions
+RETURN r.value AS Region, COLLECT(sr.value) AS Subregions
 ```
 
 |===
@@ -564,4 +564,41 @@ RETURN r.value AS Region, collect(sr.value) AS Subregions
 
 |"Sierra Foothills" 
 |["Amador County", "Placer County", "Yuba County", "Nevada County", "Calaveras County", "El Dorado County"]
+
+
+Now, I would to know what regions has the high number of wineries: 
+
+```
+MATCH (r:CALIFORNIA_SUB_REGION)-[:HAS_WINERY]->(w:WINERY)
+RETURN r.value AS SubRegion, count(w) AS WineriesCount 
+ORDER BY WineriesCount DESC
+```
+
+|===
+|Region |SubRegion |WineriesCount 
+
+|"North Coast"
+|"Napa Valley"	
+|128
+
+|"North Coast"
+|"Sonoma County"
+|110
+
+|"Central Coast"
+|"Paso Robles"	
+|43
+
+|"Central Coast"
+|"Santa Barbara County"	
+|41
+
+|"Central Coast"
+|"San Luis Obispo County"	
+|26
+
+|...
+|...
+
+And finally, I would to know what kind of grapes are cultivated on regions: 
 
