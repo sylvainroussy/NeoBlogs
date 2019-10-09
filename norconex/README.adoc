@@ -417,9 +417,25 @@ To summaries, each url in the source meta-data property `collector.referenced-ur
 == Linking sub-regions with grape varietals through wineries
 
 There is no way to link sub-regions to varietals directly. On this web site, varietals are only referenced by wineries. So, I have to link sub regions with wineries first and then linking wineries to varietals.
+
+=== Importing wineries
+
 Importing wineries is not so easy, because there are redirections between sub-region pages to wineries pages, for example the link
 `https://discovercaliforniawines.com/wineries/acorn-wineryalegria-vineyards-2/` from the sub-region page is redirected to `https://discovercaliforniawines.com/wine-map-winery-directory/#winery=1393050&search=ACORN%20Winery%2FAlegr%C3%ADa%20Vineyards`.
 To handle that and having a continuous linkage between these pages, I need to link them. The property `redirect-trail` on the targetted page meta-data (injected by Norconex) allows to do that:
+
+```
+<relationship type="REDIRECT_TO" direction="INCOMING" targetFindSyntax="MATCH">         
+   <sourcePropertyKey >collector.redirect-trail</sourcePropertyKey>
+   <targetPropertyKey >identity</targetPropertyKey>
+</relationship> 
+```
+
+This configuration leads to create link between these nodes like: `(wineryUrlFromSubregion)-[:REDIRECTED_TO]-(wineryLink)`
+
+=== Linking sub-regions
+
+Now, it's pretty simple
 
 ```
 <relationship type="REDIRECT_TO" direction="INCOMING" targetFindSyntax="MATCH">         
