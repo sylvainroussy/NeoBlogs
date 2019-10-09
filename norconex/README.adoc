@@ -466,6 +466,9 @@ Now, it's pretty simple. But because there's no way to link the *CALIFORNIA_SUB_
    <targetPropertyKey label="WINERY_REDIRECTION">identity</targetPropertyKey>
 </relationship>
 ```
+
+Note: Far North California region has no sub-region, in order to let this article readable, the relationship configuration is not showed here but available in the full configuration (see below: external resources).
+
 === Linking varietals
 
 image::wineries_varietals.png[regions]
@@ -529,3 +532,30 @@ MATCH (n)-[:HAS_WINERY]->(wr:WINERY_REDIRECTION)-[:REDIRECT_TO]->(w:WINERY)
 DETACH DELETE wr 
 MERGE (n)-[:HAS_WINERY]->(w)
 ```
+
+
+== Querying the graph
+
+Well, I can now query the graph, first, I would to know how
+
+╒══════════════════════╤══════════════════════════════════════════════════════════════════════╕
+│"r.value"             │"collect(sr.value)"                                                   │
+╞══════════════════════╪══════════════════════════════════════════════════════════════════════╡
+│"North Coast"         │["Solano County","Napa Valley","Lake County","Los Carneros","Mendocino│
+│                      │ County","Sonoma County"]                                             │
+├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│"Central Coast"       │["Monterey County","Santa Barbara County","San Luis Obispo County","Sa│
+│                      │n Benito County","LivermoreÂ&nbsp;Valley","Paso Robles","San Francisco│
+│                      │ Bay","Santa Clara Valley","Santa Cruz Mountains"]                    │
+├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│"Far North California"│[]                                                                    │
+├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│"Inland Valleys"      │["Lodi and the Delta","Sacramento Valley","San Joaquin Valley","Madera│
+│                      │ County"]                                                             │
+├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│"Southern California" │["Los Angeles Area","Cucamonga Valley","Temecula Valley","San Diego Co│
+│                      │unty"]                                                                │
+├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
+│"Sierra Foothills"    │["Amador County","Placer County","Yuba County","Nevada County","Calave│
+│                      │ras County","El Dorado County"]                                       │
+└──────────────────────┴──────────────────────────────────────────────────────────────────────┘
