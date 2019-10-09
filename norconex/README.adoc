@@ -518,6 +518,9 @@ Note: labels filters on _sourcePropertyKey_ and _targetPropertyKey_ elements are
 
 == Cleaning the graph
 
+image::full.png[]
+
+
 Nice, I have a graph but this graph seems like a crawl graph, not a business graph. I want to say, we have many nodes created as the Norconex web crawler download pages.
 In fact, I don't need the *WINERY_REDIRECTION* nodes. Well, I'm going to clean my graph by removing them and directly build relationships between sub-regions and wineries with the following query:
 ```
