@@ -536,26 +536,32 @@ MERGE (n)-[:HAS_WINERY]->(w)
 
 == Querying the graph
 
-Well, I can now query the graph, first, I would to know how
+Well, I can now query the graph. First, I would to know how are related regions and sub-regions:
 
-╒══════════════════════╤══════════════════════════════════════════════════════════════════════╕
-│"r.value"             │"collect(sr.value)"                                                   │
-╞══════════════════════╪══════════════════════════════════════════════════════════════════════╡
-│"North Coast"         │["Solano County","Napa Valley","Lake County","Los Carneros","Mendocino│
-│                      │ County","Sonoma County"]                                             │
-├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
-│"Central Coast"       │["Monterey County","Santa Barbara County","San Luis Obispo County","Sa│
-│                      │n Benito County","LivermoreÂ&nbsp;Valley","Paso Robles","San Francisco│
-│                      │ Bay","Santa Clara Valley","Santa Cruz Mountains"]                    │
-├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
-│"Far North California"│[]                                                                    │
-├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
-│"Inland Valleys"      │["Lodi and the Delta","Sacramento Valley","San Joaquin Valley","Madera│
-│                      │ County"]                                                             │
-├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
-│"Southern California" │["Los Angeles Area","Cucamonga Valley","Temecula Valley","San Diego Co│
-│                      │unty"]                                                                │
-├──────────────────────┼──────────────────────────────────────────────────────────────────────┤
-│"Sierra Foothills"    │["Amador County","Placer County","Yuba County","Nevada County","Calave│
-│                      │ras County","El Dorado County"]                                       │
-└──────────────────────┴──────────────────────────────────────────────────────────────────────┘
+```
+MATCH (r:CALIFORNIA_REGION)
+OPTIONAL MATCH (r)-[:HAS_SUB_REGION]->(sr:CALIFORNIA_SUB_REGION) 
+RETURN r.value AS Region, collect(sr.value) AS Subregions
+```
+
+|===
+|Region |Subregions 
+
+|"North Coast" 
+|["Solano County", "Napa Valley", "Lake County", "Los Carneros", "Mendocino County", "Sonoma County"]
+
+|"Central Coast" 
+|["Monterey County", "Santa Barbara County", "San Luis Obispo County", "San Benito County", "Livermore Valley", "Paso Robles", "San Francisco Bay", "Santa Clara Valley", "Santa Cruz Mountains"]
+
+|"Far North California" 
+|[]
+
+|"Inland Valleys" 
+|["Lodi and the Delta", "Sacramento Valley", "San Joaquin Valley", "Madera County"]
+
+|"Southern California" 
+|["Los Angeles Area", "Cucamonga Valley", "Temecula Valley", "San Diego County"]
+
+|"Sierra Foothills" 
+|["Amador County", "Placer County", "Yuba County", "Nevada County", "Calaveras County", "El Dorado County"]
+
