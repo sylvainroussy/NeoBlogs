@@ -637,6 +637,12 @@ ORDER BY WineriesCount DESC
 |"Sauvignon Blanc"	
 |190
 
+|...
+|...
+|===
+
+_Cabernet Sauvignon_ is the most cultivated grape in California by 329 wineries (on 598). Red grape variety known worldwide, it has become one of the most widespread grape varieties in the world. It owes its international recognition to the great wines of the vineyards of Bordeaux, France. _Chardonnay_, in second position, is a white grape from the vineyards of Burgundy, France. It is used to make great white wines but also to make sparkling champagne wines.
+
 == Beyond this sample
 
 Using Norconex web crawler in combination
