@@ -601,5 +601,42 @@ ORDER BY WineriesCount DESC
 |...
 |...
 |===
-And finally, I would to know what kind of grapes are cultivated on regions: 
+And finally, I would to know what kind of grapes are more cultivated by wineries:
 
+```
+MATCH (r:CALIFORNIA_REGION)
+MATCH (r)-[:HAS_SUB_REGION]->(sr:CALIFORNIA_SUB_REGION)
+MATCH (sr)-[:HAS_WINERY]->(w:WINERY)
+MATCH (w)<-[:FROM_WINERY]->(v:VARIETAL)
+WITH r,w, v ORDER BY v.value
+RETURN v.value AS Varietal,COUNT(w) AS WineriesCount 
+ORDER BY WineriesCount DESC
+```
+
+|===
+|Varietal |WineriesCount 
+
+|"Cabernet Sauvignon"	
+|329
+
+|"Chardonnay"	
+|316
+
+|"Syrah"	
+|228
+
+|"Zinfandel"	
+|224
+
+|"Pinot Noir"	
+|219
+
+|"Merlot"	
+|202
+
+|"Sauvignon Blanc"	
+|190
+
+== Beyond this sample
+
+Using Norconex web crawler in combination
