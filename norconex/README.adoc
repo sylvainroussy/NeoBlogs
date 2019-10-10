@@ -648,4 +648,23 @@ _Cabernet Sauvignon_ is the most cultivated grape in California by 329 wineries 
 
 == Beyond this sample
 
-Using Norconex web crawler in combination
+This is certainly more interesting to work with winery surfaces instead of wineries count to really see what kind of grapes are the most cultivated. Also, with surfaces, it is possible to know what winery is the greatest actor of a region.
+It is also possible to localize wineries and build a map to see where they are (and also compute a density). It is possible to improve the varietal nodes with color or origin data, by crossing these data with another crawl based on another web site wich contains these kind of information. As you can see, this sample could be extended to become a real data reference about Californian wines.
+
+
+
+== Conclusion
+
+The combination of Norconex and Neo4j leads to strong potential. Because with the use of Neo4j Committer, we are able to grab linked data instead of the traditional tabular view. However, Norconex is also able to run many committers simultaneously, and we could imagine to store related data in Neo4j and content data (like text) in Elastic Search in a single pass for example.
+
+== Resources
+
+All images in this article are built from Neo4j Bloom vizualisation tool: `https://neo4j.com/bloom/` 
+The Norconex configuration is based on Neo4j Committer v2: `http://www.norconex.com/collectors/committer-neo4j/`
+
+You can find the two full configuration files here :
+
+* varietal configuration: `https://github.com/sylvainroussy/NeoBlogs/blob/master/norconex/california-varietals.xml`
+* regions and wineries configuration : `https://github.com/sylvainroussy/NeoBlogs/blob/master/norconex/california.xml`
+
+== External resources
