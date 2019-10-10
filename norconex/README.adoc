@@ -601,6 +601,9 @@ ORDER BY WineriesCount DESC
 |...
 |...
 |===
+
+With no surprise, _Napa Valley_ goes ahead, it was probably the only one american wine region I known to now.
+
 And finally, I would to know what kind of grapes are more cultivated by wineries:
 
 ```
