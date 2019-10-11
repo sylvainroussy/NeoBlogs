@@ -660,7 +660,8 @@ The combination of Norconex and Neo4j leads to strong potential. Because with th
 == Resources
 
 All images in this article are built from Neo4j Bloom vizualisation tool: link:ex-url.adoc[https://neo4j.com/bloom/]
-The Norconex configuration is based on Neo4j Committer v2:  link:ex-url.adoc[https://www.norconex.com/collectors/committer-neo4j/]
+
+The Norconex configuration is based on Neo4j Committer v2:  link:ex-url.adoc[https://www.norconex.com/collectors/committer-neo4j/] and the Norconex Http-Collector v2.9.0-SNAPSHOT : link:ex-url.adoc[https://www.norconex.com/collectors/collector-http/releases#a2.9.0-SNAPSHOT]
 
 You can find the two full configuration files here :
 
