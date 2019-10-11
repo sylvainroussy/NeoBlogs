@@ -146,8 +146,7 @@
                 if (elem != null){
                   var varietals = elem.parent().attr("data-varietals");
                   varietals= varietals.replace("[","");
-                  varietals= varietals.replace("]","");
-                  //varietals= varietals.replace(/,/g,"|");
+                  varietals= varietals.replace("]","");                
                   var parts = varietals.split (","); 
                   for (i = 0 ; i < parts.length ; i++){
                     metadata.addString('varietals', parts[i]);
