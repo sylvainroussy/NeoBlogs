@@ -51,7 +51,7 @@
 				<exception>org.neo4j.driver.v1.exceptions.ClientException</exception>
 			</stopOnExceptions>
 			<!-- Be as nice as you can to sites you crawl. -->
-			<delay default="500" />
+			<delay default="1000" />
 
 			<linkExtractors>
 				<extractor
