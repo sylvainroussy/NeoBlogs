@@ -298,8 +298,8 @@
 					<!-- Below: linking wineries to varietals -->
 					<relationship type="FROM_WINERY" direction="INCOMING"
 						targetFindSyntax="MATCH">
-						<sourcePropertyKey>varietals</sourcePropertyKey>
-						<targetPropertyKey>varietal_id</targetPropertyKey>
+						<sourcePropertyKey label="WINERY">varietals</sourcePropertyKey>
+						<targetPropertyKey label="VARIETAL">varietal_id</targetPropertyKey>
 					</relationship>
 				</relationships>
 
