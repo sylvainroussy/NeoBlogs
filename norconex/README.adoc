@@ -33,7 +33,7 @@ If you don't do that, you will incur the risk to be blacklisted or to fall down 
 
 == Norconex Web Crawler
 
-Norconex is a small IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler kown as _HTTP Collector_. But, Norconex crawler is, before that, a generic pluggable crawl engine and we can see its structure on the image below.  
+Norconex is an IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler kown as _HTTP Collector_. But, Norconex crawler is, before that, a generic pluggable crawl engine and we can see its structure on the image below.  
 
 image::crawler_norconex.png[crawler,600,200]
 
@@ -659,12 +659,11 @@ The combination of Norconex and Neo4j leads to strong potential. Because with th
 
 == Resources
 
-All images in this article are built from Neo4j Bloom vizualisation tool: `https://neo4j.com/bloom/` 
-The Norconex configuration is based on Neo4j Committer v2: `http://www.norconex.com/collectors/committer-neo4j/`
+All images in this article are built from Neo4j Bloom vizualisation tool: link:ex-url.adoc[https://neo4j.com/bloom/]
+The Norconex configuration is based on Neo4j Committer v2:  link:ex-url.adoc[https://www.norconex.com/collectors/committer-neo4j/]
 
 You can find the two full configuration files here :
 
-* varietal configuration: `https://github.com/sylvainroussy/NeoBlogs/blob/master/norconex/california-varietals.xml`
-* regions and wineries configuration : `https://github.com/sylvainroussy/NeoBlogs/blob/master/norconex/california.xml`
+* varietal configuration: link:ex-url.adoc[https://github.com/sylvainroussy/NeoBlogs/blob/master/norconex/california-varietals.xml]
+* regions and wineries configuration : link:ex-url.adoc[https://github.com/sylvainroussy/NeoBlogs/blob/master/norconex/california.xml]
 
-== External resources
