@@ -113,7 +113,7 @@ The _importer_ phase is reached when the document (the Web page) pass filters, t
 Each new document  content built by the `DOMSplitter` looks like:
 
 ```
-<option class="text-dark" id="1554">Cabernet Sauvignon<option>
+<option class="text-dark" value="1554">Cabernet Sauvignon<option>
 ```
 
 It will be very interesting to extract _value_ (text) and _id_ to put them in the metadata. As we will see later, the varietal could be linked to wineries with this identifier.
