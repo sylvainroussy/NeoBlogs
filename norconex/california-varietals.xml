@@ -15,9 +15,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-<!-- This configuration shows the minimum required and basic recommendations
-     to run a crawler.  
-     -->
+<!-- This configuration imports grape varietals  -->
+    
 <httpcollector id="Neo4j Config HTTP Collector">
 
   <!-- Decide where to store generated files. -->
