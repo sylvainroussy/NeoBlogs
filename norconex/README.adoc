@@ -5,7 +5,7 @@ image::committer-neo4j.png[]
 
 == Introduction
 
-Neo4j provides many tools for importing data, they're known as LOAD CSV from Cypher queries, but also the neo4j-admin import tool. It is also possible to import data from many other systems like Elastic Search, SQL databases, MongoDB, CouchBase using APOC procedures plugin. Finally, ETL tools like Kettle provides features aimed to reduce the data transformation effort. In short hand, the data manipulation ecosystem around Neo4j is very complete. 
+Neo4j provides many tools for importing data, such as LOAD CSV (from Cypher queries) and the neo4j-admin import tool. It is also possible to import data from many other systems like Elastic Search, SQL databases, MongoDB, CouchBase using APOC procedures plugin. Finally, ETL tools like Kettle provides features aimed to reduce the data transformation effort. In short hand, the data manipulation ecosystem around Neo4j is very complete. 
 
 And to achieve this ecosystem, now comes the time to import in Neo4J data directly from the Web. To do that, we need to use an external tool called Web Crawler (also known as Web Spider or Web Scraper).
 
