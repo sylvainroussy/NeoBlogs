@@ -11,46 +11,49 @@ To add another facet to this ecosystem, we present a way for Neo4J to obtain dat
 
 == What is a Web Crawler ?
 
-It's a program, a robot, specialized in browsing the Web, deeper and deeper. Its operation is pretty simple.
+A Web Crawler is a robotic program which specializes in browsing the Web, digging more and more deeply by following links. The basic operation is pretty simple.
 
 Consider the following cycle of work:
 
 * download a Web page
-* extract the links from this page to other pages and add them to the _frontier_ (a pool of URLs)
-* extract content and meta-data of this page and store them somewhere
+* extract the links to other pages from this page and add them to the _frontier_ (a pool of URLs)
+* extract content and meta-data from this page and store it somewhere
 
 image::crawler_principle.png[crawler,300,200]
 
 == Caution: politness rules
 
-The basic principle of crawling looks like simple thing to do and it's true. However, you have to pay attention to respect politness rules. It is very important to understand that. We don't want _attack_ a web site, we want just to grab useful data.
+While it's true that the basic principle of crawling is simple, to be a good internet citizen you must respect politness rules. This is really important--we don't want to end up _attacking_ a web site, we just want to grab useful data!
 
-* Give a _think time_, a time delay between two downloads, to let the target host breathing. Also avoid to download a site with more two threads
-* Respect site rules like ROBOTS.TXT files or No-follow directives
-* Be careful about personal data, avoid to donwload them
+Here are some politness rules:
 
-If you don't do that, you will incur the risk to be blacklisted or to fall down the remote server, and if we need their data, it's clearly not something we want to do.
+* Provide a _think time_, that is a time delay between two hits.  This gives the target host some time to catch its breath. Also avoid hitting a site with more than one thread
+* Respect site rules contained in ROBOTS.TXT files and No-follow directives
+* Be careful not to download personal data
+
+If you are impolite, you risk being blacklisted, or, worse, to knock over the remote server.  This is clearly not a good way to treat a site whose data we need!
 
 == Norconex Web Crawler
 
-Norconex is an IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler kown as _HTTP Collector_. But, Norconex crawler is, before that, a generic pluggable crawl engine and we can see its structure on the image below.  
+Norconex is an IT company located in Gatineau, Quebec, Canada, which specializes in enterprise internet searchs. Norconex provides a very nice open source Web Crawler, known as _HTTP Collector_. The Norconex crawler is, in essense, a generic pluggable crawl engine.  Take a look at its structure on the image below:  
 
 image::crawler_norconex.png[crawler,600,200]
 
-Many collectors are provided by Norconex (Http, FileSystem, etc.) and many connectors where inject the data, called _committers_ (SQL, Elastic Search, Solr, etc.) are also proposed. 
+Many collectors are provided by Norconex (Http, FileSystem, etc.)  In addition many connectors, called _committers_, are provided which inject data, (SQL, Elastic Search, Solr, etc.).
 
-From a simple XML configuration, you can connect an input (a data collector) to an output (a committer), applying filters or doing some transformations between them.
+Using a simple XML configuration, you can connect an input (a data collector) to an output (a committer).  You can also apply filters or perform data transformation between the collector and the committer.
 
-The last born of these committers is the _Neo4j committer_.
+The newest committer is the _Neo4j committer_.
 
 == Meet the California grapes
 
-I live in Burgundy, France and I tasted many wines from this region (and others from other regions in France). Here, the main grapes are the Pinot Noir for red wines and Chardonnay for white wines. Many European grape varietals was imported from Europe to United States before the Phylloxéra damages on the old continent. Later, the french grapes was saved by greffons on american foot vines (XIX century).
-This is a very interesting story and a strong wine history between our respective countries.
+I live in Burgundy, France, and I have enjoyed tasting many wines from this region (as well as from other regions in France). Especially important are the Pinot Noir grape, for red wines, and the Chardonnay grape for white wines. 
 
-But, I don't know anything about american wines. After reading an article about them, it seems I should starting my initiation by California wines (around 90% of the american production).
+There is an interesting wine history between the New and Old Worlds.  Many European grape varietals were exported from Europe to United States.  This was of critical importance because in the 19th century the Phylloxéra aphid plague wreaked havoc, damaging vineyards on the European continent (especially France).  The French grapes were ultimately saved using greffons from American foot vines.
 
-Ok, let's go to meet the californian grapes...
+Despite this historical connection, I don't really know much about American wines. After reading an article, I decided I should introduce myself to California wines (which make up about 90% of the American wine production).
+
+Ok, let's go to meet the California grapes...
 
 == Norconex considerations
 
