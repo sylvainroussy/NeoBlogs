@@ -383,9 +383,9 @@ As we did with varietal, we need to qualify our new nodes more precisely:
 
 === Neo4j committer: creating the relationships
 
-Creating the Neo4j relationships is probably the most difficult and interesting part of a configuration, because the relationships are crucial to the graph.
+Creating the Neo4j relationships is probably the most difficult and interesting part of a configuration.  It is also essential because relationships are crucial to the graph.
 
-First of all, we want to link regions to their sub regions. A region _HAS_ a sub region. Each time we parse a _CALIFORNIA__REGION_ tagged document, we want to create a relationship to a _CALIFORNIA__SUB__REGION_ with the type _HAS__SUB__REGION_
+First of all, we want to link regions to their sub regions. A region _HAS_ a sub region. Each time we parse a _CALIFORNIA__REGION_ tagged document, we want to create a relationship to a _CALIFORNIA__SUB__REGION_ with the relationship type _HAS__SUB__REGION_
 
 Take a look at the following configuration:
 
@@ -399,36 +399,36 @@ Take a look at the following configuration:
 	</relationships>
 ```
 
-* the _type_ attribute gives the name of the Neo4j's relationship.
-* the _direction_ attribute its sense.
-* the _targetFindSyntax_ gives the way of how the CYPHER query behind these parameters must be created. With `MATCH`, if the targetted node doesn't exist, then the relationship is not created; with `MERGE`, if the targetted node doesn't exist, it will be.
-* the _regexFilter_ attribute allows to apply the relationship only on the pages where the source property value (see below) matches the regex. It will avoid bad nodes to be linked. 
+* the _type_ attribute is the name of the Neo4j's relationship.
+* the _direction_ attribute denotes its sense.
+* the _targetFindSyntax_ gives the way the CYPHER query is to be created with these parameters. With `MATCH`, if the targeted node doesn't exist, then the relationship will not be created; with `MERGE`, if the targeted node doesn't exist, it will be created.
+* the _regexFilter_ attribute allows us to apply the relationship only on the pages where the source property value (see below) matches the regex. This will avoid linking spurious nodes. 
 
 The following elements are :
 
-* _sourcePropertyKey_: to define constraints for  building relationship from the current committed page
-* _targetPropertyKey_: to define the concerned nodes should be linked
+* _sourcePropertyKey_: to define constraints for building the relationship from the current committed page
+* _targetPropertyKey_: to define the concerned nodes that should be linked
 
-_label_ attribute is an  optional constraint, with these ones each node source or target (or both) must have the requisite label.
+_label_ attribute is an optional constraint, and in this case each node source or target (or both) must have the requisite label.
 
-And finally, the value inside the element will be evaluated from a meta-data property (for source) and node property (for target).
+Finally, the value inside the element will be evaluated from a meta-data property (for source) and from a node property (for target).
 If the source value is multi-valued (like `collector.referenced-urls`) then one relationship could be created for each value.
 
-To summaries, each url in the source meta-data property `collector.referenced-urls` wich matches with the regex filter is going to create a relationship with a target wich have a property `identity` (default _id_ if no other specified, containing the `document.reference`, the page url) where the matching occurs. If not, the target node is created (`targetFindSyntax="MERGE"`) with the provided identity and the label specified as constraint in the target node. This targetted node will be completed later when the crawler will reach the concerned pages. 
+To summarize, each url in the source meta-data property `collector.referenced-urls` which matches the regex filter is going to create a relationship with a target which has a property `identity` (default _id_ if not otherwise specified in the `document.reference`, it will default to the page url) when a match occurs. If there is no match, the target node is created (because we set `targetFindSyntax="MERGE"`) with the provided identity and the label specified by the constraint in the target node. The targeted node will be completed later when the crawler reaches the concerned pages. 
 
 
 == Linking sub-regions with grape varietals through wineries
 
-There is no way to link sub-regions to varietals directly. On this web site, varietals are only referenced by wineries. So, I have to link sub regions with wineries first and then linking wineries to varietals.
+We have no way to link sub-regions to varietals directly. On this web site, varietals are only referenced by wineries. But we can first link sub regions to wineries and then link wineries to varietals.
 
 === Importing wineries
 
 image::wineries.png[regions]
 
 
-Importing wineries is not so easy, because there are redirections between sub-region pages to wineries pages, for example the link
+Importing wineries is not so easy, because there are redirections between sub-region pages to wineries pages.  For example the link
 `https://discovercaliforniawines.com/wineries/acorn-wineryalegria-vineyards-2/` from the sub-region page is redirected to `https://discovercaliforniawines.com/wine-map-winery-directory/#winery=1393050&search=ACORN%20Winery%2FAlegr%C3%ADa%20Vineyards`.
-To handle that and having a continuous linkage between these pages, I need to link them. 
+To handle this situation and to get a continuous linkage between these pages, we'll need to link them. 
 
 First, tagging nodes for TYPE:
 ```
@@ -449,7 +449,7 @@ First, tagging nodes for TYPE:
  </tagger>
 ```
 
-Then, I'm going these kind of nodes via the property `redirect-trail` on the targetted page meta-data (injected by Norconex) wich allows to do that:
+Then, I'm going these specify this kind of node via the property `redirect-trail` on the targeted page meta-data (which is injected by Norconex).  We can do this by :
 ```
 <relationship type="REDIRECT_TO" direction="INCOMING" targetFindSyntax="MATCH">         
    <sourcePropertyKey label="WINERY">collector.redirect-trail</sourcePropertyKey>
@@ -457,11 +457,11 @@ Then, I'm going these kind of nodes via the property `redirect-trail` on the tar
 </relationship> 
 ```
 
-This configuration leads to create link between these nodes like: `(wineryUrlFromSubregion)-[:REDIRECTED_TO]-(wineryLink)`
+This configuration leads the creation of links between nodes like: `(wineryUrlFromSubregion)-[:REDIRECTED_TO]-(wineryLink)`
 
 === Linking sub-regions
 
-Now, it's pretty simple. But because there's no way to link the *CALIFORNIA_SUB_REGION* nodes to *WINERY* nodes, I have to link the *CALIFORNIA_SUB_REGION* to *WINERY_REDIRECTION* nodes.
+Having done this, the rest is pretty simple.  Because we couldn't link the *CALIFORNIA_SUB_REGION* nodes to *WINERY* nodes, we have to link the *CALIFORNIA_SUB_REGION* to *WINERY_REDIRECTION* nodes.
 
 ```
 <relationship type="HAS_WINERY" direction="OUTGOING" targetFindSyntax="MERGE" regexFilter="https://discovercaliforniawines.com/wineries/.+">         
@@ -470,15 +470,15 @@ Now, it's pretty simple. But because there's no way to link the *CALIFORNIA_SUB_
 </relationship>
 ```
 
-Note: Far North California region has no sub-region, in order to let this article readable, the relationship configuration is not showed here but available in the full configuration (see below: external resources).
+Note: the region "Far North California" doesn't have a sub-region, and to make this article more readable, the relationship configuration is not showed here.  But it is available in the full configuration (see below: external resources).
 
 === Linking varietals
 
 image::wineries_varietals.png[regions]
 
-Handling varietals links brings a bit of complexity. To link a winery to matched varietals, I have to extract varietals Ids from data present in the page `https://discovercaliforniawines.com/wine-map-winery-directory/`.
-The winery selector holds many data like _varietals-id_. 
-With a script, I have to extract these varietals Ids and put it in winery meta-data, with a new field called _varietals_:
+Creating varietals links comes with a bit of complexity. To link a winery to matched varietal, we have to extract the varietal Ids from data on the page `https://discovercaliforniawines.com/wine-map-winery-directory/`.
+The winery selector has a lot of data like _varietals-id_. 
+Using javascript, we can extract these varietals Ids and put them in the winery meta-data, with a new field called _varietals_:
 ```
 <tagger class="com.norconex.importer.handler.tagger.impl.ScriptTagger">
              <restrictTo caseSensitive="false" field="document.reference">
@@ -512,7 +512,7 @@ With a script, I have to extract these varietals Ids and put it in winery meta-d
             ]]></script>
 </tagger>       
 ```
-Now, I'm able to create the relationships from a winery to related varietals:
+Now, we're able to create the relationships from a winery to related varietals:
 ```
 <relationship type="FROM_WINERY" direction="INCOMING" targetFindSyntax="MATCH">         
    <sourcePropertyKey label="WINERY">varietals</sourcePropertyKey>
@@ -521,15 +521,15 @@ Now, I'm able to create the relationships from a winery to related varietals:
 ```
 Et voilà !
 
-Note: labels filters on _sourcePropertyKey_ and _targetPropertyKey_ elements are not mandatory (because implicit in the graph). But, it's an easy way here to doucment the relationship.
+Note: labels filters on _sourcePropertyKey_ and _targetPropertyKey_ elements are not mandatory (because they are implicit in the graph). But, they are an easy way here to document the relationship.
 
 == Cleaning the graph
 
 image::full.png[]
 
 
-Nice, I have a graph but this graph seems like a crawl graph, not a business graph. I want to say, we have many nodes created as the Norconex web crawler download pages.
-In fact, I don't need the *WINERY_REDIRECTION* nodes. Well, I'm going to clean my graph by removing them and directly build relationships between sub-regions and wineries with the following query:
+Nice. I have a graph but this graph feels more like a crawl graph than a business graph. That is to say, we have many nodes that are artifacts of the Norconex web crawler download pages.
+For example, we don't need the *WINERY_REDIRECTION* nodes at all anymore. So, we'll clean up the graph by removing them and  building relationships directly between sub-regions and wineries, via the following query:
 ```
 MATCH (n)-[:HAS_WINERY]->(wr:WINERY_REDIRECTION)-[:REDIRECT_TO]->(w:WINERY) 
 DETACH DELETE wr 
@@ -539,7 +539,7 @@ MERGE (n)-[:HAS_WINERY]->(w)
 
 == Querying the graph
 
-Well, I can now query the graph. First, I would to know how are related regions and sub-regions:
+And now we can query the graph! First, we might like to know about the related regions and sub-regions:
 
 ```
 MATCH (r:CALIFORNIA_REGION)
@@ -569,7 +569,7 @@ RETURN r.value AS Region, COLLECT(sr.value) AS Subregions
 |["Amador County", "Placer County", "Yuba County", "Nevada County", "Calaveras County", "El Dorado County"]
 |===
 
-Now, I would to know what regions has the high number of wineries: 
+Next, say we want to know how many wineries are in each region: 
 
 ```
 MATCH (r:CALIFORNIA_SUB_REGION)-[:HAS_WINERY]->(w:WINERY)
@@ -605,9 +605,9 @@ ORDER BY WineriesCount DESC
 |...
 |===
 
-With no surprise, _Napa Valley_ goes ahead, it was probably the only one american wine region I known to now.
+Unsurprisingly, _Napa Valley_ is at the top of the list.  After all, _Napa Valley_ is the only one American wine region I knew of up to now.
 
-And finally, I would to know what kind of grapes are more cultivated by wineries:
+And finally, we can see how many types of wineries cultivate each kind of grapes:
 
 ```
 MATCH (r:CALIFORNIA_REGION)
@@ -647,18 +647,18 @@ ORDER BY WineriesCount DESC
 |...
 |===
 
-_Cabernet Sauvignon_ is the most cultivated grape in California by 329 wineries (on 598). Red grape variety known worldwide, it has become one of the most widespread grape varieties in the world. It owes its international recognition to the great wines of the vineyards of Bordeaux, France. _Chardonnay_, in second position, is a white grape from the vineyards of Burgundy, France. It is used to make great white wines but also to make sparkling champagne wines.
+We see that _Cabernet Sauvignon_ is the most widely cultivated grape in California, at 329 wineries (out of 598). _Cabernet Sauvignon_ is a red grape variety known worldwide, and it has become one of the most widespread grape varieties in the world. It owes its international recognition to the great wines from the vineyards of Bordeaux, France. _Chardonnay_, in second place, is a white grape from the vineyards of Burgundy, France. It is not only used to make great white wines but also to make sparkling champagne wines.
 
 == Beyond this sample
 
-This is certainly more interesting to work with winery surfaces instead of wineries count to really see what kind of grapes are the most cultivated. Also, with surfaces, it is possible to know what winery is the greatest actor of a region.
-It is also possible to localize wineries and build a map to see where they are (and also compute a density). It is possible to improve the varietal nodes with color or origin data, by crossing these data with another crawl based on another web site wich contains these kind of information. As you can see, this sample could be extended to become a real data reference about Californian wines.
+This is certainly more interesting to work with winery surfaces instead of wineries count to really see what kind of grapes are the most cultivated. Also, with surfaces, we can find out what wineries are the most influential actor in a region.
+We can build a map to locate where the wineries are (and also compute a density). We might think about improving the varietal nodes by adding color or origin data, and by crossing this data with another crawl based on another web site which contains that kind of information. So you see, this sample could be extended to become a valuable data source about Californian wines.
 
 
 
 == Conclusion
 
-The combination of Norconex and Neo4j leads to strong potential. Because with the use of Neo4j Committer, we are able to grab linked data instead of the traditional tabular view. However, Norconex is also able to run many committers simultaneously, and we could imagine to store related data in Neo4j and content data (like text) in Elastic Search in a single pass for example.
+Norconex and Neo4j make a powerful combination. Using the Neo4j Committer, we are able to grab linked data instead of data in the traditional table format. However, Norconex is also able to run many committers simultaneously, so we could imagine storing related data in Neo4j and content data (like text) in Elastic Search in a single pass, for example.
 
 == Resources
 
