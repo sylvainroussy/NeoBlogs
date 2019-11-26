@@ -5,74 +5,77 @@ image::committer-neo4j.png[]
 
 == Introduction
 
-Neo4j provides many tools for importing data, they're known as LOAD CSV from Cypher queries, but also the neo4j-admin import tool. It is also possible to import data from many other systems like Elastic Search, SQL databases, MongoDB, CouchBase using APOC procedures plugin. Finally, ETL tools like Kettle provides features aimed to reduce the data transformation effort. In short hand, the data manipulation ecosystem around Neo4j is very complete. 
+Neo4j provides many tools for importing data, such as LOAD CSV (from Cypher queries) and the neo4j-admin import tool. It is also possible to import data from many other systems like Elastic Search, SQL databases, MongoDB, and CouchBase (using an APOC procedures plugin). Finally, ETL tools like Kettle provides features which aims the effort needed for the data transformation. In short, the data manipulation ecosystem around Neo4j is very nearly complete. 
 
-And to achieve this ecosystem, now comes the time to import in Neo4J data directly from the Web. To do that, we need to use an external tool called Web Crawler (also known as Web Spider or Web Scraper).
+To add another facet to this ecosystem, we present a way for Neo4J to obtain data directly from the Web. To do this we use an external tool called a Web Crawler (also known as a Web Spider or a Web Scraper).
 
 == What is a Web Crawler ?
 
-It's a program, a robot, specialized in browsing the Web, deeper and deeper. Its operation is pretty simple.
+A Web Crawler is a robotic program which specializes in browsing the Web, digging more and more deeply by following links. The basic operation is pretty simple.
 
 Consider the following cycle of work:
 
 * download a Web page
 * extract the links from this page to other pages and add them to the _frontier_ (a pool of URLs)
-* extract content and meta-data of this page and store them somewhere
+* extract content and meta-data from this page and store it somewhere
 
 image::crawler_principle.png[crawler,300,200]
 
 == Caution: politness rules
 
-The basic principle of crawling looks like simple thing to do and it's true. However, you have to pay attention to respect politness rules. It is very important to understand that. We don't want _attack_ a web site, we want just to grab useful data.
+While it's true that the basic principle of crawling is simple, to be a good internet citizen you must respect politness rules. This is really important--we don't want to end up _attacking_ a web site, we just want to grab useful data!
 
-* Give a _think time_, a time delay between two downloads, to let the target host breathing. Also avoid to download a site with more two threads
-* Respect site rules like ROBOTS.TXT files or No-follow directives
-* Be careful about personal data, avoid to donwload them
+Here are some politness rules:
 
-If you don't do that, you will incur the risk to be blacklisted or to fall down the remote server, and if we need their data, it's clearly not something we want to do.
+* Provide a _think time_, that is a time delay between two hits.  This gives the target host some time to catch its breath. Also avoid hitting a site with more than one thread
+* Respect site rules contained in ROBOTS.TXT files and No-follow directives
+* Be careful not to download personal data
+
+If you are impolite, you risk being blacklisted, or, worse, to knock over the remote server.  This is clearly not a good way to treat a site whose data we need!
 
 == Norconex Web Crawler
 
-Norconex is an IT company from Gatineau (Quebec) specialized in the enterprise search. Norconex also propose a very nice open source Web Crawler kown as _HTTP Collector_. But, Norconex crawler is, before that, a generic pluggable crawl engine and we can see its structure on the image below.  
+Norconex is an IT company located in Gatineau, Quebec, Canada, which specializes in enterprise internet searchs. Norconex provides a very nice open source Web Crawler, known as _HTTP Collector_. The Norconex crawler is, in essense, a generic pluggable crawl engine.  Take a look at its structure on the image below:  
 
 image::crawler_norconex.png[crawler,600,200]
 
-Many collectors are provided by Norconex (Http, FileSystem, etc.) and many connectors where inject the data, called _committers_ (SQL, Elastic Search, Solr, etc.) are also proposed. 
+Many collectors are provided by Norconex (Http, FileSystem, etc.)  In addition many connectors, called _committers_, are provided which inject data, (SQL, Elastic Search, Solr, etc.).
 
-From a simple XML configuration, you can connect an input (a data collector) to an output (a committer), applying filters or doing some transformations between them.
+Using a simple XML configuration, you can connect an input (a data collector) to an output (a committer).  You can also apply filters or perform data transformation between the collector and the committer.
 
-The last born of these committers is the _Neo4j committer_.
+The newest committer is the _Neo4j committer_.
 
 == Meet the California grapes
 
-I live in Burgundy, France and I tasted many wines from this region (and others from other regions in France). Here, the main grapes are the Pinot Noir for red wines and Chardonnay for white wines. Many European grape varietals was imported from Europe to United States before the Phylloxéra damages on the old continent. Later, the french grapes was saved by greffons on american foot vines (XIX century).
-This is a very interesting story and a strong wine history between our respective countries.
+I live in Burgundy, France, and I have enjoyed tasting many wines from this region (as well as from other regions in France). Especially important are the Pinot Noir grape, for red wines, and the Chardonnay grape for white wines. 
 
-But, I don't know anything about american wines. After reading an article about them, it seems I should starting my initiation by California wines (around 90% of the american production).
+There is an interesting wine history between the New and Old Worlds.  Many European grape varietals were exported from Europe to United States.  This was of critical importance because in the 19th century the Phylloxéra aphid plague wreaked havoc, damaging vineyards on the European continent (especially France).  The French grapes were ultimately saved using greffons from American foot vines.
 
-Ok, let's go to meet the californian grapes...
+Despite this historical connection, I don't really know much about American wines. After reading an article, I decided I should introduce myself to California wines (which make up about 90% of the American wine production).
+
+Ok, let's go to meet the California grapes...
 
 == Norconex considerations
 
-A crawl is based on an XML configuration. 
+A crawl is configured by XML. 
 Consider the following points:
 
-* Metadata are the information placed in the `<head/>` section of the HTML page + some information added by Norconex engine (as `collector.rerenced-urls` where are stores all the links available on this page). Use them as key/value pairs.
+* Metadata is the information placed in the `<head/>` section of the HTML page, plus some information added by the Norconex engine (as `collector.referenced-urls` which stores all the links available on this page). This data is stored as key/value pairs.
 * Content is the main content placed in `<body/>` section of the HTML page
 
 You can see the flow of the HttpCollector here: link:ex-url.adoc[https://www.norconex.com/collectors/collector-http/flow]
 
 == Finding sources
 
-After some searches on Internet, I found a very good start point: link:ex-url.adoc[https://discovercaliforniawines.com/]
-It contains some data about regions, sub-regions, wineries and grapes. I want to build a graph with them to know the repartition of each grape varietal per region or sub-region.
+After searching the Internet, I found a good start point: link:ex-url.adoc[https://discovercaliforniawines.com/]
+It contains data about regions, sub-regions, wineries and grapes. My goal is to build a graph with the data to display how each grape varietal is divided over the regions or sub-regions.
 
-After site analysis, I decide to split my work in two crawls:
+After some site analysis, I decide to split this work in two crawls:
 
 * importing varietals first (one XML configuration)
-* importing regions, sub-regions and wineries then (one other XML configuration)
+* importing regions, sub-regions and wineries then (another XML configuration)
 
-Later, I could _wash_ the data to eliminate _noise Nodes_ (unwanted nodes or relationships).
+Later, I'll probably need to _wash_ the data to eliminate _noise Nodes_ (unwanted nodes or relationships).
 
 == Import grape varietals
 
@@ -80,9 +83,9 @@ image::varietals.png[varietals]
 
 === Starting with sources (start Urls)
 
-After inspecting source code of this page: link:ex-url.adoc[https://discovercaliforniawines.com/wine-map-winery-directory/], I can see all grapes (with Ids and values) in the search selector.
+By inspecting the source code for this page: link:ex-url.adoc[https://discovercaliforniawines.com/wine-map-winery-directory/], I find there is a search selector which lists all the kinds of grapes, the text values being the grape names and the option value attribute being the Ids.
 
-I'm beginning the configuration by specifying my starting Urls:
+I'll begin the XML configuration by specifying the starting Urls:
 
 ```
 ...
@@ -94,7 +97,7 @@ I'm beginning the configuration by specifying my starting Urls:
 
 === Making one document to many
 
-Norconex is able to split one page two many, based on CSS selector. Furthermore, I can split each option on this `<select/>` tag:
+Norconex is able to split one document into many documents, based on a CSS selector. This way I can split each option on this `<select/>` tag:
 
 ```
 ...
@@ -106,17 +109,17 @@ Norconex is able to split one page two many, based on CSS selector. Furthermore,
 ...
 ```
 
-The _importer_ phase is reached when the document (the Web page) pass filters, then the document treatment process begins. Here, the `DOMSplitter` component makes one document (imported as new document) for each tag mathcing the CSS selector `#varietal_select option`.
+The _importer_ phase is reached when the document (the Web page) passes through filters, and then the document treatment process begins. Here, the `DOMSplitter` component makes one document (imported as new document) for each tag matching the CSS selector `#varietal_select option`.
 
 === Adding _value_ and _id_ 
 
-Each new document  content built by the `DOMSplitter` looks like:
+Each new document content built by the `DOMSplitter` looks like (as an example):
 
 ```
 <option class="text-dark" value="1554">Cabernet Sauvignon<option>
 ```
 
-It will be very interesting to extract _value_ (text) and _id_ to put them in the metadata. As we will see later, the varietal could be linked to wineries with this identifier.
+It will be useful to extract the text _value_ and _id_ to put them in the metadata. As we will see later, the varietal can then be linked to wineries with this identifier.
 
 Norconex provides a component to extract data from CSS Selector, the `DOMTagger`:
 
@@ -130,11 +133,11 @@ Norconex provides a component to extract data from CSS Selector, the `DOMTagger`
 ...
 ```
 
-=== Stamping these pages with Varietal type
+=== Stamping these pages with varietal type
 
-To provides more qualified information  when the document will be stored to Neo4j (see later _additionnal labels_), we're going to add a constant on each page imported from the document splitter.
+To provide more qualified information when the document will be stored to Neo4j (see later _additionnal labels_), we're going to add a constant on each page imported from the document splitter.
 
-Norconex provides a `ConstantTagger` to add a explicit value to a matadata fieldn here the field is _TYPE_:
+Norconex provides a `ConstantTagger` to add a explicit value to a metadata field--here the field is _TYPE_:
 
 ```
 ...        
@@ -151,13 +154,13 @@ Norconex provides a `ConstantTagger` to add a explicit value to a matadata field
 ...
 ```
 
-The `restrictTo` element allows to specify a regular expression to filter the documents tagged.
+The `restrictTo` element allows us to provide a regular expression to filter the documents tagged.
 
 === Storing in Neo4j
 
-This is the goal: storing data in Neo4j.
+The ultimate goals is to store the data in Neo4j.
 
-First of all, choose the right Norconex committer: `com.norconex.committer.neo4j.Neo4jCommitter`
+First of all, we choose the committer Norconex provides for Neo4j : `com.norconex.committer.neo4j.Neo4jCommitter`
 This committer must be configured with the following information:
 
 * The Neo4j connection information
@@ -166,7 +169,7 @@ This committer must be configured with the following information:
 * the additional labels (optional): 
 * the relationships definitions (optional)
 
-Other configuration are mostly common for all the Norconex committers.
+Other configuration information is mostly commot to all the other Norconex committers.
 
 ```
 ...
@@ -195,22 +198,22 @@ Other configuration are mostly common for all the Norconex committers.
 
 The node topology defines how a Web page must be stored in Neo4j.
 
-* ONE_NODE: the page will be stored in one node wich contains metadata and content
+* ONE_NODE: the page will be stored in one node which contains metadata and content
 * NO_CONTENT: the page will be stored in one node wich contains only metadata
-* SPLITTED: the page will be stored in three nodes, one super node linked to another one wich contains metadata and linked to another one wich contains content
+* SPLITTED: the page will be stored in three nodes, one super node linked to another one which contains metadata and linked to another one which contains content
 
-In my case, I'm not very interested by the content, I want only know how entities are linked. I chose the `NO_CONTENT` topology.
+In my case, I'm not interested in the content--I want only to know how the entities are linked. So I chose the `NO_CONTENT` topology.
 
 
 ==== Primary label
 
-All nodes imported by this crawl will be stamped as label by this litteral value. Then it is easy to delete or search only on them.
+All nodes imported by this crawl will be stamped with a label by this literal value. This makes it easy to delete or search only on them.
 
 ==== Additional labels
 
-They're used to qualify the nodes more precisely. Here we need to parameter a metadata field. The value of this key will be converted into label on the node.
+Additional labels are used to define the nodes more precisely. Here we need to parameterize a metadata field. The value of this key will be converted into a label on the node.
 
-A constant, named _TYPE_ was configured with the `ConstantTagger`, and this is this value I want to add to new nodes. 
+Remember that earlier a constant, named _TYPE_, was configured with the `ConstantTagger`  This is this value I want to add to new nodes. 
 
 === Starting Norconex and check the result
 
@@ -223,7 +226,7 @@ $> sh collector-http -a start -c confs/california-varietals.xml
 * _-a_: the action, start or stop
 * _-c_: the config file path
 
-When it finished, then I can check the imported data:
+When it finishes I can check the imported Neo4j data:
 ```
 MATCH (v:VARIETAL) RETURN v.varietal, v.varietal_id
 ```
@@ -306,8 +309,8 @@ And the query produces the following result:
 |1543
 |===
 
-As we can see, there's unwanted data: _All Varietals_ due to first value in the varietal selector from the web page.
-More generally, we can clean these data and delete all nodes where `varietal_id` is null:
+As we can see, we've gotten some unwanted data, that is _All Varietals_.  This is because it was the first value in the varietal selector on the web page.
+We can clean up this data by deleteing all nodes where `varietal_id` is null:
 
 ```
 MATCH (v:VARIETAL) WHERE v.varietal_id IS NULL DELETE v
@@ -320,13 +323,13 @@ image::regions.png[regions]
 
 === Start Url and link extractor
 
-Now I want to import California regions and their sub-regions. In the `https://discovercaliforniawines.com/discover-california/` page of this Web site, there's a sub-banner with links to all the regions. And on each page of these regions, there are the links to sub-regions. Nice.
+Now I want to import the California regions and their sub-regions. This web at site has a page at `https://discovercaliforniawines.com/discover-california/`.  This page has a sub-banner with links to all the regions (NORTH COAST, CENTRAL COAST, etc). And on each page of these regions, there are the links to sub-regions (Lake Country, Los Carneros, etc.). Nice.
 
-My start Url will be `https://discovercaliforniawines.com/discover-california/` but on this page, I don't want to extract all links from this page, because there is many thing useless in my use case (events, media, etc.).
+My starting Url will be `https://discovercaliforniawines.com/discover-california/` but I don't want to extract all links from this page, because there are links to thing that are not useful for my purposes, such as links to events, media, etc.
 
-So, it is necessary to only extract the links from the sub-banner (css selection `#page-menu-bar`), by doing that will also reduce the treatment time.
+So, so I really only want to extract links from the sub-banner with the css selector `#page-menu-bar`.  This will also reduce the processing time.
 
-Norconex allows us to modify the default behavious of its link extractor like this: 
+Norconex allows us to modify the default behavior of its link extractor like this: 
 
 ```
 ...
@@ -343,7 +346,7 @@ Note: There are many other parameters for the `GenericLinkExtractor` and other u
 
 === Reference and document filters
 
-Some words about filters, the _reference filters_ are based on the extracted links, wether or not we put them to the frontier. _document filters_ are triggered when the document is downloaded, filtering based on its meta-data or content.
+We need to say a bit here about filters.  The _reference filters_ are based on the extracted links, whether or not we put them into the frontier. _document filters_ are triggered when the document is downloaded, and filtering is based on the documents's meta-data or content.
 
 Our filters are using the Norconex `RegexReferenceFilter`, a filter based on the reference of the document or its link: 
 
@@ -357,7 +360,7 @@ Our filters are using the Norconex `RegexReferenceFilter`, a filter based on the
 
 === Constant TYPE for additional labels
 
-As previously, we need to qualify our new nodes more precisely:
+As we did with varietal, we need to qualify our new nodes more precisely:
 
 ```
 ...
@@ -380,9 +383,9 @@ As previously, we need to qualify our new nodes more precisely:
 
 === Neo4j committer: creating the relationships
 
-It is probably the most difficult part of a configuration, also the most interesting, because the relationships bring a strong sense to the graph.
+Creating the Neo4j relationships is probably the most difficult and interesting part of a configuration.  It is also essential because relationships are crucial to the graph.
 
-First of all, we want to link regions to their sub regions. A region _HAS_ a sub region. Each time we parse a _CALIFORNIA__REGION_ tagged document, we want to create a relationship to a _CALIFORNIA__SUB__REGION_ with the type _HAS__SUB__REGION_
+First of all, we want to link regions to their sub regions. A region _HAS_ a sub region. Each time we parse a _CALIFORNIA__REGION_ tagged document, we want to create a relationship to a _CALIFORNIA__SUB__REGION_ with the relationship type _HAS__SUB__REGION_
 
 Take a look at the following configuration:
 
@@ -396,36 +399,36 @@ Take a look at the following configuration:
 	</relationships>
 ```
 
-* the _type_ attribute gives the name of the Neo4j's relationship.
-* the _direction_ attribute its sense.
-* the _targetFindSyntax_ gives the way of how the CYPHER query behind these parameters must be created. With `MATCH`, if the targetted node doesn't exist, then the relationship is not created; with `MERGE`, if the targetted node doesn't exist, it will be.
-* the _regexFilter_ attribute allows to apply the relationship only on the pages where the source property value (see below) matches the regex. It will avoid bad nodes to be linked. 
+* the _type_ attribute is the name of the Neo4j's relationship.
+* the _direction_ attribute denotes its sense.
+* the _targetFindSyntax_ gives the way the CYPHER query is to be created with these parameters. With `MATCH`, if the targeted node doesn't exist, then the relationship will not be created; with `MERGE`, if the targeted node doesn't exist, it will be created.
+* the _regexFilter_ attribute allows us to apply the relationship only on the pages where the source property value (see below) matches the regex. This will avoid linking spurious nodes. 
 
 The following elements are :
 
-* _sourcePropertyKey_: to define constraints for  building relationship from the current committed page
-* _targetPropertyKey_: to define the concerned nodes should be linked
+* _sourcePropertyKey_: to define constraints for building the relationship from the current committed page
+* _targetPropertyKey_: to define the concerned nodes that should be linked
 
-_label_ attribute is an  optional constraint, with these ones each node source or target (or both) must have the requisite label.
+_label_ attribute is an optional constraint, and in this case each node source or target (or both) must have the requisite label.
 
-And finally, the value inside the element will be evaluated from a meta-data property (for source) and node property (for target).
+Finally, the value inside the element will be evaluated from a meta-data property (for source) and from a node property (for target).
 If the source value is multi-valued (like `collector.referenced-urls`) then one relationship could be created for each value.
 
-To summaries, each url in the source meta-data property `collector.referenced-urls` wich matches with the regex filter is going to create a relationship with a target wich have a property `identity` (default _id_ if no other specified, containing the `document.reference`, the page url) where the matching occurs. If not, the target node is created (`targetFindSyntax="MERGE"`) with the provided identity and the label specified as constraint in the target node. This targetted node will be completed later when the crawler will reach the concerned pages. 
+To summarize, each url in the source meta-data property `collector.referenced-urls` which matches the regex filter is going to create a relationship with a target which has a property `identity` (default _id_ if not otherwise specified in the `document.reference`, it will default to the page url) when a match occurs. If there is no match, the target node is created (because we set `targetFindSyntax="MERGE"`) with the provided identity and the label specified by the constraint in the target node. The targeted node will be completed later when the crawler reaches the concerned pages. 
 
 
 == Linking sub-regions with grape varietals through wineries
 
-There is no way to link sub-regions to varietals directly. On this web site, varietals are only referenced by wineries. So, I have to link sub regions with wineries first and then linking wineries to varietals.
+We have no way to link sub-regions to varietals directly. On this web site, varietals are only referenced by wineries. But we can first link sub regions to wineries and then link wineries to varietals.
 
 === Importing wineries
 
 image::wineries.png[regions]
 
 
-Importing wineries is not so easy, because there are redirections between sub-region pages to wineries pages, for example the link
+Importing wineries is not so easy, because there are redirections between sub-region pages to wineries pages.  For example the link
 `https://discovercaliforniawines.com/wineries/acorn-wineryalegria-vineyards-2/` from the sub-region page is redirected to `https://discovercaliforniawines.com/wine-map-winery-directory/#winery=1393050&search=ACORN%20Winery%2FAlegr%C3%ADa%20Vineyards`.
-To handle that and having a continuous linkage between these pages, I need to link them. 
+To handle this situation and to get a continuous linkage between these pages, we'll need to link them. 
 
 First, tagging nodes for TYPE:
 ```
@@ -446,7 +449,7 @@ First, tagging nodes for TYPE:
  </tagger>
 ```
 
-Then, I'm going these kind of nodes via the property `redirect-trail` on the targetted page meta-data (injected by Norconex) wich allows to do that:
+Then, I'm going these specify this kind of node via the property `redirect-trail` on the targeted page meta-data (which is injected by Norconex).  We can do this by :
 ```
 <relationship type="REDIRECT_TO" direction="INCOMING" targetFindSyntax="MATCH">         
    <sourcePropertyKey label="WINERY">collector.redirect-trail</sourcePropertyKey>
@@ -454,11 +457,11 @@ Then, I'm going these kind of nodes via the property `redirect-trail` on the tar
 </relationship> 
 ```
 
-This configuration leads to create link between these nodes like: `(wineryUrlFromSubregion)-[:REDIRECTED_TO]-(wineryLink)`
+This configuration leads the creation of links between nodes like: `(wineryUrlFromSubregion)-[:REDIRECTED_TO]-(wineryLink)`
 
 === Linking sub-regions
 
-Now, it's pretty simple. But because there's no way to link the *CALIFORNIA_SUB_REGION* nodes to *WINERY* nodes, I have to link the *CALIFORNIA_SUB_REGION* to *WINERY_REDIRECTION* nodes.
+Having done this, the rest is pretty simple.  Because we couldn't link the *CALIFORNIA_SUB_REGION* nodes to *WINERY* nodes, we have to link the *CALIFORNIA_SUB_REGION* to *WINERY_REDIRECTION* nodes.
 
 ```
 <relationship type="HAS_WINERY" direction="OUTGOING" targetFindSyntax="MERGE" regexFilter="https://discovercaliforniawines.com/wineries/.+">         
@@ -467,15 +470,15 @@ Now, it's pretty simple. But because there's no way to link the *CALIFORNIA_SUB_
 </relationship>
 ```
 
-Note: Far North California region has no sub-region, in order to let this article readable, the relationship configuration is not showed here but available in the full configuration (see below: external resources).
+Note: the region "Far North California" doesn't have a sub-region, and to make this article more readable, the relationship configuration is not showed here.  But it is available in the full configuration (see below: external resources).
 
 === Linking varietals
 
 image::wineries_varietals.png[regions]
 
-Handling varietals links brings a bit of complexity. To link a winery to matched varietals, I have to extract varietals Ids from data present in the page `https://discovercaliforniawines.com/wine-map-winery-directory/`.
-The winery selector holds many data like _varietals-id_. 
-With a script, I have to extract these varietals Ids and put it in winery meta-data, with a new field called _varietals_:
+Creating varietals links comes with a bit of complexity. To link a winery to matched varietal, we have to extract the varietal Ids from data on the page `https://discovercaliforniawines.com/wine-map-winery-directory/`.
+The winery selector has a lot of data like _varietals-id_. 
+Using javascript, we can extract these varietals Ids and put them in the winery meta-data, with a new field called _varietals_:
 ```
 <tagger class="com.norconex.importer.handler.tagger.impl.ScriptTagger">
              <restrictTo caseSensitive="false" field="document.reference">
@@ -509,7 +512,7 @@ With a script, I have to extract these varietals Ids and put it in winery meta-d
             ]]></script>
 </tagger>       
 ```
-Now, I'm able to create the relationships from a winery to related varietals:
+Now, we're able to create the relationships from a winery to related varietals:
 ```
 <relationship type="FROM_WINERY" direction="INCOMING" targetFindSyntax="MATCH">         
    <sourcePropertyKey label="WINERY">varietals</sourcePropertyKey>
@@ -518,15 +521,15 @@ Now, I'm able to create the relationships from a winery to related varietals:
 ```
 Et voilà !
 
-Note: labels filters on _sourcePropertyKey_ and _targetPropertyKey_ elements are not mandatory (because implicit in the graph). But, it's an easy way here to doucment the relationship.
+Note: labels filters on _sourcePropertyKey_ and _targetPropertyKey_ elements are not mandatory (because they are implicit in the graph). But, they are an easy way here to document the relationship.
 
 == Cleaning the graph
 
 image::full.png[]
 
 
-Nice, I have a graph but this graph seems like a crawl graph, not a business graph. I want to say, we have many nodes created as the Norconex web crawler download pages.
-In fact, I don't need the *WINERY_REDIRECTION* nodes. Well, I'm going to clean my graph by removing them and directly build relationships between sub-regions and wineries with the following query:
+Nice. I have a graph but this graph feels more like a crawl graph than a business graph. That is to say, we have many nodes that are artifacts of the Norconex web crawler download pages.
+For example, we don't need the *WINERY_REDIRECTION* nodes at all anymore. So, we'll clean up the graph by removing them and  building relationships directly between sub-regions and wineries, via the following query:
 ```
 MATCH (n)-[:HAS_WINERY]->(wr:WINERY_REDIRECTION)-[:REDIRECT_TO]->(w:WINERY) 
 DETACH DELETE wr 
@@ -536,7 +539,7 @@ MERGE (n)-[:HAS_WINERY]->(w)
 
 == Querying the graph
 
-Well, I can now query the graph. First, I would to know how are related regions and sub-regions:
+And now we can query the graph! First, we might like to know about the related regions and sub-regions:
 
 ```
 MATCH (r:CALIFORNIA_REGION)
@@ -566,7 +569,7 @@ RETURN r.value AS Region, COLLECT(sr.value) AS Subregions
 |["Amador County", "Placer County", "Yuba County", "Nevada County", "Calaveras County", "El Dorado County"]
 |===
 
-Now, I would to know what regions has the high number of wineries: 
+Next, say we want to know how many wineries are in each region: 
 
 ```
 MATCH (r:CALIFORNIA_SUB_REGION)-[:HAS_WINERY]->(w:WINERY)
@@ -602,9 +605,9 @@ ORDER BY WineriesCount DESC
 |...
 |===
 
-With no surprise, _Napa Valley_ goes ahead, it was probably the only one american wine region I known to now.
+Unsurprisingly, _Napa Valley_ is at the top of the list.  After all, _Napa Valley_ is the only one American wine region I knew of up to now.
 
-And finally, I would to know what kind of grapes are more cultivated by wineries:
+And finally, we can see how many types of wineries cultivate each kind of grapes:
 
 ```
 MATCH (r:CALIFORNIA_REGION)
@@ -644,18 +647,18 @@ ORDER BY WineriesCount DESC
 |...
 |===
 
-_Cabernet Sauvignon_ is the most cultivated grape in California by 329 wineries (on 598). Red grape variety known worldwide, it has become one of the most widespread grape varieties in the world. It owes its international recognition to the great wines of the vineyards of Bordeaux, France. _Chardonnay_, in second position, is a white grape from the vineyards of Burgundy, France. It is used to make great white wines but also to make sparkling champagne wines.
+We see that _Cabernet Sauvignon_ is the most widely cultivated grape in California, at 329 wineries (out of 598). _Cabernet Sauvignon_ is a red grape variety known worldwide, and it has become one of the most widespread grape varieties in the world. It owes its international recognition to the great wines from the vineyards of Bordeaux, France. _Chardonnay_, in second place, is a white grape from the vineyards of Burgundy, France. It is not only used to make great white wines but also to make sparkling champagne wines.
 
 == Beyond this sample
 
-This is certainly more interesting to work with winery surfaces instead of wineries count to really see what kind of grapes are the most cultivated. Also, with surfaces, it is possible to know what winery is the greatest actor of a region.
-It is also possible to localize wineries and build a map to see where they are (and also compute a density). It is possible to improve the varietal nodes with color or origin data, by crossing these data with another crawl based on another web site wich contains these kind of information. As you can see, this sample could be extended to become a real data reference about Californian wines.
+This is certainly more interesting to work with winery surfaces instead of wineries count to really see what kind of grapes are the most cultivated. Also, with surfaces, we can find out what wineries are the most influential actor in a region.
+We can build a map to locate where the wineries are (and also compute a density). We might think about improving the varietal nodes by adding color or origin data, and by crossing this data with another crawl based on another web site which contains that kind of information. So you see, this sample could be extended to become a valuable data source about Californian wines.
 
 
 
 == Conclusion
 
-The combination of Norconex and Neo4j leads to strong potential. Because with the use of Neo4j Committer, we are able to grab linked data instead of the traditional tabular view. However, Norconex is also able to run many committers simultaneously, and we could imagine to store related data in Neo4j and content data (like text) in Elastic Search in a single pass for example.
+Norconex and Neo4j make a powerful combination. Using the Neo4j Committer, we are able to grab linked data instead of data in the traditional table format. However, Norconex is also able to run many committers simultaneously, so we could imagine storing related data in Neo4j and content data (like text) in Elastic Search in a single pass, for example.
 
 == Resources
 
