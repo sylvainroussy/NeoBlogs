@@ -671,5 +671,5 @@ You can find the two full configuration files here :
 * varietal configuration: link:ex-url.adoc[https://github.com/sylvainroussy/NeoBlogs/blob/master/norconex/california-varietals.xml]
 * regions and wineries configuration : link:ex-url.adoc[https://github.com/sylvainroussy/NeoBlogs/blob/master/norconex/california.xml]
 
-_Thank you very much to Frank Kutler for reviewing._
+_Special thanks to Frank Kutzler for reviewing._
 
