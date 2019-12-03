@@ -310,7 +310,7 @@ And the query produces the following result:
 |===
 
 As we can see, we've gotten some unwanted data, that is _All Varietals_.  This is because it was the first value in the varietal selector on the web page.
-We can clean up this data by deleteing all nodes where `varietal_id` is null:
+We can clean up this data by deleting all nodes where `varietal_id` is null:
 
 ```
 MATCH (v:VARIETAL) WHERE v.varietal_id IS NULL DELETE v
