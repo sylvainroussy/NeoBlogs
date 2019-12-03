@@ -21,11 +21,11 @@ Consider the following cycle of work:
 
 image::crawler_principle.png[crawler,300,200]
 
-== Caution: politness rules
+== Caution: politeness rules
 
-While it's true that the basic principle of crawling is simple, to be a good internet citizen you must respect politness rules. This is really important--we don't want to end up _attacking_ a web site, we just want to grab useful data!
+While it's true that the basic principle of crawling is simple, to be a good internet citizen you must respect politeness rules. This is really important--we don't want to end up _attacking_ a web site, we just want to grab useful data!
 
-Here are some politness rules:
+Here are some politeness rules:
 
 * Provide a _think time_, that is a time delay between two hits.  This gives the target host some time to catch its breath. Also avoid hitting a site with more than one thread
 * Respect site rules contained in ROBOTS.TXT files and No-follow directives
