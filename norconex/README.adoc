@@ -325,7 +325,7 @@ image::regions.png[regions]
 
 Now I want to import the California regions and their sub-regions. This web at site has a page at `https://discovercaliforniawines.com/discover-california/`.  This page has a sub-banner with links to all the regions (NORTH COAST, CENTRAL COAST, etc). And on each page of these regions, there are the links to sub-regions (Lake Country, Los Carneros, etc.). Nice.
 
-My starting Url will be `https://discovercaliforniawines.com/discover-california/` but I don't want to extract all links from this page, because there are links to thing that are not useful for my purposes, such as links to events, media, etc.
+My starting URL will be `https://discovercaliforniawines.com/discover-california/` but I don't want to extract all links from this page, because there are links to thing that are not useful for my purposes, such as links to events, media, etc.
 
 So, so I really only want to extract links from the sub-banner with the css selector `#page-menu-bar`.  This will also reduce the processing time.
 
@@ -414,7 +414,7 @@ _label_ attribute is an optional constraint, and in this case each node source o
 Finally, the value inside the element will be evaluated from a meta-data property (for source) and from a node property (for target).
 If the source value is multi-valued (like `collector.referenced-urls`) then one relationship could be created for each value.
 
-To summarize, each url in the source meta-data property `collector.referenced-urls` which matches the regex filter is going to create a relationship with a target which has a property `identity` (default _id_ if not otherwise specified in the `document.reference`, it will default to the page url) when a match occurs. If there is no match, the target node is created (because we set `targetFindSyntax="MERGE"`) with the provided identity and the label specified by the constraint in the target node. The targeted node will be completed later when the crawler reaches the concerned pages. 
+To summarize, each URL in the source meta-data property `collector.referenced-urls` which matches the regex filter is going to create a relationship with a target which has a property `identity` (default _id_ if not otherwise specified in the `document.reference`, it will default to the page url) when a match occurs. If there is no match, the target node is created (because we set `targetFindSyntax="MERGE"`) with the provided identity and the label specified by the constraint in the target node. The targeted node will be completed later when the crawler reaches the concerned pages. 
 
 
 == Linking sub-regions with grape varietals through wineries
@@ -485,7 +485,7 @@ Using javascript, we can extract these varietals Ids and put them in the winery 
              https://discovercaliforniawines.com/wine-map-winery-directory/.+
             </restrictTo>
             <script><![CDATA[
-	        // extract winery id from Url
+	        // extract winery id from URL
                 var wineId =  reference.substring(
                     reference.indexOf("=") + 1, 
                     reference.lastIndexOf("&")
