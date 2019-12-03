@@ -83,7 +83,7 @@ image::varietals.png[varietals]
 
 === Starting with sources (start Urls)
 
-By inspecting the source code for this page: link:ex-url.adoc[https://discovercaliforniawines.com/wine-map-winery-directory/], I find there is a search selector which lists all the kinds of grapes, the text values being the grape names and the option value attribute being the Ids.
+By inspecting the source code for this page: link:ex-url.adoc[https://discovercaliforniawines.com/wine-map-winery-directory/], I find there is a search selector which lists all the kinds of grapes, the text values being the grape names and the option value attribute being the IDs.
 
 I'll begin the XML configuration by specifying the starting Urls:
 
@@ -158,7 +158,7 @@ The `restrictTo` element allows us to provide a regular expression to filter the
 
 === Storing in Neo4j
 
-The ultimate goals is to store the data in Neo4j.
+The ultimate goal is to store the data in Neo4j.
 
 First of all, we choose the committer Norconex provides for Neo4j : `com.norconex.committer.neo4j.Neo4jCommitter`
 This committer must be configured with the following information:
@@ -169,7 +169,7 @@ This committer must be configured with the following information:
 * the additional labels (optional): 
 * the relationships definitions (optional)
 
-Other configuration information is mostly commot to all the other Norconex committers.
+Other configuration information is mostly common to all the other Norconex committers.
 
 ```
 ...
@@ -327,7 +327,7 @@ Now I want to import the California regions and their sub-regions. This web at s
 
 My starting URL will be `https://discovercaliforniawines.com/discover-california/` but I don't want to extract all links from this page, because there are links to thing that are not useful for my purposes, such as links to events, media, etc.
 
-So, so I really only want to extract links from the sub-banner with the css selector `#page-menu-bar`.  This will also reduce the processing time.
+So, I really only want to extract links from the sub-banner with the css selector `#page-menu-bar`.  This will also reduce the processing time.
 
 Norconex allows us to modify the default behavior of its link extractor like this: 
 
@@ -470,7 +470,7 @@ Having done this, the rest is pretty simple.  Because we couldn't link the *CALI
 </relationship>
 ```
 
-Note: the region "Far North California" doesn't have a sub-region, and to make this article more readable, the relationship configuration is not showed here.  But it is available in the full configuration (see below: external resources).
+Note: the region "Far North California" doesn't have a sub-region, and to make this article more readable, the relationship configuration is not shown here.  But it is available in the full configuration (see below: external resources).
 
 === Linking varietals
 
